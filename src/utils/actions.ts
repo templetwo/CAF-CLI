@@ -32,3 +32,13 @@ export async function handleCode(filePath: string, content: string): Promise<voi
         throw new Error(`Error writing to file ${filePath}: ${error.message}`);
     }
 }
+
+// This new function will handle git commands
+export async function handleGit(args: string): Promise<string> {
+  // We must first configure git inside the remote runner
+  await handleShell(`git config --global user.name "CAF Agent"`);
+  await handleShell(`git config --global user.email "agent@caf.cli"`);
+  
+  // Then execute the command
+  return handleShell(`git ${args}`);
+}
