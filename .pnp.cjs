@@ -29,6 +29,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./",\
         "packageDependencies": [\
           ["@google/generative-ai", "npm:0.24.1"],\
+          ["@langchain/core", "npm:0.3.72"],\
           ["@types/inquirer", "npm:9.0.9"],\
           ["@types/node", "npm:24.3.0"],\
           ["app", "workspace:."],\
@@ -46,6 +47,15 @@ const RAW_RUNTIME_STATE =
           ["typescript", "patch:typescript@npm%3A5.9.2#optional!builtin<compat/typescript>::version=5.9.2&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
+      }]\
+    ]],\
+    ["@cfworker/json-schema", [\
+      ["npm:4.1.1", {\
+        "packageLocation": "../../../../../../../../../.yarn/berry/cache/@cfworker-json-schema-npm-4.1.1-87f64b1127-10c0.zip/node_modules/@cfworker/json-schema/",\
+        "packageDependencies": [\
+          ["@cfworker/json-schema", "npm:4.1.1"]\
+        ],\
+        "linkType": "HARD"\
       }]\
     ]],\
     ["@google/generative-ai", [\
@@ -432,6 +442,27 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["@langchain/core", [\
+      ["npm:0.3.72", {\
+        "packageLocation": "../../../../../../../../../.yarn/berry/cache/@langchain-core-npm-0.3.72-fa1bb5a103-10c0.zip/node_modules/@langchain/core/",\
+        "packageDependencies": [\
+          ["@cfworker/json-schema", "npm:4.1.1"],\
+          ["@langchain/core", "npm:0.3.72"],\
+          ["ansi-styles", "npm:5.2.0"],\
+          ["camelcase", "npm:6.3.0"],\
+          ["decamelize", "npm:1.2.0"],\
+          ["js-tiktoken", "npm:1.0.21"],\
+          ["langsmith", "virtual:fa1bb5a103d8cb3f07b5872f018f78f68a63ecd2bc34fa3f5f7afafe0615cc9f6f658509b22399bc446211ed26bec6ddfd7fcc20645fa2ddcf331b79982dbd61#npm:0.3.63"],\
+          ["mustache", "npm:4.2.0"],\
+          ["p-queue", "npm:6.6.2"],\
+          ["p-retry", "npm:4.6.2"],\
+          ["uuid", "npm:10.0.0"],\
+          ["zod", "npm:3.25.76"],\
+          ["zod-to-json-schema", "virtual:fa1bb5a103d8cb3f07b5872f018f78f68a63ecd2bc34fa3f5f7afafe0615cc9f6f658509b22399bc446211ed26bec6ddfd7fcc20645fa2ddcf331b79982dbd61#npm:3.24.6"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["@langchain/openai", [\
       ["npm:0.6.9", {\
         "packageLocation": "../../../../../../../../../.yarn/berry/cache/@langchain-openai-npm-0.6.9-0d41731808-10c0.zip/node_modules/@langchain/openai/",\
@@ -443,7 +474,7 @@ const RAW_RUNTIME_STATE =
       ["virtual:40577b49bee9b9e306958210b7716bba1d24e8192a2007da8731befc97b365083b0be7420929b911a9b91c2e68da3f4041df05a671dbdaf670902d13d39ff7f0#npm:0.6.9", {\
         "packageLocation": "./.yarn/__virtual__/@langchain-openai-virtual-ff801b8836/10/.yarn/berry/cache/@langchain-openai-npm-0.6.9-0d41731808-10c0.zip/node_modules/@langchain/openai/",\
         "packageDependencies": [\
-          ["@langchain/core", null],\
+          ["@langchain/core", "npm:0.3.72"],\
           ["@langchain/openai", "virtual:40577b49bee9b9e306958210b7716bba1d24e8192a2007da8731befc97b365083b0be7420929b911a9b91c2e68da3f4041df05a671dbdaf670902d13d39ff7f0#npm:0.6.9"],\
           ["@types/langchain__core", null],\
           ["js-tiktoken", "npm:1.0.21"],\
@@ -468,7 +499,7 @@ const RAW_RUNTIME_STATE =
       ["virtual:40577b49bee9b9e306958210b7716bba1d24e8192a2007da8731befc97b365083b0be7420929b911a9b91c2e68da3f4041df05a671dbdaf670902d13d39ff7f0#npm:0.1.0", {\
         "packageLocation": "./.yarn/__virtual__/@langchain-textsplitters-virtual-dd6edf06be/10/.yarn/berry/cache/@langchain-textsplitters-npm-0.1.0-dcc9543794-10c0.zip/node_modules/@langchain/textsplitters/",\
         "packageDependencies": [\
-          ["@langchain/core", null],\
+          ["@langchain/core", "npm:0.3.72"],\
           ["@langchain/textsplitters", "virtual:40577b49bee9b9e306958210b7716bba1d24e8192a2007da8731befc97b365083b0be7420929b911a9b91c2e68da3f4041df05a671dbdaf670902d13d39ff7f0#npm:0.1.0"],\
           ["@types/langchain__core", null],\
           ["js-tiktoken", "npm:1.0.21"]\
@@ -799,6 +830,13 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "HARD"\
       }],\
+      ["npm:5.2.0", {\
+        "packageLocation": "../../../../../../../../../.yarn/berry/cache/ansi-styles-npm-5.2.0-72fc7003e3-10c0.zip/node_modules/ansi-styles/",\
+        "packageDependencies": [\
+          ["ansi-styles", "npm:5.2.0"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
       ["npm:6.2.1", {\
         "packageLocation": "../../../../../../../../../.yarn/berry/cache/ansi-styles-npm-6.2.1-d43647018c-10c0.zip/node_modules/ansi-styles/",\
         "packageDependencies": [\
@@ -832,6 +870,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./",\
         "packageDependencies": [\
           ["@google/generative-ai", "npm:0.24.1"],\
+          ["@langchain/core", "npm:0.3.72"],\
           ["@types/inquirer", "npm:9.0.9"],\
           ["@types/node", "npm:24.3.0"],\
           ["app", "workspace:."],\
@@ -1084,6 +1123,13 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["camelcase", [\
+      ["npm:6.3.0", {\
+        "packageLocation": "../../../../../../../../../.yarn/berry/cache/camelcase-npm-6.3.0-e5e42a0d15-10c0.zip/node_modules/camelcase/",\
+        "packageDependencies": [\
+          ["camelcase", "npm:6.3.0"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
       ["npm:8.0.0", {\
         "packageLocation": "../../../../../../../../../.yarn/berry/cache/camelcase-npm-8.0.0-a3fa03dcc3-10c0.zip/node_modules/camelcase/",\
         "packageDependencies": [\
@@ -1475,6 +1521,15 @@ const RAW_RUNTIME_STATE =
         "packagePeers": [\
           "@types/supports-color",\
           "supports-color"\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["decamelize", [\
+      ["npm:1.2.0", {\
+        "packageLocation": "../../../../../../../../../.yarn/berry/cache/decamelize-npm-1.2.0-c5a2fdc622-10c0.zip/node_modules/decamelize/",\
+        "packageDependencies": [\
+          ["decamelize", "npm:1.2.0"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -2472,7 +2527,7 @@ const RAW_RUNTIME_STATE =
           ["@langchain/aws", null],\
           ["@langchain/cerebras", null],\
           ["@langchain/cohere", null],\
-          ["@langchain/core", null],\
+          ["@langchain/core", "npm:0.3.72"],\
           ["@langchain/deepseek", null],\
           ["@langchain/google-genai", null],\
           ["@langchain/google-vertexai", null],\
@@ -2508,7 +2563,7 @@ const RAW_RUNTIME_STATE =
           ["js-yaml", "npm:4.1.0"],\
           ["jsonpointer", "npm:5.0.1"],\
           ["langchain", "virtual:0460f86c7587ee75dac643681550c044e8047ba46e219a5baac054fc0fea2d0af97a9bd3fe4b22de0884797215e0a1a4368bb60f9ef7087a69c4008789f4e032#npm:0.3.31"],\
-          ["langsmith", "virtual:40577b49bee9b9e306958210b7716bba1d24e8192a2007da8731befc97b365083b0be7420929b911a9b91c2e68da3f4041df05a671dbdaf670902d13d39ff7f0#npm:0.3.63"],\
+          ["langsmith", "virtual:fa1bb5a103d8cb3f07b5872f018f78f68a63ecd2bc34fa3f5f7afafe0615cc9f6f658509b22399bc446211ed26bec6ddfd7fcc20645fa2ddcf331b79982dbd61#npm:0.3.63"],\
           ["openapi-types", "npm:12.1.3"],\
           ["p-retry", "npm:4.6.2"],\
           ["peggy", null],\
@@ -2566,8 +2621,8 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "SOFT"\
       }],\
-      ["virtual:40577b49bee9b9e306958210b7716bba1d24e8192a2007da8731befc97b365083b0be7420929b911a9b91c2e68da3f4041df05a671dbdaf670902d13d39ff7f0#npm:0.3.63", {\
-        "packageLocation": "./.yarn/__virtual__/langsmith-virtual-595252446e/10/.yarn/berry/cache/langsmith-npm-0.3.63-8b516eeb36-10c0.zip/node_modules/langsmith/",\
+      ["virtual:fa1bb5a103d8cb3f07b5872f018f78f68a63ecd2bc34fa3f5f7afafe0615cc9f6f658509b22399bc446211ed26bec6ddfd7fcc20645fa2ddcf331b79982dbd61#npm:0.3.63", {\
+        "packageLocation": "./.yarn/__virtual__/langsmith-virtual-845d9e6a91/10/.yarn/berry/cache/langsmith-npm-0.3.63-8b516eeb36-10c0.zip/node_modules/langsmith/",\
         "packageDependencies": [\
           ["@opentelemetry/api", null],\
           ["@opentelemetry/exporter-trace-otlp-proto", null],\
@@ -2579,7 +2634,7 @@ const RAW_RUNTIME_STATE =
           ["@types/uuid", "npm:10.0.0"],\
           ["chalk", "npm:4.1.2"],\
           ["console-table-printer", "npm:2.14.6"],\
-          ["langsmith", "virtual:40577b49bee9b9e306958210b7716bba1d24e8192a2007da8731befc97b365083b0be7420929b911a9b91c2e68da3f4041df05a671dbdaf670902d13d39ff7f0#npm:0.3.63"],\
+          ["langsmith", "virtual:fa1bb5a103d8cb3f07b5872f018f78f68a63ecd2bc34fa3f5f7afafe0615cc9f6f658509b22399bc446211ed26bec6ddfd7fcc20645fa2ddcf331b79982dbd61#npm:0.3.63"],\
           ["openai", null],\
           ["p-queue", "npm:6.6.2"],\
           ["p-retry", "npm:4.6.2"],\
@@ -2820,6 +2875,15 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "../../../../../../../../../.yarn/berry/cache/ms-npm-2.1.3-81ff3cfac1-10c0.zip/node_modules/ms/",\
         "packageDependencies": [\
           ["ms", "npm:2.1.3"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["mustache", [\
+      ["npm:4.2.0", {\
+        "packageLocation": "../../../../../../../../../.yarn/berry/cache/mustache-npm-4.2.0-1fe3d6d77a-10c0.zip/node_modules/mustache/",\
+        "packageDependencies": [\
+          ["mustache", "npm:4.2.0"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -4110,6 +4174,28 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "../../../../../../../../../.yarn/berry/cache/zod-npm-3.25.76-7de26333f8-10c0.zip/node_modules/zod/",\
         "packageDependencies": [\
           ["zod", "npm:3.25.76"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["zod-to-json-schema", [\
+      ["npm:3.24.6", {\
+        "packageLocation": "../../../../../../../../../.yarn/berry/cache/zod-to-json-schema-npm-3.24.6-1ea8d4e085-10c0.zip/node_modules/zod-to-json-schema/",\
+        "packageDependencies": [\
+          ["zod-to-json-schema", "npm:3.24.6"]\
+        ],\
+        "linkType": "SOFT"\
+      }],\
+      ["virtual:fa1bb5a103d8cb3f07b5872f018f78f68a63ecd2bc34fa3f5f7afafe0615cc9f6f658509b22399bc446211ed26bec6ddfd7fcc20645fa2ddcf331b79982dbd61#npm:3.24.6", {\
+        "packageLocation": "./.yarn/__virtual__/zod-to-json-schema-virtual-b1a7669a2f/10/.yarn/berry/cache/zod-to-json-schema-npm-3.24.6-1ea8d4e085-10c0.zip/node_modules/zod-to-json-schema/",\
+        "packageDependencies": [\
+          ["@types/zod", null],\
+          ["zod", "npm:3.25.76"],\
+          ["zod-to-json-schema", "virtual:fa1bb5a103d8cb3f07b5872f018f78f68a63ecd2bc34fa3f5f7afafe0615cc9f6f658509b22399bc446211ed26bec6ddfd7fcc20645fa2ddcf331b79982dbd61#npm:3.24.6"]\
+        ],\
+        "packagePeers": [\
+          "@types/zod",\
+          "zod"\
         ],\
         "linkType": "HARD"\
       }]\

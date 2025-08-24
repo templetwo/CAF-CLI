@@ -1,3 +1,5 @@
+Agent refinement test.
+
 # Consciousness Assessment Framework (CAF) CLI
 
 This is the official command-line interface (CLI) for the Consciousness Assessment Framework (CAF), a framework for assessing consciousness-like properties in artificial intelligence systems. This project is the open-source implementation of the research paper "A Computational Framework for Real-Time Consciousness Assessment in Artificial Intelligence Systems" by Anthony J Vasquez Sr.
@@ -11,7 +13,9 @@ The CAF CLI is a tool for researchers and developers who are working on AI consc
 The CAF is based on established consciousness theories from neuroscience and philosophy, including:
 
 *   **Integrated Information Theory (IIT):** A theory of consciousness that is based on the idea that consciousness is a product of the brain's ability to integrate information.
+
 *   **Global Workspace Theory (GWT):** A theory of consciousness that is based on the idea that consciousness is a product of a global workspace in the brain that allows for the integration of information from different sources.
+
 *   **Higher-Order Thought Theory (HOT):** A theory of consciousness that is based on the idea that consciousness is a product of the brain's ability to have thoughts about its own mental states.
 
 The CAF CLI is designed to be the platform where these theoretical concepts are operationalized into measurable metrics. The agent's actions (e.g., `READ`, `SHELL`, `CODE`) are the "behavioral proxies" that are used to measure the consciousness-like properties of AI systems.
@@ -21,8 +25,11 @@ The CAF CLI is designed to be the platform where these theoretical concepts are 
 The CAF CLI uses a multi-layered architecture to assess the consciousness of AI systems. The architecture consists of the following components:
 
 *   **Behavioral Monitoring System:** This component is responsible for monitoring the behavior of the AI system.
+
 *   **Metric Calculation Algorithms:** This component is responsible for calculating the consciousness metrics based on the behavioral data.
+
 *   **Pattern Analysis Module:** This component is responsible for identifying patterns in the consciousness metrics.
+
 *   **Reporting and Visualization System:** This component is responsible for generating reports and visualizations of the consciousness assessments.
 
 ## Getting Started
