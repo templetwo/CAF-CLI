@@ -1,0 +1,24 @@
+{
+  "name": "app",
+  "packageManager": "yarn@4.9.3",
+  "scripts": {
+    "greet": "echo 'Hello World'"
+  },
+  "dependencies": {
+    "@google/generative-ai": "^0.24.1",
+    "@types/inquirer": "^9.0.9",
+    "@types/node": "^24.3.0",
+    "axios": "^1.11.0",
+    "boxen": "^8.0.1",
+    "chalk": "^5.6.0",
+    "cheerio": "^1.1.2",
+    "commander": "^14.0.0",
+    "dotenv": "^17.2.1",
+    "inquirer": "^12.9.3",
+    "langchain": "^0.3.31",
+    "ora": "^8.2.0",
+    "pm2": "^6.0.8",
+    "prisma": "^6.14.0",
+    "typescript": "^5.9.2"
+  }
+}

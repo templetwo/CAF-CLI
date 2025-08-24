@@ -1,6 +1,6 @@
 import { Command } from 'commander';
 import { GoogleGenerativeAI } from '@google/generative-ai';
-import { handleRead, handleShell, handleCode, handleGit } from '../utils/actions.js';
+import { handleRead, handleShell, handleCode, handleGitAdd, handleGitCommit, handleGitPush } from '../utils/actions.js';
 import 'dotenv/config';
 
 const program = new Command();
@@ -28,14 +28,13 @@ async function askForNextStep(context: Context): Promise<string> {
 
     Based on the goal and the history, what is the single next action you should take?
     Your response MUST be in the format: ACTION:ARGUMENT
-    Valid actions are: READ, SHELL, CODE, GIT, FINISH.
+    Valid actions are: READ, SHELL, CODE, GIT_ADD, GIT_COMMIT, GIT_PUSH, FINISH.
 
     Example Responses:
-    - READ:./src/utils/actions.ts
-    - SHELL:ls -la
-    - CODE:./newFile.ts:console.log("Hello World");
-    - GIT:commit -am "feat: agent self-modification"
-    - GIT:push
+    - READ:./README.md
+    - GIT_ADD:.
+    - GIT_COMMIT:feat: this is the commit message
+    - GIT_PUSH:
     - FINISH:The goal has been achieved.
 
     Provide only the next action.
@@ -93,8 +92,14 @@ async function agentLoop(goal: string) {
                 await handleCode(filePath, contentParts.join(':'));
                 observation = `Successfully wrote to ${filePath}.`;
                 break;
-            case 'GIT':
-                observation = await handleGit(argument);
+            case 'GIT_ADD':
+                observation = await handleGitAdd(argument);
+                break;
+            case 'GIT_COMMIT':
+                observation = await handleGitCommit(argument);
+                break;
+            case 'GIT_PUSH':
+                observation = await handleGitPush();
                 break;
             default:
                 observation = `Unknown action: ${action}`;

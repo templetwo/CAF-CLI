@@ -33,12 +33,21 @@ export async function handleCode(filePath: string, content: string): Promise<voi
     }
 }
 
-// This new function will handle git commands
-export async function handleGit(args: string): Promise<string> {
-  // We must first configure git inside the remote runner
+// Handles git add
+export async function handleGitAdd(path: string): Promise<string> {
+  return handleShell(`git add ${path}`);
+}
+
+// Handles git commit. It now safely wraps the message in quotes.
+export async function handleGitCommit(message: string): Promise<string> {
+  // First, ensure git identity is configured
   await handleShell(`git config --global user.name "CAF Agent"`);
   await handleShell(`git config --global user.email "agent@caf.cli"`);
   
-  // Then execute the command
-  return handleShell(`git ${args}`);
+  return handleShell(`git commit -m "${message}"`);
+}
+
+// Handles git push
+export async function handleGitPush(): Promise<string> {
+  return handleShell(`git push`);
 }
