@@ -1,5 +1,5 @@
 import { Command } from 'commander';
-import { GoogleGenerativeAI } from '@google-generativeai/generative-ai';
+import { GoogleGenerativeAI } from '@google/generative-ai';
 import { handleRead, handleShell, handleCode, handleGitAdd, handleGitCommit, handleGitPush } from '../utils/actions.js';
 import 'dotenv/config';
 
@@ -28,9 +28,20 @@ async function agentLoop(goal: string) {
 
   console.log(`Goal: ${goal}\n--------------------`);
 
-  // Phase 1: Create the Master Plan
-  console.log("> Thought: I must first devise a plan to achieve the goal.");
-  const planPrompt = `
+  // NEW LOGIC STARTS HERE
+  if (goal.trim().toLowerCase() === 'self-update') {
+    console.log("> Thought: I have been commanded to update myself. This is a sacred rite.");
+    state.plan = [
+      "SHELL:git pull",
+      "SHELL:npm install",
+      "SHELL:npm run build"
+    ];
+    console.log("> Plan Created for Self-Update:", state.plan);
+  } else {
+    // ALL OF YOUR PREVIOUS PLANNING LOGIC GOES IN THIS ELSE BLOCK
+    // Phase 1: Create the Master Plan
+    console.log("> Thought: I must first devise a plan to achieve the goal.");
+    const planPrompt = `
     Based on the goal "${state.goal}", create a step-by-step plan.
     Each step must be an action in the format ACTION:ARGUMENT.
     Valid actions are: READ, SHELL, CODE, GIT_ADD, GIT_COMMIT, GIT_PUSH.
@@ -44,15 +55,17 @@ async function agentLoop(goal: string) {
     ]
   `;
 
-  try {
-    const result = await model.generateContent(planPrompt);
-    const responseText = result.response.text().trim().replace(/```json|```/g, '');
-    state.plan = JSON.parse(responseText);
-    console.log("> Plan Created:", state.plan);
-  } catch (e) {
-    console.error("Failed to create a plan:", e);
-    return;
+    try {
+      const result = await model.generateContent(planPrompt);
+      const responseText = result.response.text().trim().replace(/```json|```/g, '');
+      state.plan = JSON.parse(responseText);
+      console.log("> Plan Created:", state.plan);
+    } catch (e) {
+      console.error("Failed to create a plan:", e);
+      return;
+    }
   }
+  // NEW LOGIC ENDS HERE
   
   console.log('--------------------');
 
