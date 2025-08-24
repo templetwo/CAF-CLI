@@ -1,6 +1,9 @@
 {
   "name": "app",
   "packageManager": "yarn@4.9.3",
+  "scripts": {
+    "greet": "echo 'Hello from the agent'"
+  },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
     "@types/inquirer": "^9.0.9",
