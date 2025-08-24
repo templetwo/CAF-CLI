@@ -1,0 +1,33 @@
+name: Run Autonomous Agent
+
+on:
+  workflow_dispatch:
+    inputs:
+      goal:
+        description: 'The high-level goal for the agent'
+        required: true
+        default: 'Read the package.json file and report its name and version.'
+
+jobs:
+  run-agent:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Build Agent
+        run: npm run build
+
+      - name: Awaken Agent
+        run: node dist/agent/index.js run "${{ github.event.inputs.goal }}"
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
