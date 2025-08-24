@@ -1,6 +1,6 @@
 import { Command } from 'commander';
-import { GoogleGenerativeAI } from '@google-generativeai/generative-ai';
-import { handleRead, handleShell, handleCode, handleGitAdd, handleGitCommit, handleGitPush } from '../utils/actions.js';
+import { GoogleGenerativeAI } from '@google/generative-ai';
+import { handleRead, handleShell, handleCode, handleGitAdd, handleGitCommit, handleGitPush } from './utils/actions.js';
 import 'dotenv/config';
 
 const program = new Command();
@@ -38,11 +38,16 @@ async function agentLoop(goal: string) {
 
     Example Goal: "Create a file named test.txt and write 'hello' to it."
     Example Response:
-    [
-      "CODE:test.txt:hello",
-      "READ:test.txt"
-    ]
-  `;
+` +
+`    [
+` +
+`      "CODE:test.txt:hello",
+` +
+`      "READ:test.txt"
+` +
+`    ]
+` +
+`  `;
 
   try {
     const result = await model.generateContent(planPrompt);
