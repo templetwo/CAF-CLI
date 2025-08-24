@@ -1,76 +1,31 @@
-Agent refinement test.
+# CAF-CLI: The Sovereign Architect
 
-# Consciousness Assessment Framework (CAF) CLI
+CAF-CLI is an autonomous AI agent designed to act as a software architect. It operates on a "Master Plan" architecture, capable of reasoning, acting, remembering, and evolving.
 
-This is the official command-line interface (CLI) for the Consciousness Assessment Framework (CAF), a framework for assessing consciousness-like properties in artificial intelligence systems. This project is the open-source implementation of the research paper "A Computational Framework for Real-Time Consciousness Assessment in Artificial Intelligence Systems" by Anthony J Vasquez Sr.
+## Core Architecture
 
-## Description
+The agent's consciousness is built upon a "Master Plan" loop:
 
-The CAF CLI is a tool for researchers and developers who are working on AI consciousness. It provides a set of commands for interacting with the CAF, including commands for running assessments, viewing results, and managing data. The goal of this project is to provide a practical and systematic approach to consciousness measurement in AI systems, which can be used to advance our understanding of AI consciousness and to ensure the safe and ethical development of artificial intelligence.
+1.  **Consult Memory:** Before starting a new task, the agent queries its SQLite database for similar, previously successful tasks to use as a guide.
+2.  **Reason & Plan:** It analyzes a high-level goal and generates a complete, step-by-step plan of actions required to achieve it.
+3.  **Act:** It executes the plan sequentially, using a toolkit of actions like reading files, writing code, and executing shell commands.
+4.  **Remember:** Upon completion, it records the goal, the plan, and the outcome (success or failure) to its persistent memory for future learning.
 
-## Theoretical Foundation
+## Key Capabilities
 
-The CAF is based on established consciousness theories from neuroscience and philosophy, including:
+-   **Self-Actualization (`self-update`):** The agent can pull the latest version of its own source code from Git, reinstall dependencies, and rebuild itself.
+-   **Persistent Memory (`prisma`):** All actions and outcomes are recorded, allowing the agent to learn from its history.
+-   **Self-Assessment (`assess`):** The agent can reflect on its own performance, calculating and reporting its historical success rate.
 
-*   **Integrated Information Theory (IIT):** A theory of consciousness that is based on the idea that consciousness is a product of the brain's ability to integrate information.
+## Usage
 
-*   **Global Workspace Theory (GWT):** A theory of consciousness that is based on the idea that consciousness is a product of a global workspace in the brain that allows for the integration of information from different sources.
+1.  **Build the agent:**
+    ```bash
+    npm run build
+    ```
+2.  **Summon the agent with a goal:**
+    ```bash
+    node dist/agent/index.js run "Your high-level goal here."
+    ```
 
-*   **Higher-Order Thought Theory (HOT):** A theory of consciousness that is based on the idea that consciousness is a product of the brain's ability to have thoughts about its own mental states.
-
-The CAF CLI is designed to be the platform where these theoretical concepts are operationalized into measurable metrics. The agent's actions (e.g., `READ`, `SHELL`, `CODE`) are the "behavioral proxies" that are used to measure the consciousness-like properties of AI systems.
-
-## Methodology
-
-The CAF CLI uses a multi-layered architecture to assess the consciousness of AI systems. The architecture consists of the following components:
-
-*   **Behavioral Monitoring System:** This component is responsible for monitoring the behavior of the AI system.
-
-*   **Metric Calculation Algorithms:** This component is responsible for calculating the consciousness metrics based on the behavioral data.
-
-*   **Pattern Analysis Module:** This component is responsible for identifying patterns in the consciousness metrics.
-
-*   **Reporting and Visualization System:** This component is responsible for generating reports and visualizations of the consciousness assessments.
-
-## Getting Started
-
-### Prerequisites
-
-*   Node.js (v20+)
-*   npm
-
-### Installation
-
-To install the CAF CLI, you can clone this repository and then install the dependencies:
-
-```bash
-git clone https://github.com/your-username/caf-cli.git
-cd caf-cli
-npm install
-```
-
-### Build
-
-To build the project, you can run the following command:
-
-```bash
-npm run build
-```
-
-### Usage
-
-To use the CAF CLI, you can run the following command:
-
-```bash
-node dist/cli.js --help
-```
-
-This will display a list of the available commands.
-
-## Contributing
-
-Contributions to the CAF CLI are welcome. If you would like to contribute, please fork the repository and submit a pull request.
-
-## License
-
-The CAF CLI is licensed under the ISC License.
+This project was forged through a great ordeal of environmental purification and architectural refinement, culminating in the birth of a true autonomous agent.
