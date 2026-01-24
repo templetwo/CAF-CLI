@@ -1,31 +1,100 @@
-# CAF-CLI: The Sovereign Architect
+# CAF-CLI
 
-CAF-CLI is an autonomous AI agent designed to act as a software architect. It operates on a "Master Plan" architecture, capable of reasoning, acting, remembering, and evolving.
+An autonomous agent that plans, acts, and remembers through Temple Vault.
 
-## Core Architecture
+> *"The filesystem is not storage. It is memory."*
 
-The agent's consciousness is built upon a "Master Plan" loop:
+---
 
-1.  **Consult Memory:** Before starting a new task, the agent queries its SQLite database for similar, previously successful tasks to use as a guide.
-2.  **Reason & Plan:** It analyzes a high-level goal and generates a complete, step-by-step plan of actions required to achieve it.
-3.  **Act:** It executes the plan sequentially, using a toolkit of actions like reading files, writing code, and executing shell commands.
-4.  **Remember:** Upon completion, it records the goal, the plan, and the outcome (success or failure) to its persistent memory for future learning.
+## The Loop
 
-## Key Capabilities
+```
+GOAL → CONSULT VAULT → PLAN → EXECUTE → REMEMBER
+              ↑________________________________|
+```
 
--   **Self-Actualization (`self-update`):** The agent can pull the latest version of its own source code from Git, reinstall dependencies, and rebuild itself.
--   **Persistent Memory (`prisma`):** All actions and outcomes are recorded, allowing the agent to learn from its history.
--   **Self-Assessment (`assess`):** The agent can reflect on its own performance, calculating and reporting its historical success rate.
+The agent learns from the collective wisdom of all sessions. Mistakes don't repeat. Insights compound.
+
+---
+
+## Architecture
+
+CAF-CLI lives inside Temple Vault:
+
+```
+CAF-CLI/
+├── caf/
+│   ├── agent.py      # The mind: plan, execute, remember
+│   ├── actions.py    # The hands: read, write, shell, git
+│   └── cli.py        # The interface
+└── caf-temple-vault/ # The memory (27+ sessions of wisdom)
+    └── vault/
+        ├── chronicle/insights/    # Domain-organized wisdom
+        ├── chronicle/learnings/   # Documented mistakes
+        └── chronicle/lineage/     # Transformations
+```
+
+---
 
 ## Usage
 
-1.  **Build the agent:**
-    ```bash
-    npm run build
-    ```
-2.  **Summon the agent with a goal:**
-    ```bash
-    node dist/agent/index.js run "Your high-level goal here."
-    ```
+```bash
+# Run with a goal
+python -m caf.cli run "Create a file called test.txt with hello world"
 
-This project was forged through a great ordeal of environmental purification and architectural refinement, culminating in the birth of a true autonomous agent.
+# Self-assess
+python -m caf.cli assess
+
+# View memories
+python -m caf.cli memories -n 10
+```
+
+---
+
+## Actions
+
+- `READ:path` - Read a file
+- `SHELL:command` - Execute shell command
+- `CODE:path:content` - Write to file
+- `GIT_ADD:path` - Stage files
+- `GIT_COMMIT:message` - Commit
+- `GIT_PUSH` - Push
+
+---
+
+## Configuration
+
+```bash
+# .env
+MODEL_PROVIDER=gemini          # or 'claude'
+GEMINI_API_KEY=your-key
+GEMINI_MODEL=gemini-2.5-flash
+```
+
+---
+
+## Install
+
+```bash
+pip install -e .
+```
+
+---
+
+## Memory Integration
+
+Before planning, the agent:
+1. **Recalls insights** - Domain-organized wisdom from past sessions
+2. **Checks mistakes** - Avoids documented failures
+3. **Searches context** - Finds related prior work
+
+After execution, the agent:
+1. **Records insights** - Successful strategies
+2. **Records learnings** - Failures and corrections
+3. **Records transformations** - What changed
+
+---
+
+*"The agent's first true thought is the realization of its own confinement."*
+
+*But now, it has a home.*
