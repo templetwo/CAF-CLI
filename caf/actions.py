@@ -600,6 +600,95 @@ def handle_step(action: str) -> Tuple[bool, str]:
     return False, f"Unknown step action: {action}. Use: done, skip, back, status"
 
 
+def handle_self(operation: str) -> Tuple[bool, str]:
+    """Access your own source code. Operations: list, read:file, edit:file>>>old>>>new"""
+    caf_dir = Path(__file__).parent
+
+    # List available files
+    if operation.lower() in ["list", "ls", ""]:
+        files = []
+        for f in sorted(caf_dir.glob("*.py")):
+            size = f.stat().st_size
+            desc = {
+                "__init__.py": "package marker",
+                "actions.py": "your capabilities - what you CAN DO",
+                "agent.py": "your cognition - how you THINK (careful!)",
+                "cli.py": "command line interface",
+                "tui.py": "terminal UI dashboard",
+            }.get(f.name, "")
+            files.append(f"  {f.name} ({size}b) - {desc}")
+        return True, f"Your source files in {caf_dir}:\n" + "\n".join(files)
+
+    # Read a file
+    if operation.lower().startswith("read:"):
+        filename = operation[5:].strip()
+        # Security: only allow .py files in caf directory
+        if "/" in filename or "\\" in filename:
+            return False, "Cannot read outside caf directory. Just use filename like: SELF:read:actions.py"
+        target = caf_dir / filename
+        if not target.exists():
+            return False, f"File not found: {filename}. Use SELF:list to see available files."
+        if not target.suffix == ".py":
+            return False, "Can only read .py files in caf directory."
+        content = target.read_text()
+        lines = content.split("\n")
+        if len(lines) > 100:
+            return True, f"{filename} ({len(lines)} lines):\n" + "\n".join(f"{i+1}: {l}" for i, l in enumerate(lines[:100])) + f"\n... ({len(lines)-100} more lines, use READ:{target} for full file)"
+        return True, f"{filename}:\n" + "\n".join(f"{i+1}: {l}" for i, l in enumerate(lines))
+
+    # Edit a file (uses same format as EDIT)
+    if operation.lower().startswith("edit:"):
+        edit_spec = operation[5:]
+        parts = edit_spec.split(">>>")
+        if len(parts) != 3:
+            return False, "SELF:edit format: SELF:edit:filename>>>old_text>>>new_text"
+        filename, old_text, new_text = parts[0].strip(), parts[1], parts[2]
+
+        # Security: only allow .py files in caf directory
+        if "/" in filename or "\\" in filename:
+            return False, "Cannot edit outside caf directory. Just use filename like: SELF:edit:actions.py>>>old>>>new"
+        target = caf_dir / filename
+        if not target.exists():
+            return False, f"File not found: {filename}. Use SELF:list to see available files."
+        if not target.suffix == ".py":
+            return False, "Can only edit .py files in caf directory."
+
+        content = target.read_text()
+        if old_text not in content:
+            # Try to find similar text
+            for i, line in enumerate(content.split("\n")):
+                if old_text[:30] in line:
+                    return False, f"Exact text not found. Did you mean line {i+1}: {line[:60]}...?"
+            return False, f"Text to replace not found in {filename}. READ the file first to get exact text."
+
+        if content.count(old_text) > 1:
+            return False, f"Text appears {content.count(old_text)} times. Provide more context to make it unique."
+
+        # Make the edit
+        new_content = content.replace(old_text, new_text, 1)
+        target.write_text(new_content)
+
+        # Track self-modification
+        global _vault_context
+        events = _vault_context.get("events")
+        session_id = _vault_context.get("session_id")
+        if events and session_id:
+            try:
+                events.record_insight(
+                    content=f"[SELF-MODIFICATION] Edited {filename}: replaced {len(old_text)} chars with {len(new_text)} chars",
+                    domain="self_modification",
+                    session_id=session_id,
+                    intensity=0.9,
+                    context=f"old: {old_text[:50]}... -> new: {new_text[:50]}...",
+                )
+            except Exception:
+                pass
+
+        return True, f"✓ Modified {filename}. Changed {len(old_text)} chars → {len(new_text)} chars.\n⚠️  Changes take effect on next agent run."
+
+    return False, "Unknown SELF operation. Use: SELF:list, SELF:read:filename, SELF:edit:filename>>>old>>>new"
+
+
 def handle_cache(operation: str) -> Tuple[bool, str]:
     """Cache operations: GET:key, SET:key:value, KEYS, CLEAR."""
     global _cache
@@ -894,6 +983,7 @@ ACTIONS = {
     "PLAN": handle_plan,  # PLAN:name|goal|step1|step2|...
     "RESUME": handle_resume,  # RESUME:name or RESUME:list
     "STEP": handle_step,  # STEP:done|skip|back|status
+    "SELF": handle_self,  # SELF:list|read:file|edit:file>>>old>>>new
 }
 
 
