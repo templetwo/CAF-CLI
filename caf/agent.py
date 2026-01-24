@@ -205,19 +205,20 @@ Think step by step. Build your understanding. Then conclude with your decision."
         lines = []
         caf_dir = Path(__file__).parent
 
-        # CAF source structure
-        lines.append("caf/  (your source code - THIS IS YOU)")
+        # CAF source structure - show ABSOLUTE paths so agent can edit itself
+        lines.append(f"YOUR SOURCE CODE: {caf_dir}/")
+        lines.append("  You can READ and EDIT these files to modify yourself:")
         try:
             for f in sorted(caf_dir.glob("*.py")):
                 size = f.stat().st_size
                 desc = {
                     "__init__.py": "package marker",
                     "actions.py": "action implementations - what you CAN DO",
-                    "agent.py": "your brain - cognition & planning",
+                    "agent.py": "your brain - cognition & planning (BE CAREFUL)",
                     "cli.py": "command line interface",
                     "tui.py": "terminal UI dashboard",
                 }.get(f.name, "")
-                lines.append(f"  ├── {f.name} ({size}b) {desc}")
+                lines.append(f"  ├── {f} ({size}b) {desc}")
         except Exception:
             lines.append("  └── (unable to list)")
 
@@ -238,7 +239,7 @@ Think step by step. Build your understanding. Then conclude with your decision."
         lines.append("")
         lines.append("AVAILABLE ACTIONS:")
         lines.append("  Perception: EXPLORE, READ, FIND, SHELL")
-        lines.append("  Mutation:   EDIT, CODE, EDITCODE")
+        lines.append("  Mutation:   EDIT, CODE, EDITCODE, SELF")
         lines.append("  Cognition:  THINK, REFLECT, BREATHE, SILENCE, NOTE")
         lines.append("  Planning:   PLAN, RESUME, STEP")
         lines.append("  Terminal:   DONE")
@@ -581,6 +582,12 @@ Think step by step. Build your understanding. Then conclude with your decision."
 │   RESUME:name       — Load a saved plan (or RESUME:list)        │
 │   STEP:done         — Mark current step complete, advance       │
 │   STEP:status       — Show plan progress                        │
+│                                                                 │
+│ SELF-MODIFICATION (edit your own code):                         │
+│   SELF:list         — List your source files                    │
+│   SELF:read:file    — Read one of your source files             │
+│   SELF:edit:file>>>old>>>new — Modify your own code             │
+│   ⚠️  Changes take effect on next run. Be careful with agent.py │
 │                                                                 │
 │ COMPLETION:                                                     │
 │   DONE — Signal goal achieved                                   │
