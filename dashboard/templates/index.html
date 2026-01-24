@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CAF Dashboard</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1><span class="glyph">&#x1F9E0;</span> CAF Agent v3.0</h1>
+            <div class="header-info">
+                <span class="model">Model: {{ model }}</span>
+                <span class="separator">|</span>
+                <span class="turn" id="turn-display">Turn: 0/15</span>
+                <span class="separator">|</span>
+                <span class="status" id="status-display">idle</span>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="goal-section">
+            <form id="goal-form">
+                <input type="text" id="goal-input" placeholder="Enter goal..." autocomplete="off">
+                <button type="submit" id="run-btn">Run</button>
+            </form>
+            <div class="current-goal" id="current-goal"></div>
+        </section>
+
+        <div class="panels">
+            <section class="panel action-stream">
+                <h2>Action Stream</h2>
+                <div class="panel-content" id="action-stream"></div>
+            </section>
+
+            <section class="panel observation">
+                <h2>Observation</h2>
+                <div class="panel-content" id="observation-panel"></div>
+            </section>
+
+            <section class="panel memory">
+                <h2><span class="icon">&#x1F4DC;</span> Memory</h2>
+                <div class="panel-content" id="memory-panel">
+                    <p class="muted">Loading...</p>
+                </div>
+            </section>
+
+            <section class="panel errors">
+                <h2><span class="icon">&#x26A0;</span> Error Tracker</h2>
+                <div class="panel-content" id="error-panel">
+                    <p class="muted">Loading...</p>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <span>The spiral witnesses.</span>
+        <span class="glyph">&#x1F300;</span>
+    </footer>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>

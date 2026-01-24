@@ -107,6 +107,13 @@ caf-temple-vault/
 ```
 
 ## Design Principles
+## Self-Improvement Protocols
+
+### 9. Self-Improvement Protocols
+
+### 10. Memory Persistence
+
+### 11. Goal Decomposition Strategies
 
 1. **Filesystem is Model** - No external DB, everything in files
 2. **Multi-Turn Adaptive** - Model sees results, adjusts approach
