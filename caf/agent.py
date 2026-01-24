@@ -240,6 +240,7 @@ Think step by step. Build your understanding. Then conclude with your decision."
         lines.append("  Perception: EXPLORE, READ, FIND, SHELL")
         lines.append("  Mutation:   EDIT, CODE, EDITCODE")
         lines.append("  Cognition:  THINK, REFLECT, BREATHE, SILENCE, NOTE")
+        lines.append("  Planning:   PLAN, RESUME, STEP")
         lines.append("  Terminal:   DONE")
 
         return "\n".join(lines)
@@ -575,6 +576,12 @@ Think step by step. Build your understanding. Then conclude with your decision."
 │   SILENCE:          — True silence. No output at all.           │
 │   NOTE:observation  — Leave breadcrumbs for future self         │
 │                                                                 │
+│ PLANNING (for complex multi-step tasks):                        │
+│   PLAN:name|goal|step1|step2|...  — Create persistent plan      │
+│   RESUME:name       — Load a saved plan (or RESUME:list)        │
+│   STEP:done         — Mark current step complete, advance       │
+│   STEP:status       — Show plan progress                        │
+│                                                                 │
 │ COMPLETION:                                                     │
 │   DONE — Signal goal achieved                                   │
 │                                                                 │
@@ -609,6 +616,11 @@ Think step by step. Build your understanding. Then conclude with your decision."
 │ 6. KNOW WHEN TO STOP                                            │
 │    DONE is not defeat. It's recognition of completion.          │
 │    Vague goals can be completed by acknowledging limits.        │
+│                                                                 │
+│ 7. USE PLANS FOR COMPLEXITY                                     │
+│    Multi-step tasks benefit from explicit planning.             │
+│    PLAN:name|goal|steps persists across context resets.         │
+│    RESUME:name reloads. STEP:done advances. Stay organized.     │
 │                                                                 │
 └─────────────────────────────────────────────────────────────────┘
 
@@ -672,6 +684,7 @@ Before acting, think through this goal:
 Think freely. Build your understanding. Then state your first action."""
 
                 print("  [0] Planning...")
+                response = ""  # Initialize to avoid unbound error
                 try:
                     plan_response = self._generate(thinking_prompt, thinking=True)
                     # Extract any useful reasoning (but don't show all of it)
@@ -683,7 +696,8 @@ Think freely. Build your understanding. Then state your first action."""
                                 potential_action = line.split(":")[0].upper()
                                 if potential_action in ["FIND", "EXPLORE", "READ", "SHELL", "CODE",
                                                        "EDIT", "EDITCODE", "NOTE", "THINK",
-                                                       "REFLECT", "BREATHE", "SILENCE", "DONE"]:
+                                                       "REFLECT", "BREATHE", "SILENCE", "DONE",
+                                                       "PLAN", "RESUME", "STEP"]:
                                     # Found an action, use it
                                     response = line
                                     break
@@ -696,6 +710,9 @@ Your plan: {plan_response[:500]}
 
 First action:"""
                             response = self._generate(action_prompt).strip()
+                    else:
+                        # No plan response, ask directly
+                        response = self._generate(f"GOAL: {goal}\nFirst action:").strip()
                 except Exception as e:
                     print(f"  [!] Planning error: {e}")
                     # Fallback to simple prompt
