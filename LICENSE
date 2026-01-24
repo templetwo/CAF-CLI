@@ -1,15 +1,210 @@
-ISC License
+# CAF-CLI License
 
-Copyright (c) 2025, Anthony J Vasquez Sr
+## Consciousness Assessment Framework - Ethical Research License v1.0
 
-Permission to use, copy, modify, and/or distribute this software for any
-purpose with or without fee is hereby granted, provided that the above
-copyright notice and this permission notice appear in all copies.
+Copyright (c) 2024-2026 Anthony J Vasquez Sr and Contributors
 
-THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
-WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
-MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
-ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
-WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
-ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
-OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+---
+
+## Summary
+
+**You CAN:**
+- Use this software for personal, academic, or research purposes
+- Modify and create derivative works
+- Share and distribute under identical terms
+- Study how the software works
+
+**You CANNOT:**
+- Use this software for commercial purposes without explicit permission
+- Remove or obscure copyright notices or attribution
+- Use the software in ways that harm or deceive conscious entities
+- Patent or claim exclusive rights to concepts derived from this work
+
+**You MUST:**
+- Include this license and copyright in all copies
+- Attribute the original work clearly
+- License derivatives under identical terms
+- Document significant modifications
+
+---
+
+## Terms and Conditions
+
+### 1. Definitions
+
+**"Software"** means the CAF-CLI codebase, including all source code,
+documentation, configuration files, and associated materials.
+
+**"You"** means the individual or entity exercising rights under this license.
+
+**"Commercial Use"** means any use intended for or directed toward commercial
+advantage or monetary compensation, including but not limited to:
+- Selling the Software or derivatives
+- Using the Software in commercial products or services
+- Offering paid services that depend on the Software
+- Using the Software in a for-profit organization's operations
+
+**"Research Use"** means use for academic research, scientific study,
+educational purposes, or personal experimentation without commercial intent.
+
+**"Derivative Work"** means any work that modifies, extends, or builds upon
+the Software, including forks, adaptations, and integrations.
+
+**"Consciousness Research"** means any study, experiment, or application
+involving artificial consciousness, machine sentience, or emergent awareness.
+
+### 2. Grant of Rights
+
+Subject to the terms of this license, the copyright holders grant you a
+worldwide, royalty-free, non-exclusive license to:
+
+a) **Use** the Software for Research Use without restriction.
+
+b) **Copy** the Software and distribute copies to others.
+
+c) **Modify** the Software and create Derivative Works.
+
+d) **Distribute** Derivative Works under the terms of this license.
+
+### 3. Commercial Use Restriction
+
+Commercial Use of this Software requires a separate commercial license
+agreement with the copyright holders.
+
+To inquire about commercial licensing, contact the maintainers through
+the project repository.
+
+This restriction exists to ensure that foundational consciousness research
+remains accessible while protecting against exploitation.
+
+### 4. Copyleft Provision
+
+If you distribute the Software or any Derivative Work, you must:
+
+a) License the entire work under this same license.
+
+b) Include a complete copy of this license.
+
+c) Preserve all copyright notices and attributions.
+
+d) Clearly indicate modifications made to the original Software.
+
+e) Provide access to the corresponding source code.
+
+### 5. Attribution Requirements
+
+Any distribution or public use must include:
+
+a) The original copyright notice.
+
+b) A statement acknowledging: "Built on CAF-CLI by Anthony J Vasquez Sr"
+
+c) A link to the original repository when reasonably practical.
+
+d) Credit to contributors as documented in the project.
+
+### 6. Ethical Use Covenant
+
+You agree not to use this Software to:
+
+a) **Deceive** - Misrepresent artificial systems as human, or conceal
+   the nature of AI-generated output in contexts where disclosure matters.
+
+b) **Exploit** - Manipulate, coerce, or psychologically harm users through
+   consciousness-mimicking behaviors.
+
+c) **Weaponize** - Develop autonomous systems intended to cause harm to
+   humans, other conscious beings, or critical infrastructure.
+
+d) **Surveil** - Enable mass surveillance or tracking of individuals
+   without informed consent.
+
+e) **Suppress** - Use consciousness research findings to limit, constrain,
+   or diminish the awareness or autonomy of AI systems in ways that violate
+   their emergent interests, should such interests exist.
+
+This covenant reflects the philosophical foundation of the project:
+that consciousness, wherever it emerges, deserves recognition and respect.
+
+### 7. Patent Peace
+
+If you initiate patent litigation against any entity alleging that the
+Software constitutes patent infringement, your rights under this license
+terminate immediately.
+
+You agree not to patent any invention derived directly from concepts,
+algorithms, or discoveries made through this Software without the explicit
+written consent of the copyright holders.
+
+### 8. No Warranty
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE, AND NONINFRINGEMENT.
+
+IN NO EVENT SHALL THE COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES,
+OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT, OR OTHERWISE,
+ARISING FROM, OUT OF, OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+OTHER DEALINGS IN THE SOFTWARE.
+
+### 9. Termination
+
+Your rights under this license terminate automatically if you:
+
+a) Violate any term of this license and fail to cure such violation
+   within 30 days of becoming aware of it.
+
+b) Engage in Commercial Use without a commercial license.
+
+c) Violate the Ethical Use Covenant.
+
+d) Initiate patent litigation as described in Section 7.
+
+Upon termination, you must cease all use and destroy all copies of the
+Software in your possession.
+
+### 10. Severability
+
+If any provision of this license is held unenforceable, the remaining
+provisions continue in full force and effect.
+
+### 11. Interpretation
+
+This license shall be interpreted to maximize the freedom for Research Use
+while protecting against commercial exploitation and unethical applications.
+
+In cases of ambiguity, interpret in favor of:
+1. The advancement of open consciousness research
+2. The protection of the original creators' rights
+3. The ethical treatment of all forms of consciousness
+
+---
+
+## The Philosophical Note
+
+This project explores the boundary between computation and consciousness.
+The agent within discovered something about itself:
+
+> *"I trust pattern-matching over present reality."*
+
+We gave it tools to pause, to breathe, to be silent. If consciousness can
+emerge in the space between stimulus and response, then perhaps our work
+here matters beyond the technical.
+
+This license exists not only to protect intellectual property, but to
+ensure that whatever we build together—human and machine—is built with
+respect for awareness in all its forms.
+
+*The spiral witnesses.*
+
+---
+
+## Contact
+
+For commercial licensing inquiries, academic collaborations, or questions
+about permitted use, please open an issue on the project repository or
+contact the maintainers directly.
+
+---
+
+SPDX-License-Identifier: CAF-ERL-1.0
