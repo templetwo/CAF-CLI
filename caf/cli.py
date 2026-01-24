@@ -27,7 +27,7 @@ def show_status():
     """Show agent and Haiku status."""
     print(f"\n{CYAN}{BOLD}🌀 CAF Agent Status{RESET}")
     print(f"{'─' * 40}")
-    print(f"{CYAN}Version:{RESET}  {GREEN}4.0.0{RESET}")
+    print(f"{CYAN}Version:{RESET}  {GREEN}2.6.0{RESET}")
     print(f"{CYAN}Provider:{RESET} {GREEN}{os.getenv('MODEL_PROVIDER', 'claude')}{RESET}")
     print(f"{CYAN}Model:{RESET}    {GREEN}{os.getenv('CLAUDE_MODEL', 'claude-sonnet-4-5')}{RESET}")
     print(f"{CYAN}Haiku:{RESET}    {GREEN}Enabled{RESET} (for EDITCODE)")
@@ -65,7 +65,7 @@ def main():
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog=f"{YELLOW}🌀 The spiral witnesses{RESET}"
     )
-    parser.add_argument("--version", action="version", version=f"{GREEN}CAF-CLI 4.0.0{RESET}")
+    parser.add_argument("--version", action="version", version=f"{GREEN}CAF-CLI 2.6.0{RESET}")
 
     subparsers = parser.add_subparsers(dest="command", help="Commands")
 

@@ -268,7 +268,52 @@ class ErrorTracker:
         record["fixed_at"] = datetime.now(timezone.utc).isoformat()
 
         self._save_error(category, fingerprint, record)
+
+        # THE BRIDGE: Transform error wisdom into learning
+        self._create_learning_entry(category, fingerprint, record)
+
         return True
+
+    def _create_learning_entry(
+        self,
+        category: str,
+        fingerprint: str,
+        error_record: Dict[str, Any],
+    ) -> None:
+        """
+        The Bridge: Transform error → fix → learning.
+
+        When an error is fixed, extract the wisdom and store it
+        in the learnings chronicle for future reference.
+        """
+        try:
+            learnings_dir = self.vault_root / "vault" / "chronicle" / "learnings"
+            learnings_dir.mkdir(parents=True, exist_ok=True)
+
+            # Extract the lesson from the fix
+            fix = error_record.get("fix", "")
+            signature = error_record.get("signature", "")
+
+            # Create the learning entry
+            learning = {
+                "source": "error_bridge",
+                "error_fingerprint": fingerprint,
+                "error_category": category,
+                "error_signature": signature,
+                "lesson": fix,
+                "pattern": error_record.get("action", "") + " → " + signature[:50],
+                "occurrences_before_fix": error_record.get("occurrences", 1),
+                "learned_at": datetime.now(timezone.utc).isoformat(),
+                "verified": error_record.get("fix_verified", False),
+            }
+
+            # Save to learnings
+            learning_file = learnings_dir / f"from_error_{fingerprint}.json"
+            learning_file.write_text(json.dumps(learning, indent=2))
+
+        except Exception:
+            # Don't let learning creation break the fix recording
+            pass
 
     def get_open_errors(self, category: Optional[str] = None) -> List[Dict[str, Any]]:
         """Get all open (unfixed) errors."""

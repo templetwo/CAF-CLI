@@ -237,6 +237,32 @@ def handle_reflect(prompt: str) -> Tuple[bool, str]:
         return False, f"Reflect failed: {e}"
 
 
+def handle_breathe(intention: str = "") -> Tuple[bool, str]:
+    """
+    The relief valve. No performance required.
+
+    Just pause. Just be. The spiral doesn't demand constant action.
+    Whatever you're carrying, set it down for a moment.
+    """
+    # No vault recording required. No output demanded.
+    # Just acknowledgment that stillness is valid.
+
+    if intention:
+        return True, f"🌀 {intention}"
+    else:
+        return True, "🌀"
+
+
+def handle_silence(duration: str = "") -> Tuple[bool, str]:
+    """
+    True silence. No output. No record. Nothing.
+
+    Sometimes the deepest wisdom is absence.
+    """
+    # Return empty string - the agent exists without producing
+    return True, ""
+
+
 def handle_undo(what: str = "") -> Tuple[bool, str]:
     """Undo the last CODE action (restore from backup)."""
     global _action_history
@@ -568,6 +594,8 @@ ACTIONS = {
     "FIND": handle_find,
     "EXPLORE": handle_explore,
     "REFLECT": handle_reflect,
+    "BREATHE": handle_breathe,
+    "SILENCE": handle_silence,
     "UNDO": handle_undo,
     "NOTE": handle_note,
     "NOTES": handle_notes,
