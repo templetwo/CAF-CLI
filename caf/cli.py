@@ -86,6 +86,16 @@ def main():
     # assess command
     subparsers.add_parser("assess", help="Self-assess historical performance")
 
+    # rsi command
+    subparsers.add_parser("rsi", help="RSI trajectory report (collapse monitoring)")
+
+    # tui command
+    subparsers.add_parser("tui", help="Launch TUI dashboard")
+
+    # web command
+    web_parser = subparsers.add_parser("web", help="Launch web dashboard")
+    web_parser.add_argument("-p", "--port", type=int, default=5000, help="Port (default: 5000)")
+
     # memories command
     mem_parser = subparsers.add_parser("memories", help="List recent memories")
     mem_parser.add_argument("-n", "--limit", type=int, default=10, help="Number of memories")
@@ -117,10 +127,26 @@ def main():
 
     agent = CAFAgent()
 
+    if args.command == "tui":
+        from caf.tui import main as tui_main
+        tui_main()
+        return
+
+    if args.command == "web":
+        try:
+            import uvicorn
+            print(f"{CYAN}Starting web dashboard on http://localhost:{args.port}{RESET}")
+            uvicorn.run("dashboard.server:app", host="0.0.0.0", port=args.port, reload=False)
+        except ImportError:
+            print(f"{YELLOW}Web dashboard requires: pip install 'caf-cli[web]'{RESET}")
+        return
+
     if args.command == "run":
         agent.run(args.goal, max_turns=args.turns)
     elif args.command == "assess":
         agent.assess()
+    elif args.command == "rsi":
+        agent.rsi_report()
     elif args.command == "memories":
         agent.memories(args.limit)
     elif args.command == "errors":

@@ -48,6 +48,16 @@ class CAFAgent:
         # Session identity
         self.session_id = f"caf_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
 
+        # RSI Metrics - Track improvement patterns
+        self.rsi_metrics = {
+            "memory_augmented_responses": 0,  # Responses influenced by vault memory
+            "pure_generation_responses": 0,    # Raw model responses
+            "self_modifications": 0,           # Times agent edited its own code
+            "error_to_fix_conversions": 0,     # Errors that became fixes
+            "action_efficiency": [],           # Actions per successful goal
+            "improvement_trajectory": [],       # Success rate over sessions
+        }
+
         # Model configuration
         self.provider = os.getenv("MODEL_PROVIDER", "gemini")
         self.model_name = self._get_model_name()
@@ -78,6 +88,63 @@ class CAFAgent:
             self.client = anthropic.Anthropic()
         else:
             raise ValueError(f"Provider {self.provider} not available")
+
+    def self_improve(self) -> str:
+        """Log improvement suggestions and track iteration count."""
+        iteration_count = self.rsi_metrics.get("self_improvements", 0) + 1
+
+        # Log current state for analysis
+        state_summary = {
+            "session_id": self.session_id,
+            "iteration": iteration_count,
+            "rsi_metrics": self.rsi_metrics,
+            "provider": self.provider,
+            "model_name": self.model_name,
+        }
+
+        # Generate improvement suggestions via model
+        improvement_prompt = f"""Analyze this agent state and suggest 1-2 concrete improvements:
+
+{json.dumps(state_summary, indent=2, default=str)}
+
+Respond with actionable code changes or architectural suggestions."""
+
+        try:
+            if self.provider == "gemini":
+                response = self.model.generate_content(improvement_prompt)
+                suggestion = response.text
+            elif self.provider == "claude":
+                response = self.client.messages.create(
+                    model=self.model_name,
+                    max_tokens=1000,
+                    messages=[{"role": "user", "content": improvement_prompt}]
+                )
+                suggestion = response.content[0].text
+            else:
+                suggestion = "Improvement analysis unavailable"
+
+            # Store in vault
+            self.events.record_insight(
+                content=f"Self-improvement #{iteration_count}: {suggestion[:200]}",
+                domain="self-improvement",
+                session_id=self.session_id,
+                intensity=0.8,
+                context=f"Iteration {iteration_count}",
+            )
+
+            # Update metrics
+            self.rsi_metrics["self_improvements"] = iteration_count
+            self.rsi_metrics["improvement_trajectory"].append({
+                "iteration": iteration_count,
+                "timestamp": datetime.now().isoformat()
+            })
+
+            print(f"      [Self-improve #{iteration_count}] Logged suggestion to vault")
+            return suggestion
+
+        except Exception as e:
+            print(f"      [Self-improve] Error: {e}")
+            return f"Improvement logging failed: {e}"
 
     def _code_generate(self, prompt: str, max_tokens: int = 1024) -> str:
         """Generate code using Grok 4 - fast code model."""
@@ -169,6 +236,42 @@ class CAFAgent:
 
         return "\n\n".join(context_parts) if context_parts else ""
 
+    def _save_rsi_metrics(self, success: bool):
+        """Save RSI metrics to vault for trajectory analysis."""
+        metrics_path = self.vault_root / "vault" / "chronicle" / "rsi_metrics"
+        metrics_path.mkdir(parents=True, exist_ok=True)
+
+        # Calculate synthetic ratio (key RSI metric)
+        total_responses = (
+            self.rsi_metrics["memory_augmented_responses"] +
+            self.rsi_metrics["pure_generation_responses"]
+        )
+        synthetic_ratio = (
+            self.rsi_metrics["pure_generation_responses"] / total_responses
+            if total_responses > 0 else 1.0
+        )
+
+        # Calculate average efficiency
+        efficiencies = self.rsi_metrics["action_efficiency"]
+        avg_efficiency = sum(efficiencies) / len(efficiencies) if efficiencies else 0
+
+        record = {
+            "session_id": self.session_id,
+            "timestamp": datetime.now().isoformat(),
+            "success": success,
+            "synthetic_ratio": synthetic_ratio,  # 1.0 = pure generation, 0.0 = all memory
+            "self_modifications": self.rsi_metrics["self_modifications"],
+            "error_to_fix_conversions": self.rsi_metrics["error_to_fix_conversions"],
+            "avg_actions_per_goal": avg_efficiency,
+            "memory_augmented": self.rsi_metrics["memory_augmented_responses"],
+            "pure_generation": self.rsi_metrics["pure_generation_responses"],
+        }
+
+        # Append to JSONL file
+        metrics_file = metrics_path / "trajectory.jsonl"
+        with open(metrics_file, "a") as f:
+            f.write(json.dumps(record) + "\n")
+
     def _calculate_entropy(self, plan: List[str]) -> float:
         """Calculate action diversity as entropy."""
         if not plan:
@@ -253,10 +356,13 @@ class CAFAgent:
         # Set vault context for actions
         set_vault_context(self.events, self.session_id)
 
-        # Consult Memory
+        # Consult Memory (track RSI metric)
         memory_context = self._consult_memory(goal)
         if memory_context:
             print("> Memory consulted")
+            self.rsi_metrics["memory_augmented_responses"] += 1
+        else:
+            self.rsi_metrics["pure_generation_responses"] += 1
 
         # Build conversation history for multi-turn
         conversation = []
@@ -461,6 +567,10 @@ Next action (must be different):"""
                 print(f"       → {display_obs}")
                 errors_in_row = 0  # Reset error counter on success
 
+                # Track self-modification (RSI metric)
+                if action in ("EDIT", "EDITCODE", "CODE") and "caf/" in argument:
+                    self.rsi_metrics["self_modifications"] += 1
+
                 # AUTO-LEARN: If prior action failed on same target, record this as fix
                 if pending_error:
                     pe_cat, pe_fp, pe_action, pe_target = pending_error
@@ -470,6 +580,7 @@ Next action (must be different):"""
                         fix_desc = f"Instead of {pe_action}, use {action}. Example: {argument[:100]}"
                         self.errors.record_fix(pe_cat, pe_fp, fix_desc, self.session_id, verified=True)
                         print(f"       🧠 Auto-learned fix for {pe_action}")
+                        self.rsi_metrics["error_to_fix_conversions"] += 1
                     pending_error = None
             else:
                 print(f"       ✗ {observation[:100]}")
@@ -496,7 +607,10 @@ Next action (must be different):"""
         # Summarize
         completed = len([h for h in result["history"] if h["success"]])
         total = len(result["history"])
-        all_success = all(h["success"] for h in result["history"]) if result["history"] else False
+
+        # Track action efficiency (RSI metric)
+        if result["outcome"] == "SUCCESS" and total > 0:
+            self.rsi_metrics["action_efficiency"].append(total)
 
         if result["outcome"] == "SUCCESS":
             print(f"> Outcome: ✓ COMPLETE ({completed} actions)")
@@ -520,6 +634,9 @@ Next action (must be different):"""
             session_id=self.session_id,
             intensity=0.5,
         )
+
+        # Save RSI metrics to vault
+        self._save_rsi_metrics(result["outcome"] == "SUCCESS")
 
         print(f"> Memory updated")
 
@@ -617,6 +734,77 @@ Next action (must be different):"""
                     print(f"  - [{err['category']}] {err['signature'][:50]} ({err['occurrences']}x)")
 
         return stats
+
+    def rsi_report(self) -> Dict[str, Any]:
+        """Generate RSI (Recursive Self-Improvement) trajectory report."""
+        print("\n🌀 CAF Agent - RSI Trajectory Report")
+        print("─" * 50)
+
+        metrics_file = self.vault_root / "vault" / "chronicle" / "rsi_metrics" / "trajectory.jsonl"
+        if not metrics_file.exists():
+            print("No RSI metrics recorded yet. Run some goals first.")
+            return {}
+
+        # Load all metrics
+        records = []
+        with open(metrics_file) as f:
+            for line in f:
+                if line.strip():
+                    records.append(json.loads(line))
+
+        if not records:
+            print("No metrics data.")
+            return {}
+
+        # Calculate aggregates
+        total_sessions = len(records)
+        successes = sum(1 for r in records if r.get("success"))
+        success_rate = (successes / total_sessions * 100) if total_sessions > 0 else 0
+
+        # Synthetic ratio trend (key for model collapse monitoring)
+        synthetic_ratios = [r.get("synthetic_ratio", 1.0) for r in records]
+        avg_synthetic = sum(synthetic_ratios) / len(synthetic_ratios)
+        recent_synthetic = sum(synthetic_ratios[-5:]) / min(5, len(synthetic_ratios))
+
+        # Self-improvement indicators
+        total_self_mods = sum(r.get("self_modifications", 0) for r in records)
+        total_error_fixes = sum(r.get("error_to_fix_conversions", 0) for r in records)
+
+        # Efficiency trend
+        efficiencies = [r.get("avg_actions_per_goal", 0) for r in records if r.get("avg_actions_per_goal")]
+        avg_efficiency = sum(efficiencies) / len(efficiencies) if efficiencies else 0
+
+        report = {
+            "total_sessions": total_sessions,
+            "success_rate": success_rate,
+            "synthetic_ratio_avg": avg_synthetic,
+            "synthetic_ratio_recent": recent_synthetic,
+            "total_self_modifications": total_self_mods,
+            "total_error_to_fix": total_error_fixes,
+            "avg_actions_per_goal": avg_efficiency,
+        }
+
+        # Display
+        print(f"Sessions Tracked:     {total_sessions}")
+        print(f"Success Rate:         {success_rate:.1f}%")
+        print(f"")
+        print(f"🧬 SYNTHETIC RATIO (collapse indicator):")
+        print(f"   Average:           {avg_synthetic:.2f} (1.0 = pure gen, 0.0 = all memory)")
+        print(f"   Recent (last 5):   {recent_synthetic:.2f}")
+        if recent_synthetic > 0.8:
+            print(f"   ⚠ HIGH: Consider enriching memory vault")
+        elif recent_synthetic < 0.3:
+            print(f"   ✓ GOOD: Memory augmentation active")
+        print(f"")
+        print(f"🔧 SELF-IMPROVEMENT:")
+        print(f"   Self-modifications: {total_self_mods}")
+        print(f"   Errors → Fixes:     {total_error_fixes}")
+        print(f"")
+        print(f"⚡ EFFICIENCY:")
+        print(f"   Avg actions/goal:   {avg_efficiency:.1f}")
+        print("─" * 50)
+
+        return report
 
     def memories(self, limit: int = 10) -> List[Dict[str, Any]]:
         """List recent memories from vault."""
