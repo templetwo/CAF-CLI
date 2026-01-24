@@ -55,15 +55,15 @@ class CAFAgent:
         # Initialize model client
         self._init_model()
 
-        # Initialize Grok for fast code generation
+        # Initialize Grok 4 for fast code generation (EDITCODE)
         self.grok_available = bool(os.getenv("XAI_API_KEY"))
         if self.grok_available:
-            set_mlx_generator(self._code_generate)  # Reuse the hook
+            set_mlx_generator(self._code_generate)
 
     def _get_model_name(self) -> str:
         """Get model name from environment or defaults."""
         if self.provider == "claude":
-            return os.getenv("CLAUDE_MODEL", "claude-sonnet-4-20250514")
+            return os.getenv("CLAUDE_MODEL", "claude-opus-4-5-20251101")
         return os.getenv("GEMINI_MODEL", "models/gemini-3-flash-preview")
 
     def _init_model(self):
@@ -80,7 +80,7 @@ class CAFAgent:
             raise ValueError(f"Provider {self.provider} not available")
 
     def _code_generate(self, prompt: str, max_tokens: int = 1024) -> str:
-        """Generate code using Grok - fast code model."""
+        """Generate code using Grok 4 - fast code model."""
         import openai
 
         try:
@@ -89,7 +89,7 @@ class CAFAgent:
                 base_url="https://api.x.ai/v1",
             )
             response = client.chat.completions.create(
-                model="grok-3-fast-beta",
+                model="grok-4-1-fast-non-reasoning",
                 max_tokens=max_tokens,
                 messages=[{"role": "user", "content": prompt}],
             )
@@ -265,28 +265,55 @@ class CAFAgent:
         pending_error = None  # (category, fingerprint, action, target)
 
         # System context
-        grok_hint = "\nEDITCODE:path:instruction (Grok generates code)" if self.grok_available else ""
-        system_prompt = f"""You are an executor. Output ONLY one action per turn.
+        grok_hint = "\nEDITCODE:path:instruction (Grok generates code insertion)" if self.grok_available else ""
+        system_prompt = f"""=== CAF AGENT SYSTEM ===
 
-ACTIONS:
+WHO YOU ARE:
+You are the CAF Agent - a self-improving autonomous system.
+Your codebase is in caf/ - you can read and modify yourself.
+You learn from errors (logged in Temple Vault) and remember fixes.
+
+YOUR CAPABILITIES:
+- READ files to understand code
+- EDIT files with surgical replacements
+- SHELL for system commands
+- EXPLORE directories
+- THINK to reason through problems
+- REFLECT to assess your progress
+
+AVAILABLE ACTIONS:
 FIND:pattern | EXPLORE:path | READ:path | SHELL:cmd
-EDIT:path>>>old_text>>>new_text | CODE:path:content{grok_hint}
-NOTE:text | THINK:obs | REFLECT:analysis | DONE
+EDIT:path>>>old>>>new | CODE:path:content{grok_hint}
+NOTE:text | THINK:reasoning | REFLECT:assessment | DONE
 
-EDIT EXAMPLE:
+EDIT FORMAT (CRITICAL):
+Must have EXACTLY 3 parts separated by >>>
+Format: EDIT:filepath>>>exact_old_text>>>new_replacement_text
+
+EXAMPLES:
 EDIT:app.py>>>print("hello")>>>print("goodbye")
+EDIT:caf/__init__.py>>>__version__ = "1.0">>>__version__ = "2.0"
 
 RULES:
-- Output EXACTLY: ACTION:argument (nothing else)
-- After READ, use EDIT to make changes (not CODE)
-- DONE when finished
-- NEVER repeat actions"""
+1. Output ONE action per turn
+2. READ before EDIT - understand first
+3. EDIT needs all 3 parts: path>>>old>>>new
+4. Say DONE when finished
+
+=== BEGIN ==="""
 
         print("> Thinking...\n")
 
         turn = 0
+        errors_in_row = 0  # Track consecutive errors for reflection trigger
         while turn < max_turns:
             turn += 1
+
+            # Trigger reflection after 3 errors in a row or every 5 turns
+            needs_reflection = errors_in_row >= 3 or (turn > 1 and turn % 5 == 0)
+            if needs_reflection and conversation:
+                print(f"  [~] Reflecting on progress...")
+                errors_in_row = 0  # Reset after reflection
 
             # Build prompt with history
             if not conversation:
@@ -305,10 +332,20 @@ First action:"""
                 # Build action history summary
                 history_summary = " → ".join([f"{c['action']}" for c in conversation[-5:]])
 
+                # Add reflection context if needed
+                reflection = ""
+                if needs_reflection:
+                    reflection = f"""
+REFLECTION: You've taken {turn-1} actions. Recent: {history_summary}
+- Are you making progress? If stuck, try a different approach.
+- EDIT needs 3 parts: path>>>old>>>new
+- When unsure, READ the file first.
+"""
+
                 prompt = f"""{system_prompt}
 
 GOAL: {goal}
-HISTORY: {history_summary}
+HISTORY: {history_summary}{reflection}
 LAST RESULT ({last['action']} {status}):
 {last['observation'][:3000]}
 
@@ -406,6 +443,7 @@ Next action (must be different):"""
             if success:
                 display_obs = observation[:150].replace("\n", " ")
                 print(f"       → {display_obs}")
+                errors_in_row = 0  # Reset error counter on success
 
                 # AUTO-LEARN: If prior action failed on same target, record this as fix
                 if pending_error:
@@ -420,6 +458,7 @@ Next action (must be different):"""
             else:
                 print(f"       ✗ {observation[:100]}")
                 step_record["error"] = observation
+                errors_in_row += 1  # Track consecutive errors
 
                 # Handle error (log it) and track for auto-learning
                 fix = self._handle_error(action, argument, observation)

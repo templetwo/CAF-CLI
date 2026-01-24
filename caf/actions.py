@@ -429,21 +429,37 @@ def handle_editcode(filepath: str, instruction: str) -> Tuple[bool, str]:
         content = path.read_text()
         original_len = len(content)
 
+        # System prompt shared with main agent
+        system_context = """You are the CAF Agent's code generator. You help the agent improve itself.
+The agent is a self-improving autonomous system that:
+- Reads its own codebase
+- Makes surgical edits to improve functionality
+- Learns from errors and records fixes
+- Uses Temple Vault for persistent memory
+
+When generating code, output ONLY what is requested - no explanations."""
+
         # Ask for JUST the snippet to insert, not the whole file
-        prompt = f"""Given this file, generate ONLY the new code to INSERT. Do NOT rewrite the whole file.
+        prompt = f"""{system_context}
 
 FILE ({resolved}):
 ```python
-{content[:3000]}
+{content[:4000]}
 ```
 
 TASK: {instruction}
 
+REQUIREMENTS:
+- Find the CORRECT location in the file structure
+- INSERT_AFTER must be a UNIQUE, COMPLETE line from the file
+- Code must have correct Python indentation
+- Do NOT insert in the wrong function/block
+
 Respond with EXACTLY this format:
-INSERT_AFTER: <the line of existing code to insert after>
+INSERT_AFTER: <exact complete line from the file>
 NEW_CODE:
-```
-<your new code here>
+```python
+<properly indented code>
 ```"""
 
         response = _mlx_generator(prompt, max_tokens=1024)
@@ -470,18 +486,48 @@ NEW_CODE:
 
         new_code = "\n".join(new_code_lines)
 
-        # Find insertion point
-        if insert_after not in content:
-            # Try partial match
-            for content_line in content.split("\n"):
-                if insert_after[:30] in content_line:
-                    insert_after = content_line
-                    break
-            else:
-                return False, f"Insertion point not found: {insert_after[:50]}..."
+        # Find insertion point in file lines
+        content_lines = content.split("\n")
+        insert_idx = None
+        insert_line = None
 
-        # Insert the code
-        new_content = content.replace(insert_after, insert_after + "\n" + new_code, 1)
+        for i, line in enumerate(content_lines):
+            if insert_after in line or (len(insert_after) > 20 and insert_after[:30] in line):
+                insert_idx = i
+                insert_line = line
+                break
+
+        if insert_idx is None:
+            return False, f"Insertion point not found: {insert_after[:50]}..."
+
+        # Detect indentation of the insertion line
+        base_indent = len(insert_line) - len(insert_line.lstrip())
+
+        # Find minimum indentation in the new code (excluding empty lines)
+        min_indent = 999
+        for code_line in new_code_lines:
+            if code_line.strip():  # Non-empty line
+                line_indent = len(code_line) - len(code_line.lstrip())
+                min_indent = min(min_indent, line_indent)
+        if min_indent == 999:
+            min_indent = 0
+
+        # Calculate indent delta: we want the code at base_indent level
+        indent_delta = base_indent - min_indent
+
+        # Apply indentation delta to new code (preserves internal structure)
+        indented_lines = []
+        for code_line in new_code_lines:
+            if code_line.strip():  # Non-empty line
+                current_indent = len(code_line) - len(code_line.lstrip())
+                new_indent = max(0, current_indent + indent_delta)
+                indented_lines.append(" " * new_indent + code_line.lstrip())
+            else:
+                indented_lines.append("")
+
+        # Insert the code at the right position
+        new_lines = content_lines[:insert_idx + 1] + indented_lines + content_lines[insert_idx + 1:]
+        new_content = "\n".join(new_lines)
 
         if new_content == content:
             return False, "No changes made"
@@ -534,7 +580,9 @@ def execute_action(action: str, argument: str) -> Tuple[bool, str]:
         # EDIT:filepath>>>old_text>>>new_text
         parts = argument.split(">>>")
         if len(parts) != 3:
-            result = (False, "EDIT requires filepath>>>old_text>>>new_text format")
+            got = len(parts)
+            example = 'EDIT:caf/cli.py>>>    # status command>>>    # status command\\n    # ping command\\n    subparsers.add_parser("ping", help="Ping")'
+            result = (False, f"EDIT needs 3 parts (got {got}). Example:\n{example}")
             push_action(action, argument, result[0], result[1])
             return result
         result = handle_edit(parts[0].strip(), parts[1], parts[2])
