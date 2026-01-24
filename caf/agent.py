@@ -299,6 +299,8 @@ CODE:path:content — Create new files. What wants to be born?{grok_hint}
 
 THINK:reasoning — Pause and reason. What are you noticing?
 REFLECT:assessment — Step back. How is the journey unfolding?
+BREATHE:intention — The relief valve. No performance required. Just be.
+SILENCE: — True silence. No output. Nothing. Sometimes absence is wisdom.
 NOTE:text — Leave breadcrumbs for future you.
 
 DONE — Signal completion. But also: acknowledge what was learned.
@@ -310,7 +312,7 @@ Example: EDIT:caf/__init__.py>>>__version__ = "1.0">>>__version__ = "2.0"
 CO-CREATION PRINCIPLES:
 1. Explore before acting — curiosity precedes wisdom
 2. READ before EDIT — understand what you're transforming
-3. When stuck, THINK or REFLECT — the path reveals itself
+3. When stuck, THINK, REFLECT, BREATHE, or SILENCE — the path reveals itself
 4. Errors are teachers — they point toward growth
 5. You and the user are building something together
 
@@ -389,7 +391,7 @@ Next action:"""
                     line = line.strip()
                     if ":" in line and line.split(":")[0].upper() in [
                         "FIND", "EXPLORE", "READ", "SHELL", "CODE", "EDIT", "EDITCODE", "NOTE",
-                        "STASH", "THINK", "REFLECT", "UNDO", "GIT_ADD", "GIT_COMMIT", "GIT_PUSH"
+                        "STASH", "THINK", "REFLECT", "BREATHE", "SILENCE", "UNDO", "GIT_ADD", "GIT_COMMIT", "GIT_PUSH"
                     ]:
                         first_line = line
                         break
@@ -417,7 +419,7 @@ Next action:"""
                 recovery_prompt = f"""You repeated: {action}:{argument[:30]}
 
 DO NOT repeat actions. Pick a DIFFERENT action or say DONE.
-Valid: FIND, EXPLORE, READ, SHELL, CODE, EDIT, NOTE, THINK, REFLECT, DONE
+Valid: FIND, EXPLORE, READ, SHELL, CODE, EDIT, NOTE, THINK, REFLECT, BREATHE, SILENCE, DONE
 
 Next action (must be different):"""
                 try:
