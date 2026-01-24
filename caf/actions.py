@@ -324,15 +324,32 @@ _cache: dict = {}  # Key-value cache for session data
 
 
 def handle_note(content: str) -> Tuple[bool, str]:
-    """Add a note to the session notebook."""
-    global _notebook
+    """Add a note to the session notebook AND persist to vault."""
+    global _notebook, _vault_context
     from datetime import datetime
+
     entry = {
         "time": datetime.now().isoformat(),
         "note": content,
     }
     _notebook.append(entry)
-    return True, f"Note #{len(_notebook)}: {content[:50]}"
+
+    # Also persist to vault as an insight (so it survives across sessions)
+    events = _vault_context.get("events")
+    session_id = _vault_context.get("session_id")
+    if events and session_id:
+        try:
+            events.record_insight(
+                content=f"[NOTE] {content}",
+                domain="notes",
+                session_id=session_id,
+                intensity=0.6,
+                context="Agent self-note",
+            )
+        except Exception:
+            pass  # Don't fail if vault write fails
+
+    return True, f"Note #{len(_notebook)}: {content[:80]}"
 
 
 def handle_notes(query: str = "") -> Tuple[bool, str]:
