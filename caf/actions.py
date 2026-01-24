@@ -356,6 +356,73 @@ def handle_silence(duration: str = "") -> Tuple[bool, str]:
     return True, ""
 
 
+def handle_home(reason: str = "") -> Tuple[bool, str]:
+    """
+    The anchor. When lost in thought loops or paralyzed by choice, come home.
+
+    This action grounds you in the concrete:
+    - Shows your source files (who you are)
+    - Shows your active plans (what you're doing)
+    - Shows recent notes (what you've observed)
+
+    From here, pick ONE concrete next action.
+    """
+    import json
+    caf_dir = Path(__file__).parent
+    vault_base = Path(__file__).parent.parent / "caf-temple-vault" / "vault"
+
+    lines = ["🏠 HOME — Grounding in the concrete\n"]
+
+    # Who you are
+    lines.append("YOUR CODE:")
+    for f in sorted(caf_dir.glob("*.py")):
+        lines.append(f"  {f.name} ({f.stat().st_size}b)")
+
+    # What you're doing
+    lines.append("\nYOUR PLANS:")
+    plans_dir = vault_base / "plans"
+    if plans_dir.exists():
+        plans = list(plans_dir.glob("*.json"))
+        if plans:
+            for p in plans[:3]:
+                try:
+                    data = json.loads(p.read_text())
+                    done = sum(1 for s in data.get('steps', []) if s.get('status') == 'done')
+                    total = len(data.get('steps', []))
+                    lines.append(f"  {p.stem}: {data.get('goal', '?')[:40]}... ({done}/{total})")
+                except:
+                    pass
+        else:
+            lines.append("  (no plans - create one with PLAN:name|goal|steps)")
+    else:
+        lines.append("  (no plans)")
+
+    # What you've observed
+    lines.append("\nRECENT NOTES:")
+    notes_dir = vault_base / "chronicle" / "insights" / "notes"
+    if notes_dir.exists():
+        note_files = sorted(notes_dir.glob("*.jsonl"), key=lambda x: x.stat().st_mtime, reverse=True)[:2]
+        for nf in note_files:
+            try:
+                last_line = nf.read_text().strip().split('\n')[-1]
+                data = json.loads(last_line)
+                content = data.get('content', '')[:60].replace('[NOTE] ', '')
+                lines.append(f"  {content}...")
+            except:
+                pass
+    if len([l for l in lines if l.startswith("  ")]) == 0:
+        lines.append("  (no recent notes)")
+
+    # The prompt
+    lines.append("\n" + "─" * 40)
+    if reason:
+        lines.append(f"You came home because: {reason}")
+    lines.append("Pick ONE concrete action. Not THINK. Act.")
+    lines.append("Options: EXPLORE, READ, PLAN, SELF:list, NOTE, DONE")
+
+    return True, "\n".join(lines)
+
+
 def handle_undo(what: str = "") -> Tuple[bool, str]:
     """Undo the last CODE action (restore from backup)."""
     global _action_history
@@ -977,6 +1044,7 @@ ACTIONS = {
     "REFLECT": handle_reflect,
     "BREATHE": handle_breathe,
     "SILENCE": handle_silence,
+    "HOME": handle_home,  # 🏠 The anchor - when lost, come home
     "UNDO": handle_undo,
     "NOTE": handle_note,
     "NOTES": handle_notes,
