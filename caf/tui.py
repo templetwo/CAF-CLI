@@ -87,7 +87,7 @@ class AnimatedHeader(Static):
     frame = reactive(0)
     turn = reactive(0)
     max_turns = reactive(15)
-    model_name = reactive("gemini/flash")
+    model_name = reactive("claude/opus")
 
     FRAMES = ["⠀⠶⠀", "⠀⡴⠀", "⢀⡤⠀", "⣀⡄⠀", "⣆⡀⠀", "⡏⠀⠀", "⠋⠉⠀", "⠀⠀⣹", "⣆⣀⣀", "⣿⣿⣿"]
 
@@ -188,9 +188,9 @@ class ObservationPanel(RichLog):
         else:
             text.append("─── Error ───\n", style=Colors.CRIMSON)
 
-        # Truncate long observations
-        if len(observation) > 1000:
-            observation = observation[:1000] + "\n... (truncated)"
+        # Truncate long observations (generous limit for context)
+        if len(observation) > 4000:
+            observation = observation[:4000] + "\n... (truncated)"
 
         text.append(observation, style=Colors.SILVER if success else Colors.CRIMSON)
         self.write(text)
@@ -301,7 +301,7 @@ Enter a goal and press Enter. The agent will:
 - **REFLECT:prompt** — Reflect on last action
 - **BREATHE:intention** — Pause (relief valve)
 - **SILENCE:** — True emptiness
-- **DONE** — Task complete
+- **HOME:reason** — Ground yourself when lost
 
 ## Keyboard Shortcuts
 - **Escape** — Focus input
@@ -556,12 +556,12 @@ Be concise. Output ONE action per turn."""
 
             # Build prompt
             if not conversation:
-                prompt = f"{system_prompt}\n\nGOAL: {goal}\n{f'CONTEXT: {memory_context[:200]}' if memory_context else ''}\n\nFirst action:"
+                prompt = f"{system_prompt}\n\nGOAL: {goal}\n{f'CONTEXT: {memory_context[:1000]}' if memory_context else ''}\n\nFirst action:"
             else:
                 last = conversation[-1]
                 status = "✓" if last["success"] else "✗"
                 history = " → ".join([c["action"] for c in conversation[-5:]])
-                prompt = f"{system_prompt}\n\nGOAL: {goal}\nHISTORY: {history}\nLAST ({last['action']} {status}): {last['observation'][:500]}\n\nNext action:"
+                prompt = f"{system_prompt}\n\nGOAL: {goal}\nHISTORY: {history}\nLAST ({last['action']} {status}): {last['observation'][:2000]}\n\nNext action:"
 
             # Get model response
             try:
@@ -574,7 +574,7 @@ Be concise. Output ONE action per turn."""
             response = response.replace("```", "").strip()
             first_line = response.split("\n")[0].strip()
 
-            # Check for DONE
+            # Check for DONE - agent chooses when it's complete
             if "DONE" in first_line.upper():
                 self.app.call_from_thread(action_stream.add_action, turn, "DONE", "", True)
                 self.app.call_from_thread(obs_panel.show_observation, "Task complete!", True)
@@ -589,6 +589,16 @@ Be concise. Output ONE action per turn."""
             colon_idx = first_line.index(":")
             action = first_line[:colon_idx].upper().strip()
             argument = first_line[colon_idx + 1:].strip()
+
+            # Handle "ACTION: BREATHE" format -> extract real action
+            if action == "ACTION" and ":" in argument:
+                real_colon = argument.index(":")
+                action = argument[:real_colon].upper().strip()
+                argument = argument[real_colon + 1:].strip() if real_colon + 1 < len(argument) else ""
+            elif action == "ACTION":
+                # "ACTION: BREATHE" with no further colon - argument is the action
+                action = argument.split()[0].upper() if argument else "SKIP"
+                argument = " ".join(argument.split()[1:]) if argument else ""
 
             # Display action
             self.app.call_from_thread(action_stream.add_action, turn, action, argument, True)

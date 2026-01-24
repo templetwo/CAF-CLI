@@ -13,11 +13,19 @@ Launch:
 """
 
 import asyncio
+import os
 import sys
 from datetime import datetime
 from pathlib import Path
 from typing import Optional, List
 from contextlib import asynccontextmanager
+
+from dotenv import load_dotenv
+
+# Load environment variables from project root
+project_root = Path(__file__).parent.parent
+load_dotenv(project_root / ".env.local")
+load_dotenv(project_root / ".env")
 
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect, HTTPException
 from fastapi.staticfiles import StaticFiles
@@ -86,12 +94,14 @@ async def lifespan(app: FastAPI):
     global agent
     try:
         agent = CAFAgent()
-        print(f"CAF Agent initialized: {agent.provider}/{agent.model_name}")
+        print(f"CAF Agent initialized: {agent.provider}/{agent.model_name}", flush=True)
     except Exception as e:
-        print(f"Warning: Agent init failed: {e}")
+        import traceback
+        print(f"Warning: Agent init failed: {e}", flush=True)
+        traceback.print_exc()
     yield
     # Cleanup
-    print("Shutting down CAF Dashboard")
+    print("Shutting down CAF Dashboard", flush=True)
 
 
 app = FastAPI(

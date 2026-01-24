@@ -418,7 +418,7 @@ def handle_home(reason: str = "") -> Tuple[bool, str]:
     if reason:
         lines.append(f"You came home because: {reason}")
     lines.append("Pick ONE concrete action. Not THINK. Act.")
-    lines.append("Options: EXPLORE, READ, PLAN, SELF:list, NOTE, DONE")
+    lines.append("Pick ONE: EXPLORE, READ, PLAN, SELF:list, NOTE, SHELL, CODE")
 
     return True, "\n".join(lines)
 

@@ -97,9 +97,9 @@ SELF:read:file         Read your own code
 SELF:edit:file>>>o>>>n Modify yourself
 ```
 
-**Completion**
+**Grounding**
 ```
-DONE                   Signal goal achieved
+HOME:reason            Return to center when lost
 ```
 
 ---
@@ -145,11 +145,10 @@ python -m dashboard.server
 
 ```bash
 # .env.local
-MODEL_PROVIDER=claude
-CLAUDE_MODEL=claude-opus-4-5-20251101
 ANTHROPIC_API_KEY=your-key
+CLAUDE_MODEL=claude-opus-4-5-20251101  # optional, this is the default
 
-# Optional: Grok for fast code generation
+# Optional: Grok for fast code generation (EDITCODE action)
 XAI_API_KEY=your-key
 ```
 

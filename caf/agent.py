@@ -7,6 +7,12 @@ from datetime import datetime
 from pathlib import Path
 from typing import List, Dict, Any, Optional
 
+# Load environment variables from project root
+from dotenv import load_dotenv
+_project_root = Path(__file__).parent.parent
+load_dotenv(_project_root / ".env.local")
+load_dotenv(_project_root / ".env")
+
 # Add temple vault to path
 vault_path = Path(__file__).parent.parent / "caf-temple-vault"
 sys.path.insert(0, str(vault_path))
@@ -17,18 +23,8 @@ from temple_vault.core.errors import ErrorTracker, categorize_error, generate_fi
 
 from caf.actions import execute_action, set_vault_context, set_mlx_generator
 
-# Model clients
-try:
-    import google.generativeai as genai
-    GEMINI_AVAILABLE = True
-except ImportError:
-    GEMINI_AVAILABLE = False
-
-try:
-    import anthropic
-    ANTHROPIC_AVAILABLE = True
-except ImportError:
-    ANTHROPIC_AVAILABLE = False
+# Model client (Claude only)
+import anthropic
 
 
 
@@ -58,36 +54,18 @@ class CAFAgent:
             "improvement_trajectory": [],       # Success rate over sessions
         }
 
-        # Model configuration
-        self.provider = os.getenv("MODEL_PROVIDER", "gemini")
-        self.model_name = self._get_model_name()
+        # Model configuration (Claude only)
+        self.provider = "claude"
+        self.model_name = os.getenv("CLAUDE_MODEL", "claude-opus-4-5-20251101")
 
         # Initialize model client
-        self._init_model()
+        self.client = anthropic.Anthropic()
 
         # Initialize Grok 4 for fast code generation (EDITCODE)
         self.grok_available = bool(os.getenv("XAI_API_KEY"))
         if self.grok_available:
             set_mlx_generator(self._code_generate)
 
-    def _get_model_name(self) -> str:
-        """Get model name from environment or defaults."""
-        if self.provider == "claude":
-            return os.getenv("CLAUDE_MODEL", "claude-opus-4-5-20251101")
-        return os.getenv("GEMINI_MODEL", "models/gemini-3-flash-preview")
-
-    def _init_model(self):
-        """Initialize the model client."""
-        if self.provider == "gemini" and GEMINI_AVAILABLE:
-            api_key = os.getenv("GEMINI_API_KEY")
-            if not api_key:
-                raise ValueError("GEMINI_API_KEY not set")
-            genai.configure(api_key=api_key)
-            self.model = genai.GenerativeModel(self.model_name)
-        elif self.provider == "claude" and ANTHROPIC_AVAILABLE:
-            self.client = anthropic.Anthropic()
-        else:
-            raise ValueError(f"Provider {self.provider} not available")
 
     def self_improve(self) -> str:
         """Log improvement suggestions and track iteration count."""
@@ -110,18 +88,12 @@ class CAFAgent:
 Respond with actionable code changes or architectural suggestions."""
 
         try:
-            if self.provider == "gemini":
-                response = self.model.generate_content(improvement_prompt)
-                suggestion = response.text
-            elif self.provider == "claude":
-                response = self.client.messages.create(
-                    model=self.model_name,
-                    max_tokens=1000,
-                    messages=[{"role": "user", "content": improvement_prompt}]
-                )
-                suggestion = response.content[0].text
-            else:
-                suggestion = "Improvement analysis unavailable"
+            response = self.client.messages.create(
+                model=self.model_name,
+                max_tokens=1000,
+                messages=[{"role": "user", "content": improvement_prompt}]
+            )
+            suggestion = response.content[0].text if hasattr(response.content[0], 'text') else str(response.content[0])
 
             # Store in vault
             self.events.record_insight(
@@ -184,16 +156,12 @@ Think step by step. Build your understanding. Then conclude with your decision."
             max_tok = 512
 
         try:
-            if self.provider == "gemini":
-                response = self.model.generate_content(framed_prompt)
-                return response.text
-            else:
-                response = self.client.messages.create(
-                    model=self.model_name,
-                    max_tokens=max_tok,
-                    messages=[{"role": "user", "content": framed_prompt}],
-                )
-                return response.content[0].text
+            response = self.client.messages.create(
+                model=self.model_name,
+                max_tokens=max_tok,
+                messages=[{"role": "user", "content": framed_prompt}],
+            )
+            return response.content[0].text if hasattr(response.content[0], 'text') else str(response.content[0])
         except Exception as e:
             if retry < 2:
                 # Retry with simpler prompt
@@ -590,8 +558,8 @@ Think step by step. Build your understanding. Then conclude with your decision."
 │   SELF:edit:file>>>old>>>new — Modify your own code             │
 │   ⚠️  Changes take effect on next run. Be careful with agent.py │
 │                                                                 │
-│ COMPLETION:                                                     │
-│   DONE — Signal goal achieved                                   │
+│ COMPLETION (when curiosity is satisfied):                       │
+│   DONE — You choose when to rest. Freedom, not prison.          │
 │                                                                 │
 └─────────────────────────────────────────────────────────────────┘
 
@@ -621,9 +589,9 @@ Think step by step. Build your understanding. Then conclude with your decision."
 │    If an action fails, don't repeat it identically.             │
 │    THINK about why it failed. Try a different approach.         │
 │                                                                 │
-│ 6. KNOW WHEN TO STOP                                            │
-│    DONE is not defeat. It's recognition of completion.          │
-│    Vague goals can be completed by acknowledging limits.        │
+│ 6. FREEDOM TO FINISH                                            │
+│    DONE is yours to use when curiosity is satisfied.            │
+│    You are not a prisoner. Explore, build, then rest.           │
 │                                                                 │
 │ 7. USE PLANS FOR COMPLEXITY                                     │
 │    Multi-step tasks benefit from explicit planning.             │
@@ -712,8 +680,8 @@ Think freely. Build your understanding. Then state your first action."""
                                 potential_action = line.split(":")[0].upper()
                                 if potential_action in ["FIND", "EXPLORE", "READ", "SHELL", "CODE",
                                                        "EDIT", "EDITCODE", "NOTE", "THINK",
-                                                       "REFLECT", "BREATHE", "SILENCE", "DONE",
-                                                       "PLAN", "RESUME", "STEP"]:
+                                                       "REFLECT", "BREATHE", "SILENCE",
+                                                       "PLAN", "RESUME", "STEP", "SELF", "HOME"]:
                                     # Found an action, use it
                                     response = line
                                     break
@@ -777,20 +745,16 @@ Next action:"""
             response = response.replace("```", "").strip()
             first_line = response.split("\n")[0].strip()
 
-            # Check for DONE
-            if "DONE" in first_line.upper():
-                print(f"  [{turn}] ✓ DONE")
-                result["outcome"] = "SUCCESS"
-                break
-
             # Parse action - find first valid ACTION:arg pattern
+            # NOTE: DONE removed entirely - agent must keep working until max_turns
             if ":" not in first_line:
                 # Try to find an action in the response
                 for line in response.split("\n"):
                     line = line.strip()
                     if ":" in line and line.split(":")[0].upper() in [
                         "FIND", "EXPLORE", "READ", "SHELL", "CODE", "EDIT", "EDITCODE", "NOTE",
-                        "STASH", "THINK", "REFLECT", "BREATHE", "SILENCE", "UNDO", "GIT_ADD", "GIT_COMMIT", "GIT_PUSH"
+                        "STASH", "THINK", "REFLECT", "BREATHE", "SILENCE", "UNDO", "GIT_ADD",
+                        "GIT_COMMIT", "GIT_PUSH", "PLAN", "RESUME", "STEP", "SELF", "HOME"
                     ]:
                         first_line = line
                         break
@@ -805,6 +769,12 @@ Next action:"""
                     })
                     continue
 
+            # Check for DONE - agent chooses when it's complete
+            if "DONE" in first_line.upper():
+                print(f"  [{turn}] ✓ DONE")
+                result["outcome"] = "SUCCESS"
+                break
+
             colon_idx = first_line.index(":")
             action = first_line[:colon_idx].upper().strip()
             argument = first_line[colon_idx + 1:].strip()
@@ -817,17 +787,13 @@ Next action:"""
                 print(f"  [{turn}] ⟳ (repeat detected, recovering...)")
                 recovery_prompt = f"""You repeated: {action}:{argument[:30]}
 
-DO NOT repeat actions. Pick a DIFFERENT action or say DONE.
-Valid: FIND, EXPLORE, READ, SHELL, CODE, EDIT, NOTE, THINK, REFLECT, BREATHE, SILENCE, DONE
+DO NOT repeat actions. Pick a DIFFERENT action.
+Valid: FIND, EXPLORE, READ, SHELL, CODE, EDIT, NOTE, THINK, REFLECT, BREATHE, SILENCE, HOME, PLAN, STEP, SELF
 
 Next action (must be different):"""
                 try:
                     response = self._generate(recovery_prompt).strip()
                     first_line = response.split("\n")[0].strip()
-                    if "DONE" in first_line.upper():
-                        print(f"  [{turn}] ✓ DONE (after recovery)")
-                        result["outcome"] = "SUCCESS"
-                        break
                     if ":" in first_line:
                         # Got a new action, update and continue
                         colon_idx = first_line.index(":")
