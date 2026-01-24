@@ -1,0 +1,51 @@
+# Dual-Agent Lattice Configuration
+
+ollama:
+  endpoint: "http://localhost:11434/api/chat"
+
+models:
+  reasoner: "llama3.2:1b"
+  executor: "qwen2.5:1.5b"
+
+vault:
+  root: "~/TempleVault"
+  min_intensity: 0.5
+
+governance:
+  timeout_seconds: 10
+  max_output_chars: 1000
+  safe_prefixes:
+    - ls
+    - pwd
+    - cat
+    - head
+    - tail
+    - echo
+    - date
+    - whoami
+    - df
+    - free
+  blocked_patterns:
+    - "rm -rf"
+    - "sudo"
+    - "mkfs"
+    - "dd if="
+    - "> /dev/"
+    - "chmod 777"
+    - "curl | sh"
+    - "wget | sh"
+    - "eval"
+    - ":(){ :|:& };:"
+
+introspection:
+  probe_after_execution: true
+  min_reflection_length: 20
+  save_to_vault: true
+
+# Future: glyph anchors
+anchors:
+  enabled: false
+  glyphs:
+    moon: "🌑"
+    candle: "🕯️"
+  invariants: []

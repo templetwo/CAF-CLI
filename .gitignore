@@ -1,4 +1,25 @@
-node_modules/
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
 dist/
+build/
+.eggs/
+
+# Environment
 .env
-*.log
+.venv/
+venv/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+
+# OS
+.DS_Store
+
+# Vault data (kept locally)
+caf-temple-vault*/vault/
+caf-temple-vault*/vault/**/*.jsonl
+.env.local

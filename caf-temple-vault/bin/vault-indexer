@@ -1,0 +1,59 @@
+#!/bin/bash
+# Vault Indexer Agent Launcher
+#
+# Usage:
+#   vault-indexer                    # Start interactive indexer session
+#   vault-indexer "index MCC"        # Start with initial command
+#   vault-indexer --prompt           # Show the agent prompt
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+VAULT_DIR="$(dirname "$SCRIPT_DIR")"
+PROMPT_FILE="$VAULT_DIR/temple_vault/agents/VAULT_INDEXER_PROMPT.md"
+
+if [[ "$1" == "--prompt" ]]; then
+    cat "$PROMPT_FILE"
+    exit 0
+fi
+
+if [[ "$1" == "--help" || "$1" == "-h" ]]; then
+    echo "Vault Indexer Agent"
+    echo ""
+    echo "A Haiku-powered agent for systematically indexing deep work into Temple Vault."
+    echo ""
+    echo "Usage:"
+    echo "  vault-indexer                    Start interactive session"
+    echo "  vault-indexer 'index MCC'        Start with initial command"
+    echo "  vault-indexer --prompt           Show agent system prompt"
+    echo "  vault-indexer --help             Show this help"
+    echo ""
+    echo "Known projects:"
+    echo "  MCC, iris-gate, entropy-reactor, PhaseGPT, kuramoto,"
+    echo "  threshold-protocols, back-to-basics, temple-bridge,"
+    echo "  volitional_simulator, threshold_personal"
+    echo ""
+    echo "Example session:"
+    echo "  vault-indexer"
+    echo "  > index ~/mass-coherence-correspondence"
+    echo "  > index all tier-1 projects"
+    echo "  > check what's already indexed for consciousness domain"
+    exit 0
+fi
+
+# Check if claude CLI is available
+if ! command -v claude &> /dev/null; then
+    echo "Error: claude CLI not found. Install Claude Code first."
+    exit 1
+fi
+
+# Launch with Haiku model and system prompt
+if [[ -n "$1" ]]; then
+    # Initial command provided
+    claude --model haiku --system-prompt "$(cat "$PROMPT_FILE")" --print "$1"
+else
+    # Interactive mode
+    echo "🌀 Vault Indexer Agent (Haiku)"
+    echo "   Type 'index [project]' to begin indexing"
+    echo "   Type 'help' for available commands"
+    echo ""
+    claude --model haiku --system-prompt "$(cat "$PROMPT_FILE")"
+fi

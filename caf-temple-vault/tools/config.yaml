@@ -1,0 +1,38 @@
+# Sovereign Console v2.0 Configuration
+# Copy this to config.yaml and customize
+
+vault_path: ~/TempleVault
+
+nodes:
+  jetson:
+    name: "Sovereign Node"
+    ip: "192.168.1.205"
+    port: 11434
+    user: "tony"
+    icon: "🔮"
+    models:
+      - "spiral-v1:latest"
+      - "test-model:latest"
+    default_model: "spiral-v1:latest"
+    timeout: 120.0
+
+  studio:
+    name: "Training Node"
+    ip: "192.168.1.195"
+    port: 11434
+    user: "tony_studio"
+    icon: "⚡"
+    models: []
+    default_model: null
+    timeout: 60.0
+
+  local:
+    name: "Local Node"
+    ip: "127.0.0.1"
+    port: 11434
+    icon: "💻"
+    models:
+      - "qwen3:4b"
+      - "granite4:1b"
+    default_model: "qwen3:4b"
+    timeout: 60.0
