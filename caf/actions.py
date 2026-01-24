@@ -56,12 +56,31 @@ def resolve_path(path: str) -> str:
 
 
 def handle_read(filepath: str) -> Tuple[bool, str]:
-    """Read a file and return its contents. Supports $0, $1, $LAST for path refs."""
-    resolved = resolve_path(filepath)
+    """Read a file. Supports line ranges: path:100-200 or path:func_name."""
+    # Parse optional line range or search term
+    line_start, line_end, search_term = None, None, None
+    resolved = filepath
+
+    if ":" in filepath and not filepath.startswith("/"):
+        parts = filepath.rsplit(":", 1)
+        if len(parts) == 2:
+            resolved, specifier = parts
+            if "-" in specifier and specifier.replace("-", "").isdigit():
+                # Line range: path:100-200
+                start, end = specifier.split("-")
+                line_start, line_end = int(start), int(end)
+            elif specifier.isdigit():
+                # Single line: path:100
+                line_start = int(specifier)
+                line_end = line_start + 50  # Show 50 lines from that point
+            else:
+                # Search term: path:func_name
+                search_term = specifier
+
+    resolved = resolve_path(resolved)
     try:
         path = Path(resolved).expanduser()
         if not path.exists():
-            # Helpful suggestion: maybe they meant a known path?
             suggestions = []
             if "caf" in resolved.lower():
                 suggestions.append("caf/agent.py, caf/actions.py, caf/cli.py")
@@ -70,17 +89,60 @@ def handle_read(filepath: str) -> Tuple[bool, str]:
             hint = f" Try: {suggestions[0]}" if suggestions else ""
             return False, f"File not found: {resolved}.{hint}"
 
-        # Auto-detect directory → suggest EXPLORE
         if path.is_dir():
             items = list(path.iterdir())[:5]
             preview = ", ".join(i.name for i in items)
-            return False, f"{resolved} is a directory, not a file. Use EXPLORE:{resolved} to list contents. Contains: {preview}..."
+            return False, f"{resolved} is a directory. Use EXPLORE:{resolved}. Contains: {preview}..."
 
         content = path.read_text()
-        # Show full content for small files, truncate large ones
+        lines = content.split("\n")
+        total_lines = len(lines)
+
+        # Handle line range
+        if line_start is not None:
+            line_end = line_end or (line_start + 50)
+            selected = lines[line_start - 1:line_end]
+            numbered = [f"{i+line_start}: {l}" for i, l in enumerate(selected)]
+            return True, f"Lines {line_start}-{min(line_end, total_lines)} of {resolved} ({total_lines} total):\n" + "\n".join(numbered)
+
+        # Handle search term
+        if search_term:
+            matches = []
+            for i, line in enumerate(lines):
+                if search_term in line:
+                    # Show context around match
+                    start = max(0, i - 2)
+                    end = min(total_lines, i + 15)
+                    context = [f"{j+1}: {lines[j]}" for j in range(start, end)]
+                    matches.append(f"Match at line {i+1}:\n" + "\n".join(context))
+                    if len(matches) >= 3:
+                        break
+            if matches:
+                return True, f"Found '{search_term}' in {resolved}:\n\n" + "\n\n".join(matches)
+            return False, f"'{search_term}' not found in {resolved}. Try FIND:{search_term} for codebase-wide search."
+
+        # Default: full file or truncated with guidance
         if len(content) <= 8000:
             return True, f"Contents of {resolved}:\n{content}"
-        return True, f"Contents of {resolved} (truncated):\n{content[:8000]}"
+
+        # Large file - show structure and suggest how to navigate
+        # Find function/class definitions
+        defs = []
+        for i, line in enumerate(lines):
+            if line.strip().startswith(("def ", "class ", "async def ")):
+                defs.append(f"  Line {i+1}: {line.strip()[:60]}")
+        def_summary = "\n".join(defs[:20]) if defs else "(no functions/classes found)"
+
+        return True, f"""Contents of {resolved} (TRUNCATED - {total_lines} lines, {len(content)} bytes):
+
+{content[:6000]}
+
+... [TRUNCATED] ...
+
+FILE STRUCTURE (functions/classes):
+{def_summary}
+
+TIP: Use READ:{resolved}:line_number or READ:{resolved}:search_term to find specific content."""
     except Exception as e:
         return False, f"Error reading {resolved}: {e}"
 
