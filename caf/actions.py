@@ -21,12 +21,14 @@ def set_vault_context(events: Any, session_id: str):
 
 def push_action(action: str, argument: str, success: bool, output: str):
     """Record an action to history."""
+    from datetime import datetime
     global _action_history
     _action_history.append({
         "action": action,
         "argument": argument,
         "success": success,
         "output": output,
+        "timestamp": datetime.now().isoformat(),
     })
 
 
