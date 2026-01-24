@@ -61,7 +61,21 @@ def handle_read(filepath: str) -> Tuple[bool, str]:
     try:
         path = Path(resolved).expanduser()
         if not path.exists():
-            return False, f"File not found: {resolved}"
+            # Helpful suggestion: maybe they meant a known path?
+            suggestions = []
+            if "caf" in resolved.lower():
+                suggestions.append("caf/agent.py, caf/actions.py, caf/cli.py")
+            if "vault" in resolved.lower():
+                suggestions.append("caf-temple-vault/vault/chronicle/")
+            hint = f" Try: {suggestions[0]}" if suggestions else ""
+            return False, f"File not found: {resolved}.{hint}"
+
+        # Auto-detect directory → suggest EXPLORE
+        if path.is_dir():
+            items = list(path.iterdir())[:5]
+            preview = ", ".join(i.name for i in items)
+            return False, f"{resolved} is a directory, not a file. Use EXPLORE:{resolved} to list contents. Contains: {preview}..."
+
         content = path.read_text()
         # Show full content for small files, truncate large ones
         if len(content) <= 8000:
@@ -114,16 +128,31 @@ def handle_edit(filepath: str, old_text: str, new_text: str) -> Tuple[bool, str]
     try:
         path = Path(resolved).expanduser()
         if not path.exists():
-            return False, f"File not found: {resolved}"
+            return False, f"File not found: {resolved}. READ the file first to verify path."
 
         content = path.read_text()
 
         # Check if old_text exists
         if old_text not in content:
-            # Show nearby content for debugging
-            lines = content.split('\n')[:20]
-            preview = '\n'.join(lines)
-            return False, f"Text not found in {resolved}. First 20 lines:\n{preview[:500]}"
+            # Try to find similar text (first few words)
+            search_start = old_text[:30].strip()
+            similar_lines = []
+            for i, line in enumerate(content.split('\n')):
+                if search_start[:15] in line or (len(search_start) > 5 and search_start[:10].lower() in line.lower()):
+                    similar_lines.append(f"  Line {i+1}: {line[:80]}")
+                    if len(similar_lines) >= 3:
+                        break
+
+            hint = ""
+            if similar_lines:
+                hint = f"\n\nSimilar lines found:\n" + "\n".join(similar_lines)
+                hint += "\n\nTip: Copy the EXACT text from the file, including whitespace."
+            else:
+                # Show file preview
+                lines = content.split('\n')[:15]
+                hint = f"\n\nFile preview (first 15 lines):\n" + '\n'.join(f"  {i+1}: {l[:70]}" for i, l in enumerate(lines))
+
+            return False, f"Text not found in {resolved}.{hint}"
 
         # Count occurrences
         count = content.count(old_text)
@@ -400,7 +429,16 @@ def handle_explore(path: str) -> Tuple[bool, str]:
     try:
         target = Path(resolved).expanduser()
         if not target.exists():
-            return False, f"Path not found: {resolved}"
+            # Helpful suggestions
+            suggestions = []
+            if not resolved or resolved in (".", ""):
+                suggestions = ["caf/", "caf-temple-vault/vault/"]
+            elif "caf" in resolved.lower() and "/" not in resolved:
+                suggestions = ["caf/", "caf/agent.py", "caf/actions.py"]
+            elif "vault" in resolved.lower():
+                suggestions = ["caf-temple-vault/vault/", "caf-temple-vault/vault/chronicle/"]
+            hint = f" Try: {', '.join(suggestions)}" if suggestions else ""
+            return False, f"Path not found: {resolved}.{hint}"
 
         if target.is_file():
             # Read file summary
@@ -424,7 +462,12 @@ def handle_explore(path: str) -> Tuple[bool, str]:
         # Store file paths for reference
         _last_paths = file_paths[:20]
 
-        return True, f"Directory: {resolved}\n" + "\n".join(items)
+        # Add helpful hint about using stored paths
+        ref_hint = ""
+        if file_paths:
+            ref_hint = f"\n\nTo read a file: READ:{file_paths[0]} (or use $0, $1, etc.)"
+
+        return True, f"Directory: {resolved}\n" + "\n".join(items) + ref_hint
     except Exception as e:
         return False, f"Explore error: {e}"
 
@@ -622,8 +665,16 @@ def execute_action(action: str, argument: str) -> Tuple[bool, str]:
         parts = argument.split(">>>")
         if len(parts) != 3:
             got = len(parts)
-            example = 'EDIT:caf/cli.py>>>    # status command>>>    # status command\\n    # ping command\\n    subparsers.add_parser("ping", help="Ping")'
-            result = (False, f"EDIT needs 3 parts (got {got}). Example:\n{example}")
+            # Provide clear guidance based on what they provided
+            if got == 1:
+                hint = "You provided only a path. Need: path>>>OLD_TEXT>>>NEW_TEXT"
+            elif got == 2:
+                hint = "Missing the NEW_TEXT part. Need: path>>>OLD_TEXT>>>NEW_TEXT"
+            else:
+                hint = f"Got {got} parts, need exactly 3 separated by >>>"
+
+            example = "EDIT:caf/__init__.py>>>__version__ = \"1.0\">>>__version__ = \"2.0\""
+            result = (False, f"EDIT format error: {hint}\n\nCorrect format: EDIT:filepath>>>old_text>>>new_text\nExample: {example}\n\nTip: READ the file first to get the exact text to replace.")
             push_action(action, argument, result[0], result[1])
             return result
         result = handle_edit(parts[0].strip(), parts[1], parts[2])
