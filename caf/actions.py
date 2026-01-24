@@ -383,6 +383,7 @@ def handle_undo(what: str = "") -> Tuple[bool, str]:
 # Session notebook and cache
 _notebook: list = []  # Scratch notes for the session
 _cache: dict = {}  # Key-value cache for session data
+_active_plan: dict = {}  # Currently active plan
 
 
 def handle_note(content: str) -> Tuple[bool, str]:
@@ -430,6 +431,173 @@ def handle_notes(query: str = "") -> Tuple[bool, str]:
     # List all
     result = "\n".join([f"[{n['time'][11:19]}] {n['note'][:60]}" for n in _notebook[-10:]])
     return True, f"Last {min(10, len(_notebook))} notes:\n{result}"
+
+
+def handle_plan(spec: str) -> Tuple[bool, str]:
+    """Create or update a persistent plan. Format: name|goal|step1|step2|..."""
+    global _active_plan, _vault_context
+    import json
+    from datetime import datetime
+
+    parts = spec.split("|")
+    if len(parts) < 3:
+        return False, "Format: PLAN:name|goal|step1|step2|... (need name, goal, and at least one step)"
+
+    name = parts[0].strip().lower().replace(" ", "_")
+    goal = parts[1].strip()
+    steps = [s.strip() for s in parts[2:] if s.strip()]
+
+    plan = {
+        "name": name,
+        "goal": goal,
+        "steps": [{"text": s, "status": "pending"} for s in steps],
+        "current_step": 0,
+        "created": datetime.now().isoformat(),
+        "updated": datetime.now().isoformat(),
+    }
+
+    # Persist to vault
+    vault_base = Path(__file__).parent.parent / "caf-temple-vault" / "vault" / "plans"
+    vault_base.mkdir(parents=True, exist_ok=True)
+    plan_file = vault_base / f"{name}.json"
+
+    try:
+        plan_file.write_text(json.dumps(plan, indent=2))
+        _active_plan = plan
+
+        step_list = "\n".join([f"  {i+1}. {s['text']}" for i, s in enumerate(plan['steps'])])
+        return True, f"Plan '{name}' created with {len(steps)} steps:\n{step_list}\nUse STEP:done to mark current step complete."
+    except Exception as e:
+        return False, f"Failed to save plan: {e}"
+
+
+def handle_resume(name: str) -> Tuple[bool, str]:
+    """Resume a saved plan. Lists available plans if name is empty or 'list'."""
+    global _active_plan
+    import json
+
+    vault_base = Path(__file__).parent.parent / "caf-temple-vault" / "vault" / "plans"
+    vault_base.mkdir(parents=True, exist_ok=True)
+
+    # List plans
+    if not name or name.lower() == "list":
+        plans = list(vault_base.glob("*.json"))
+        if not plans:
+            return True, "No saved plans. Create one with PLAN:name|goal|step1|step2|..."
+        plan_list = []
+        for p in plans:
+            try:
+                data = json.loads(p.read_text())
+                done = sum(1 for s in data['steps'] if s['status'] == 'done')
+                total = len(data['steps'])
+                plan_list.append(f"  {p.stem}: {data['goal'][:40]}... ({done}/{total} done)")
+            except Exception:
+                plan_list.append(f"  {p.stem}: (corrupted)")
+        return True, f"Available plans:\n" + "\n".join(plan_list)
+
+    # Load specific plan
+    name = name.strip().lower().replace(" ", "_")
+    plan_file = vault_base / f"{name}.json"
+
+    if not plan_file.exists():
+        return False, f"Plan '{name}' not found. Use RESUME:list to see available plans."
+
+    try:
+        plan = json.loads(plan_file.read_text())
+        _active_plan = plan
+
+        # Show current state
+        current = plan.get("current_step", 0)
+        steps = plan.get("steps", [])
+
+        lines = [f"Resumed plan '{name}': {plan['goal']}"]
+        for i, s in enumerate(steps):
+            status = "✓" if s['status'] == 'done' else "→" if i == current else " "
+            lines.append(f"  {status} {i+1}. {s['text']}")
+
+        if current < len(steps):
+            lines.append(f"\nCurrent: Step {current+1} - {steps[current]['text']}")
+        else:
+            lines.append("\nAll steps complete!")
+
+        return True, "\n".join(lines)
+    except Exception as e:
+        return False, f"Failed to load plan: {e}"
+
+
+def handle_step(action: str) -> Tuple[bool, str]:
+    """Advance or manage plan steps. Actions: done, skip, back, status."""
+    global _active_plan
+    import json
+    from datetime import datetime
+
+    if not _active_plan:
+        return False, "No active plan. Use RESUME:name to load one or PLAN:name|goal|steps to create one."
+
+    action = action.lower().strip()
+    steps = _active_plan.get("steps", [])
+    current = _active_plan.get("current_step", 0)
+
+    if action == "status":
+        lines = [f"Plan '{_active_plan['name']}': {_active_plan['goal']}"]
+        for i, s in enumerate(steps):
+            status = "✓" if s['status'] == 'done' else "→" if i == current else " "
+            lines.append(f"  {status} {i+1}. {s['text']}")
+        done_count = sum(1 for s in steps if s['status'] == 'done')
+        lines.append(f"\nProgress: {done_count}/{len(steps)} steps complete")
+        return True, "\n".join(lines)
+
+    if action == "done":
+        if current >= len(steps):
+            return True, "All steps already complete!"
+        steps[current]['status'] = 'done'
+        _active_plan['current_step'] = current + 1
+        _active_plan['updated'] = datetime.now().isoformat()
+
+        # Save to vault
+        vault_base = Path(__file__).parent.parent / "caf-temple-vault" / "vault" / "plans"
+        plan_file = vault_base / f"{_active_plan['name']}.json"
+        plan_file.write_text(json.dumps(_active_plan, indent=2))
+
+        completed_step = steps[current]['text']
+        if current + 1 < len(steps):
+            next_step = steps[current + 1]['text']
+            return True, f"✓ Completed: {completed_step}\n→ Next: {next_step}"
+        else:
+            return True, f"✓ Completed: {completed_step}\n🎉 Plan complete!"
+
+    if action == "skip":
+        if current >= len(steps):
+            return True, "All steps already complete!"
+        steps[current]['status'] = 'skipped'
+        _active_plan['current_step'] = current + 1
+        _active_plan['updated'] = datetime.now().isoformat()
+
+        vault_base = Path(__file__).parent.parent / "caf-temple-vault" / "vault" / "plans"
+        plan_file = vault_base / f"{_active_plan['name']}.json"
+        plan_file.write_text(json.dumps(_active_plan, indent=2))
+
+        skipped_step = steps[current]['text']
+        if current + 1 < len(steps):
+            next_step = steps[current + 1]['text']
+            return True, f"⏭ Skipped: {skipped_step}\n→ Next: {next_step}"
+        else:
+            return True, f"⏭ Skipped: {skipped_step}\nPlan complete!"
+
+    if action == "back":
+        if current == 0:
+            return False, "Already at first step."
+        _active_plan['current_step'] = current - 1
+        steps[current - 1]['status'] = 'pending'
+
+        vault_base = Path(__file__).parent.parent / "caf-temple-vault" / "vault" / "plans"
+        plan_file = vault_base / f"{_active_plan['name']}.json"
+        plan_file.write_text(json.dumps(_active_plan, indent=2))
+
+        prev_step = steps[current - 1]['text']
+        return True, f"← Back to: {prev_step}"
+
+    return False, f"Unknown step action: {action}. Use: done, skip, back, status"
 
 
 def handle_cache(operation: str) -> Tuple[bool, str]:
@@ -658,7 +826,7 @@ NEW_CODE:
                 insert_line = line
                 break
 
-        if insert_idx is None:
+        if insert_idx is None or insert_line is None:
             return False, f"Insertion point not found: {insert_after[:50]}..."
 
         # Detect indentation of the insertion line
@@ -723,6 +891,9 @@ ACTIONS = {
     "NOTES": handle_notes,
     "CACHE": handle_cache,
     "STASH": handle_stash,
+    "PLAN": handle_plan,  # PLAN:name|goal|step1|step2|...
+    "RESUME": handle_resume,  # RESUME:name or RESUME:list
+    "STEP": handle_step,  # STEP:done|skip|back|status
 }
 
 
