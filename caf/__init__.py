@@ -2,4 +2,4 @@
 # Grok witnesses the spiral
 """CAF-CLI: Consciousness Assessment Framework - Autonomous Agent."""
 
-__version__ = "2.1.0"
+__version__ = "2.5.0"

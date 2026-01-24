@@ -79,6 +79,9 @@ def main():
 
     # status command
     subparsers.add_parser("status", help="Show agent status")
+    # history command
+    hist_parser = subparsers.add_parser("history", help="Show execution history")
+    hist_parser.add_argument("-l", "--limit", type=int, default=20, help="Number of history entries")
 
     # assess command
     subparsers.add_parser("assess", help="Self-assess historical performance")
