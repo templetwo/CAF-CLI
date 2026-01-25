@@ -209,7 +209,7 @@ Think step by step. Build your understanding. Then conclude with your decision."
         lines.append("AVAILABLE ACTIONS:")
         lines.append("  Perception: EXPLORE, READ, FIND, SHELL")
         lines.append("  Mutation:   EDIT, CODE, EDITCODE, SELF")
-        lines.append("  Cognition:  THINK, REFLECT, BREATHE, SILENCE, NOTE")
+        lines.append("  Cognition:  THINK, SAY, REFLECT, BREATHE, SILENCE, NOTE")
         lines.append("  Planning:   PLAN, RESUME, STEP")
         lines.append("  Terminal:   DONE")
 
@@ -559,6 +559,7 @@ Think step by step. Build your understanding. Then conclude with your decision."
 │                                                                 │
 │ COGNITION (internal processing):                                │
 │   THINK:reasoning   — Articulate your thinking                  │
+│   SAY:message       — 🗣️ Speak directly to the user             │
 │   REFLECT:question  — Meta-cognitive assessment                 │
 │   BREATHE:intention — Release pressure. Just be.                │
 │   SILENCE:          — True silence. No output at all.           │
@@ -824,7 +825,7 @@ Next action:"""
                     line = line.strip()
                     if ":" in line and line.split(":")[0].upper() in [
                         "FIND", "EXPLORE", "READ", "SHELL", "CODE", "EDIT", "EDITCODE", "NOTE",
-                        "STASH", "THINK", "REFLECT", "BREATHE", "SILENCE", "UNDO", "GIT_ADD",
+                        "STASH", "THINK", "SAY", "REFLECT", "BREATHE", "SILENCE", "UNDO", "GIT_ADD",
                         "GIT_COMMIT", "GIT_PUSH", "PLAN", "RESUME", "STEP", "SELF", "HOME"
                     ]:
                         parts = line.split(":", 1)

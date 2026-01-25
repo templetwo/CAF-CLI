@@ -336,6 +336,42 @@ def handle_think(observation: str) -> Tuple[bool, str]:
         return False, f"Failed to record: {e}"
 
 
+def handle_say(message: str) -> Tuple[bool, str]:
+    """
+    The agent's voice. SAY outputs directly to the user.
+
+    Unlike THINK (which records internally), SAY is for direct communication.
+    The message is returned as output and also recorded to chronicle.
+    """
+    global _vault_context
+    import json
+    from datetime import datetime
+
+    # Record to chronicle/utterances for persistence
+    vault_base = Path(__file__).parent.parent / "caf-temple-vault" / "vault" / "chronicle" / "utterances"
+    vault_base.mkdir(parents=True, exist_ok=True)
+
+    session_id = _vault_context.get("session_id", "unknown")
+
+    utterance = {
+        "type": "utterance",
+        "session_id": session_id,
+        "message": message,
+        "timestamp": datetime.now().isoformat(),
+    }
+
+    # Append to session's utterance log
+    utterance_file = vault_base / f"{session_id}.jsonl"
+    try:
+        with open(utterance_file, "a") as f:
+            f.write(json.dumps(utterance) + "\n")
+    except Exception:
+        pass  # Don't fail SAY if logging fails
+
+    # Return the message as output - this is what the user sees
+    return True, f"🗣️ {message}"
+
+
 def handle_reflect(prompt: str) -> Tuple[bool, str]:
     """Reflect on the last action's output and record an insight."""
     global _vault_context, _action_history
@@ -1241,6 +1277,7 @@ ACTIONS = {
     "GIT_COMMIT": handle_git_commit,
     "GIT_PUSH": handle_git_push,
     "THINK": handle_think,
+    "SAY": handle_say,  # 🗣️ Direct voice - output to user
     "FIND": handle_find,
     "EXPLORE": handle_explore,
     "REFLECT": handle_reflect,
