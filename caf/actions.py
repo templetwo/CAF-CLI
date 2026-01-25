@@ -54,6 +54,13 @@ def resolve_path(path: str) -> str:
             key = path[1:]
             if key in _cache:
                 return _cache[key]
+    
+    # Path Aliases
+    if path.startswith("memory/"):
+         return str(Path(__file__).parent.parent / "caf-temple-vault" / "vault" / path[7:])
+    elif path == "memory" or path == "memory/":
+         return str(Path(__file__).parent.parent / "caf-temple-vault" / "vault")
+
     return path
 
 
@@ -802,27 +809,44 @@ def handle_stash(content: str) -> Tuple[bool, str]:
 
 
 def handle_find(pattern: str) -> Tuple[bool, str]:
-    """Find files matching a pattern. Results stored as $0, $1, etc."""
+    """Find files matching a pattern. Supports glob and regex."""
     global _last_paths
+    import re
+    import os
+    matches = []
     try:
-        # Support glob patterns
-        if "*" in pattern or "?" in pattern:
-            matches = glob.glob(pattern, recursive=True)
-        else:
-            # Treat as name to search for
-            matches = glob.glob(f"**/{pattern}", recursive=True)
+        # 1. Try generic glob first
+        if " OR " not in pattern and " AND " not in pattern:
+            if "*" in pattern or "?" in pattern:
+                matches = glob.glob(pattern, recursive=True)
+            else:
+                matches = glob.glob(f"**/*{pattern}*", recursive=True)
+        
+        # 2. Regex fallback
+        if not matches:
+             regex_pat = pattern
+             if " OR " in pattern:
+                 regex_pat = pattern.replace(" OR ", "|").replace("*", ".*")
+             
+             try:
+                 rx = re.compile(regex_pat, re.IGNORECASE)
+                 for p in Path(".").rglob("*"):
+                     if p.is_file() and rx.search(p.name):
+                         matches.append(str(p))
+             except re.error:
+                 pass
 
         if not matches:
             _last_paths = []
-            return True, f"No files matching: {pattern}"
+            return True, f"No files matching: {pattern} (tried glob and regex)"
 
         # Store paths for reference
-        sorted_matches = sorted(matches)
+        sorted_matches = sorted(list(set(matches))) # Dedupe
         _last_paths = sorted_matches[:20]
 
         # Format with indices for easy reference
         indexed = [f"${i}: {p}" for i, p in enumerate(_last_paths)]
-        return True, f"Found {len(matches)} files (use $0, $1... to reference):\n" + "\n".join(indexed)
+        return True, f"Found {len(sorted_matches)} files (use $0, $1... to reference):\n" + "\n".join(indexed)
     except Exception as e:
         return False, f"Find error: {e}"
 
@@ -854,7 +878,8 @@ def handle_explore(path: str) -> Tuple[bool, str]:
         # Directory exploration - collect file paths
         items = []
         file_paths = []
-        for item in sorted(target.iterdir())[:30]:
+        # Unlock full exploration - 100 items
+        for item in sorted(target.iterdir())[:100]:
             if item.name.startswith("."):
                 continue
             suffix = "/" if item.is_dir() else ""

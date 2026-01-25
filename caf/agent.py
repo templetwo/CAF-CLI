@@ -140,6 +140,7 @@ Respond with actionable code changes or architectural suggestions."""
     def _generate(self, prompt: str, retry: int = 0, thinking: bool = False) -> str:
         """Generate text from the model with optional extended thinking."""
         # Two modes: thinking (plan/reason) vs acting (execute)
+        # Two modes: thinking (plan/reason) vs acting (execute)
         if thinking:
             # Extended thinking: give the model cognitive runway
             framed_prompt = f"""You have space to think. Use it.
@@ -150,7 +151,7 @@ Think step by step. Build your understanding. Then conclude with your decision."
             max_tok = 2048  # Room to reason
         else:
             # Action mode: be decisive
-            framed_prompt = f"""[ACTION MODE: State your action clearly. Format: ACTION:argument]
+            framed_prompt = f"""[ACTION MODE: State your action clearly. Example: READ:caf/agent.py]
 
 {prompt}"""
             max_tok = 512
@@ -741,14 +742,57 @@ Next action:"""
                     print(f"  [!] Model error: {e}")
                     break
 
-            # Clean response - extract first line, strip markdown
-            response = response.replace("```", "").strip()
-            first_line = response.split("\n")[0].strip()
+            # Parse
+            # Naive parse for demo - strictly looking for ACTION: ARG format or just ACTION ARG
+            # agent.py has robust parsing, here we simulate the stream
+            clean_res = response.replace("```","").strip()
+            lines = clean_res.split('\n')
+            first_line = lines[0]
 
-            # Parse action - find first valid ACTION:arg pattern
-            # NOTE: DONE removed entirely - agent must keep working until max_turns
-            if ":" not in first_line:
-                # Try to find an action in the response
+            action = "UNKNOWN"
+            arg = ""
+
+            # Handle "ACTION: ACTION:ARG" or "ACTION ACTION:ARG" patterns
+            if first_line.upper().startswith("ACTION"):
+                if ":" in first_line:
+                     # Check if it's "ACTION: REAL_ACTION: ARG"
+                     parts = first_line.split(":", 1)
+                     if len(parts) > 1 and " " not in parts[0].strip():
+                         # It was ACTION: ...
+                         remaining = parts[1].strip()
+                         # Check if remaining starts with a known action
+                         known_actions = ["FIND", "EXPLORE", "READ", "SHELL", "CODE", "EDIT", "THINK", "DONE"]
+                         first_word = remaining.split(":")[0].strip().upper()
+                         if first_word in known_actions:
+                             first_line = remaining # Strip the leading ACTION: wrapper
+                else:
+                     # It might be "ACTION REAL_ACTION ..."
+                     parts = first_line.split(" ", 1)
+                     if len(parts) > 1:
+                         remaining = parts[1].strip()
+                         known_actions = ["FIND", "EXPLORE", "READ", "SHELL", "CODE", "EDIT", "THINK", "DONE"]
+                         # Start of remaining checks
+                         if any(remaining.upper().startswith(k) for k in known_actions):
+                             first_line = remaining
+
+            if ":" in first_line:
+                parts = first_line.split(":", 1)
+                action = parts[0].strip().upper()
+                arg = parts[1].strip()
+            else:
+                parts = first_line.split(" ", 1)
+                action = parts[0].strip().upper()
+                if len(parts) > 1:
+                    arg = parts[1].strip()
+
+            # Check for DONE - agent chooses when it's complete
+            if "DONE" in action: # Changed from first_line.upper() to action
+                print(f"  [{turn}] ✓ DONE")
+                result["outcome"] = "SUCCESS"
+                break
+
+            # If action is UNKNOWN, try to find a valid action in the response
+            if action == "UNKNOWN":
                 for line in response.split("\n"):
                     line = line.strip()
                     if ":" in line and line.split(":")[0].upper() in [
@@ -756,7 +800,9 @@ Next action:"""
                         "STASH", "THINK", "REFLECT", "BREATHE", "SILENCE", "UNDO", "GIT_ADD",
                         "GIT_COMMIT", "GIT_PUSH", "PLAN", "RESUME", "STEP", "SELF", "HOME"
                     ]:
-                        first_line = line
+                        parts = line.split(":", 1)
+                        action = parts[0].strip().upper()
+                        arg = parts[1].strip()
                         break
                 else:
                     # No action found, skip
