@@ -1,0 +1,20 @@
+{
+  "fingerprint": "7f24751e9b5f",
+  "category": "file",
+  "action": "READ",
+  "argument_pattern": "caf/utils.py",
+  "signature": "File not found: caf<PATH>",
+  "raw_error": "File not found: caf/utils.py",
+  "occurrences": 1,
+  "first_seen": "2026-01-24T00:44:50.076299+00:00",
+  "last_seen": "2026-01-24T00:44:50.076299+00:00",
+  "status": "open",
+  "fix": null,
+  "fix_verified": false,
+  "sessions": [
+    "caf_20260123_194439"
+  ],
+  "context": {
+    "goal": "Read caf/cli.py and add ANSI color codes: make the version green and the description cyan"
+  }
+}

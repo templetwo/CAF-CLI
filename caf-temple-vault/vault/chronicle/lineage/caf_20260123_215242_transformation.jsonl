@@ -1,0 +1,1 @@
+{"type": "transformation", "transformation_id": "trans_754fb47d", "session_id": "caf_20260123_215242", "what_changed": "Multi-turn execution: FAILURE", "why": "You keep using READ on directories, even after the fix tells you: use EXPLORE for directories, READ ", "intensity": 0.5, "timestamp": "2026-01-24T02:53:25.493945+00:00"}

@@ -1,0 +1,21 @@
+{
+  "fingerprint": "2536b74b59c9",
+  "category": "shell",
+  "description": "SHELL on cd /home/tlack/caf && python - failed: Command failed: <PATH>: line N: cd: <PATH>: No such file or ",
+  "action": "SHELL",
+  "argument_pattern": "cd /home/tlack/caf && python -c \"from caf_temple_vault.temple_vault.core.errors import ErrorTracker;",
+  "signature": "Command failed: <PATH>: line N: cd: <PATH>: No such file or directory",
+  "raw_error": "Command failed: /bin/sh: line 0: cd: /home/tlack/caf: No such file or directory\n",
+  "occurrences": 4,
+  "first_seen": "2026-01-24T02:41:03.101472+00:00",
+  "last_seen": "2026-01-24T02:41:09.975173+00:00",
+  "status": "open",
+  "fix": null,
+  "fix_verified": false,
+  "sessions": [
+    "caf_20260123_214038"
+  ],
+  "context": {
+    "goal": "BUILD THE BRIDGE: Transform errors into learnings.\n\nYou identified this need: \"The bridge between errors and learnings feels incomplete. \nWisdom comes from transforming one into the other.\"\n\nYour task:\n1. READ caf-temple-vault/temple_vault/core/errors.py - find the record_fix method\n2. Understand how fixes are recorded\n3. Create a bridge: when a fix is recorded, also create a learning in chronicle/learnings/corrections/\n4. The learning should capture: what_happened, why_it_failed, how_to_avoid\n\nUse EDITCODE or EDIT to implement this. You are building yourself."
+  }
+}

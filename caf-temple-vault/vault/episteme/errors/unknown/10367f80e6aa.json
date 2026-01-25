@@ -1,0 +1,22 @@
+{
+  "fingerprint": "10367f80e6aa",
+  "category": "unknown",
+  "description": "EXPLORE on caf/core failed: Path not found: caf<PATH>",
+  "action": "EXPLORE",
+  "argument_pattern": "caf/core",
+  "signature": "Path not found: caf<PATH>",
+  "raw_error": "Path not found: caf/core",
+  "occurrences": 2,
+  "first_seen": "2026-01-24T02:55:26.939525+00:00",
+  "last_seen": "2026-01-24T02:56:17.616113+00:00",
+  "status": "open",
+  "fix": null,
+  "fix_verified": false,
+  "sessions": [
+    "caf_20260123_215602",
+    "caf_20260123_215454"
+  ],
+  "context": {
+    "goal": "You said you need a map of your own architecture. Build it. Read each file in caf/ and write a brief note about what it does. Store this map somewhere in your vault where you can find it later. This is you understanding yourself."
+  }
+}

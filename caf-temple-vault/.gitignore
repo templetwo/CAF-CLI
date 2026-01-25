@@ -43,16 +43,15 @@ ENV/
 htmlcov/
 .tox/
 
-# Vault data (user's actual memory - don't commit)
-global/
-projects/
-vault/
+# Vault is PUBLIC - the memory is shared
+# Only ignore cache (reconstructible) and locks (runtime)
+vault/cache/
+vault/locks/
 
-# Cache is reconstructible - don't commit
-# BUT keep structure for documentation
-!vault/.gitkeep
-!global/.gitkeep
-!projects/.gitkeep
+# Project-specific data (optional privacy)
+# Uncomment to keep private:
+# global/
+# projects/
 
 # Locks (runtime only)
 *.lock

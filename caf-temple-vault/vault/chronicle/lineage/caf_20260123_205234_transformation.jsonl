@@ -1,0 +1,1 @@
+{"type": "transformation", "transformation_id": "trans_d690cbd3", "session_id": "caf_20260123_205234", "what_changed": "Multi-turn execution: FAILURE", "why": "Read caf/cli.py. Use EDITCODE to add a history command that prints last 5 vault insights. Keep ALL e", "intensity": 0.5, "timestamp": "2026-01-24T01:53:03.980820+00:00"}

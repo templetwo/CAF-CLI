@@ -1,0 +1,1 @@
+{"type": "insight", "insight_id": "ins_41a4d22d", "session_id": "caf_20260123_180827", "domain": "agent-execution", "content": "Successfully executed: Read the README.md file and tell me what this project is about", "context": "Plan: [\"READ:README.md\"]", "intensity": 0.6, "builds_on": [], "timestamp": "2026-01-23T23:08:28.296622+00:00"}

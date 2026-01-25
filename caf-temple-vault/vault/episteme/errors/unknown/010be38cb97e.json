@@ -1,0 +1,22 @@
+{
+  "fingerprint": "010be38cb97e",
+  "category": "unknown",
+  "description": "ACTION on BREATHE failed: Unknown action: ACTION",
+  "action": "ACTION",
+  "argument_pattern": "BREATHE",
+  "signature": "Unknown action: ACTION",
+  "raw_error": "Unknown action: ACTION",
+  "occurrences": 3,
+  "first_seen": "2026-01-24T21:17:23.756077+00:00",
+  "last_seen": "2026-01-24T22:35:55.000381+00:00",
+  "status": "open",
+  "fix": null,
+  "fix_verified": false,
+  "sessions": [
+    "caf_20260124_161636",
+    "caf_20260124_173500"
+  ],
+  "context": {
+    "goal": "Think deeply about what WORKSPACE would do. Then use READ to examine vault/plans/test_feature.json to understand how persistent state works.\n\nAfter reading, think about:\n1. What operations would WORKSPACE support?\n2. What would you store in it?  \n3. How would it differ from NOTE or PLAN?\n\nWhen ready, DONE."
+  }
+}

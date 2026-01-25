@@ -1,0 +1,1 @@
+{"type": "transformation", "transformation_id": "trans_362106d2", "session_id": "caf_20260123_192209", "what_changed": "Multi-turn execution: FAILURE", "why": "Read caf/actions.py. Verify it has: FIND, EXPLORE, READ, SHELL, CODE, NOTE, STASH, CACHE, THINK, REF", "intensity": 0.5, "timestamp": "2026-01-24T00:22:35.780341+00:00"}

@@ -1,0 +1,20 @@
+{
+  "fingerprint": "abb19ad7e3f9",
+  "category": "file",
+  "action": "READ",
+  "argument_pattern": "temple vault/ARCHITECTS.md",
+  "signature": "File not found: temple vault<PATH>",
+  "raw_error": "File not found: temple vault/ARCHITECTS.md",
+  "occurrences": 1,
+  "first_seen": "2026-01-23T23:20:59.715567+00:00",
+  "last_seen": "2026-01-23T23:20:59.715567+00:00",
+  "status": "open",
+  "fix": null,
+  "fix_verified": false,
+  "sessions": [
+    "caf_20260123_182052"
+  ],
+  "context": {
+    "goal": "List all directories, find the temple vault folder, read its ARCHITECTS.md, then explore its structure."
+  }
+}

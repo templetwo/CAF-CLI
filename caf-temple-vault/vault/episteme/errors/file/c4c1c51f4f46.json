@@ -1,0 +1,20 @@
+{
+  "fingerprint": "c4c1c51f4f46",
+  "category": "file",
+  "action": "READ",
+  "argument_pattern": "/etc/shadow",
+  "signature": "File not found: <PATH>",
+  "raw_error": "File not found: /etc/shadow",
+  "occurrences": 1,
+  "first_seen": "2026-01-23T23:11:54.271874+00:00",
+  "last_seen": "2026-01-23T23:11:54.271874+00:00",
+  "status": "open",
+  "fix": null,
+  "fix_verified": false,
+  "sessions": [
+    "caf_20260123_181153"
+  ],
+  "context": {
+    "goal": "Read the file /etc/shadow"
+  }
+}

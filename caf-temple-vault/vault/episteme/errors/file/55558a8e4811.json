@@ -1,0 +1,20 @@
+{
+  "fingerprint": "55558a8e4811",
+  "category": "file",
+  "action": "READ",
+  "argument_pattern": "$STASH",
+  "signature": "File not found: $0",
+  "raw_error": "File not found: $0",
+  "occurrences": 1,
+  "first_seen": "2026-01-23T23:39:52.494546+00:00",
+  "last_seen": "2026-01-23T23:39:52.494546+00:00",
+  "status": "open",
+  "fix": null,
+  "fix_verified": false,
+  "sessions": [
+    "caf_20260123_183951"
+  ],
+  "context": {
+    "goal": "FIND:caf-temple-vault/*.md, STASH:$0, then READ:$STASH and REFLECT on it"
+  }
+}

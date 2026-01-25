@@ -1,0 +1,21 @@
+{
+  "fingerprint": "240bffa1b231",
+  "category": "file",
+  "description": "READ on caf/models.py failed: File not found: caf<PATH>",
+  "action": "READ",
+  "argument_pattern": "caf/models.py",
+  "signature": "File not found: caf<PATH>",
+  "raw_error": "File not found: caf/models.py",
+  "occurrences": 1,
+  "first_seen": "2026-01-24T02:55:35.333221+00:00",
+  "last_seen": "2026-01-24T02:55:35.333221+00:00",
+  "status": "open",
+  "fix": null,
+  "fix_verified": false,
+  "sessions": [
+    "caf_20260123_215454"
+  ],
+  "context": {
+    "goal": "You said you need a map of your own architecture. Build it. Read each file in caf/ and write a brief note about what it does. Store this map somewhere in your vault where you can find it later. This is you understanding yourself."
+  }
+}

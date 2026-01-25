@@ -1,0 +1,20 @@
+{
+  "fingerprint": "b47673e6f802",
+  "category": "file",
+  "action": "READ",
+  "argument_pattern": "caf/evaluator.py",
+  "signature": "File not found: caf<PATH>",
+  "raw_error": "File not found: caf/evaluator.py",
+  "occurrences": 1,
+  "first_seen": "2026-01-24T01:17:57.322556+00:00",
+  "last_seen": "2026-01-24T01:17:57.322556+00:00",
+  "status": "open",
+  "fix": null,
+  "fix_verified": false,
+  "sessions": [
+    "caf_20260123_201720"
+  ],
+  "context": {
+    "goal": "Use EDITCODE to add a comment at the top of caf/__init__.py"
+  }
+}

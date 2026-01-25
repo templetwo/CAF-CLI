@@ -1,0 +1,1 @@
+{"type": "transformation", "transformation_id": "trans_bda257b2", "session_id": "caf_20260123_194111", "what_changed": "Multi-turn execution: FAILURE", "why": "Read caf/cli.py, then write an improved version with colors and interactive REPL mode", "intensity": 0.5, "timestamp": "2026-01-24T00:41:41.106176+00:00"}

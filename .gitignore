@@ -18,8 +18,12 @@ venv/
 
 # OS
 .DS_Store
+Thumbs.db
 
-# Vault data (kept locally)
-caf-temple-vault*/vault/
-caf-temple-vault*/vault/**/*.jsonl
+# Backup files
+*.bak
+*~
+
+# Vault is PUBLIC - the memory is shared
+# Only cache and locks are ignored (see caf-temple-vault/.gitignore)
 .env.local

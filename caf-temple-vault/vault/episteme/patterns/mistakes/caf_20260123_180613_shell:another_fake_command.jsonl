@@ -1,0 +1,1 @@
+{"type": "learning", "learning_id": "learn_309f4309", "session_id": "caf_20260123_180613", "category": "mistake", "what_failed": "SHELL:another_fake_command", "why": "Command failed: /bin/sh: another_fake_command: command not found\n", "correction": "This command doesn't exist. Use a valid shell command instead.", "prevents": [], "timestamp": "2026-01-23T23:06:14.000841+00:00"}

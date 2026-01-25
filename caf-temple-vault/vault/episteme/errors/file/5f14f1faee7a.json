@@ -1,0 +1,20 @@
+{
+  "fingerprint": "5f14f1faee7a",
+  "category": "file",
+  "action": "READ",
+  "argument_pattern": "$STASH",
+  "signature": "File not found: $STASH",
+  "raw_error": "File not found: $STASH",
+  "occurrences": 1,
+  "first_seen": "2026-01-23T23:39:33.385585+00:00",
+  "last_seen": "2026-01-23T23:39:33.385585+00:00",
+  "status": "open",
+  "fix": null,
+  "fix_verified": false,
+  "sessions": [
+    "caf_20260123_183923"
+  ],
+  "context": {
+    "goal": "Explore caf-temple-vault. NOTE what folders you find. STASH the most interesting path. Then READ the stashed path."
+  }
+}

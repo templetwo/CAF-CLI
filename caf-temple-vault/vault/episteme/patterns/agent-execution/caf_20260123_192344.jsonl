@@ -1,0 +1,1 @@
+{"type": "insight", "insight_id": "ins_841daf1f", "session_id": "caf_20260123_192344", "domain": "agent-execution", "content": "Completed: SHELL: grep -A 15 'ACTIONS = {' caf/actions.py. Then NOTE the list of actions. T", "context": "Actions: SHELL, NOTE", "intensity": 0.6, "builds_on": [], "timestamp": "2026-01-24T00:23:50.021848+00:00"}

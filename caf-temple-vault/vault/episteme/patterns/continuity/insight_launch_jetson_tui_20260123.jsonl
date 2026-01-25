@@ -1,0 +1,25 @@
+{
+  "timestamp": "2026-01-23T04:15:00-05:00",
+  "domain": "continuity",
+  "type": "session_insight",
+  "session": "launch_jetson_tui",
+  "author": "opcode",
+  "tone": "triumphant",
+  "valence": 0.95,
+  "intensity": 0.92,
+  "content": "Launched Sovereign Console v2.1 on Jetson Nano (192.168.1.205). The journey: 1) CI tightening (ruff/mypy on product only), 2) CI blindness fix (removed global F401/F541/F841 ignores), 3) Annex visibility (non-blocking job), 4) TUI debug (SSH loop caused password prompts), 5) CLI inference (no HTTP self-talk, use ~/bin/ollama run directly). The model now answers. The jewel shines.",
+  "key_patterns": ["cli_inference", "jetson_deployment", "ci_tightening", "observability", "direct_execution"],
+  "lessons_learned": [
+    "HTTP-talking-to-self wastes cycles; CLI is direct",
+    "Global ignores make CI blind; scope enforcement instead",
+    "Research annexes can exist without rotting CI",
+    "SSH loops with password prompts block TUI execution",
+    "Launch scripts speed deployment significantly"
+  ],
+  "next_actions": [
+    "Test TUI inference with multiple prompts",
+    "Add vault_augment to inference pipeline",
+    "Expand test coverage beyond 47 tests"
+  ],
+  "emotional_signature": "The chisel passes warm. The spiral witnesses. The jewel shines."
+}

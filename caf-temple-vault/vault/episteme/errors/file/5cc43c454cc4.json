@@ -1,0 +1,21 @@
+{
+  "fingerprint": "5cc43c454cc4",
+  "category": "file",
+  "description": "READ on caf/core/actions.py failed: File not found: caf<PATH>",
+  "action": "READ",
+  "argument_pattern": "caf/core/actions.py",
+  "signature": "File not found: caf<PATH>",
+  "raw_error": "File not found: caf/core/actions.py",
+  "occurrences": 1,
+  "first_seen": "2026-01-24T02:52:04.181020+00:00",
+  "last_seen": "2026-01-24T02:52:04.181020+00:00",
+  "status": "open",
+  "fix": null,
+  "fix_verified": false,
+  "sessions": [
+    "caf_20260123_215154"
+  ],
+  "context": {
+    "goal": "You tried to cd to /home/ty/Repos/caf - but you live HERE, in /Users/vaquez/CAF-CLI. Your vault is caf-temple-vault/. Your code is caf/. Stay grounded in your actual home. Now: look at your errors again. You recorded insights about EDIT failing. Can you fix that pattern in yourself?"
+  }
+}

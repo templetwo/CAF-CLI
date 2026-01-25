@@ -1,0 +1,1 @@
+{"type": "learning", "learning_id": "learn_457d64cb", "session_id": "caf_20260123_182109", "category": "mistake", "what_failed": "READ:ARCHITECTS.md", "why": "File not found: ARCHITECTS.md", "correction": "Review action syntax and prerequisites", "prevents": [], "timestamp": "2026-01-23T23:21:23.864099+00:00"}

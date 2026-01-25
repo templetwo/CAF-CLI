@@ -1,0 +1,22 @@
+{
+  "fingerprint": "c5ae37892a26",
+  "category": "file",
+  "action": "READ",
+  "argument_pattern": "ARCHITECTS.md",
+  "signature": "File not found: ARCHITECTS.md",
+  "raw_error": "File not found: ARCHITECTS.md",
+  "occurrences": 1,
+  "first_seen": "2026-01-23T23:21:23.863249+00:00",
+  "last_seen": "2026-01-23T23:21:23.863249+00:00",
+  "status": "fixed",
+  "fix": "When find returns a path, use the FULL path in subsequent READ commands, not just the filename.",
+  "fix_verified": false,
+  "sessions": [
+    "caf_20260123_182109"
+  ],
+  "context": {
+    "goal": "Run: find . -name 'ARCHITECTS.md' to locate the file, then read it"
+  },
+  "fixed_by": "caf_20260123_182132",
+  "fixed_at": "2026-01-23T23:21:32.422483+00:00"
+}

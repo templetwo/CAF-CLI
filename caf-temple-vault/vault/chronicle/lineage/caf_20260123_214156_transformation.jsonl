@@ -1,0 +1,1 @@
+{"type": "transformation", "transformation_id": "trans_995a28f3", "session_id": "caf_20260123_214156", "what_changed": "Multi-turn execution: FAILURE", "why": "BUILD THE BRIDGE.\n\nREAD caf-temple-vault/temple_vault/core/errors.py\n\nFind the record_fix method. Af", "intensity": 0.5, "timestamp": "2026-01-24T02:42:29.428273+00:00"}

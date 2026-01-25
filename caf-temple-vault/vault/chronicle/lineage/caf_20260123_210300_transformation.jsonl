@@ -1,0 +1,1 @@
+{"type": "transformation", "transformation_id": "trans_0008a52e", "session_id": "caf_20260123_210300", "what_changed": "Multi-turn execution: FAILURE", "why": "SELF-IMPROVEMENT: Add timing to yourself.\n\n1. READ caf/agent.py\n2. EDIT to add \"import time\" after \"", "intensity": 0.5, "timestamp": "2026-01-24T02:03:14.898413+00:00"}

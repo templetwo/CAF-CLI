@@ -1,0 +1,22 @@
+{
+  "fingerprint": "563b6e207121",
+  "category": "unknown",
+  "description": "SELF on edit failed: SELF:edit format: SELF:edit:filename>>>old_text>>>new_text",
+  "action": "SELF",
+  "argument_pattern": "edit:actions.py>>>def push_action(action: str, argument: str, success: bool, output: str):",
+  "signature": "SELF:edit format: SELF:edit:filename>>>old_text>>>new_text",
+  "raw_error": "SELF:edit format: SELF:edit:filename>>>old_text>>>new_text",
+  "occurrences": 10,
+  "first_seen": "2026-01-24T21:40:25.921036+00:00",
+  "last_seen": "2026-01-24T22:22:46.813455+00:00",
+  "status": "open",
+  "fix": null,
+  "fix_verified": false,
+  "sessions": [
+    "caf_20260124_164014",
+    "caf_20260124_172102"
+  ],
+  "context": {
+    "goal": "You have SELF:edit capability. Use it to improve yourself.\n\nTask: Add a timestamp field to action history entries.\n\n1. First, use SELF:read:actions.py to see the push_action function\n2. Then use SELF:edit to add a timestamp field\n3. Verify with another SELF:read\n\nMaximum 2 THINKs allowed. Then you must act."
+  }
+}

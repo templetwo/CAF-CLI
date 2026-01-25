@@ -1,0 +1,21 @@
+{
+  "fingerprint": "510c12f66b96",
+  "category": "unknown",
+  "description": "SELF on read failed: File not found: actions.py:22-35. Use SELF:list to see avail",
+  "action": "SELF",
+  "argument_pattern": "read:actions.py:22-35",
+  "signature": "File not found: actions.py:22-35. Use SELF:list to see available files.",
+  "raw_error": "File not found: actions.py:22-35. Use SELF:list to see available files.",
+  "occurrences": 1,
+  "first_seen": "2026-01-24T22:21:13.612957+00:00",
+  "last_seen": "2026-01-24T22:21:13.612957+00:00",
+  "status": "open",
+  "fix": null,
+  "fix_verified": false,
+  "sessions": [
+    "caf_20260124_172102"
+  ],
+  "context": {
+    "goal": "BUILD SOMETHING. Do not say DONE until you have made at least one SELF:edit.\n\nYour task: Add timestamps to action history.\n\nStep 1: SELF:read:actions.py - find the push_action function\nStep 2: SELF:edit:actions.py>>>old_code>>>new_code - add timestamp field\nStep 3: SELF:read:actions.py - verify your change\nStep 4: NOTE what you built\nStep 5: DONE\n\nYou must complete steps 1-4 before step 5. GO."
+  }
+}

@@ -1,0 +1,1 @@
+{"type": "insight", "insight_id": "ins_55ebbe04", "session_id": "caf_20260124_161219", "domain": "agent-execution", "content": "Completed: You must perform THREE actions:\n1. RESUME:test_feature\n2. STEP:done  \n3. STEP:st", "context": "Actions: THINK, RESUME", "intensity": 0.6, "builds_on": [], "timestamp": "2026-01-24T21:12:30.326424+00:00"}

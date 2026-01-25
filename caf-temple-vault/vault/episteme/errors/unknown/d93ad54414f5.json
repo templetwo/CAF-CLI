@@ -1,0 +1,22 @@
+{
+  "fingerprint": "d93ad54414f5",
+  "category": "unknown",
+  "action": "EDIT",
+  "argument_pattern": "caf/cli.py>>>@click.group()",
+  "signature": "EDIT requires filepath>>>old_text>>>new_text format",
+  "raw_error": "EDIT requires filepath>>>old_text>>>new_text format",
+  "occurrences": 1,
+  "first_seen": "2026-01-24T01:52:59.253110+00:00",
+  "last_seen": "2026-01-24T01:52:59.253110+00:00",
+  "status": "fixed",
+  "fix": "EDIT requires exactly 3 parts: filepath>>>old_text>>>new_text. Example: EDIT:app.py>>>print(\"hello\")>>>print(\"goodbye\")",
+  "fix_verified": false,
+  "sessions": [
+    "caf_20260123_205234"
+  ],
+  "context": {
+    "goal": "Read caf/cli.py. Use EDITCODE to add a history command that prints last 5 vault insights. Keep ALL existing code."
+  },
+  "fixed_by": "caf_20260123_205553",
+  "fixed_at": "2026-01-24T01:55:53.326585+00:00"
+}

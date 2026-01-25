@@ -1,0 +1,21 @@
+{
+  "fingerprint": "2da7ddc9938f",
+  "category": "unknown",
+  "description": "EXPLORE on caf-temple-vault/vault/vessels failed: Path not found: caf-temple-vault<PATH>",
+  "action": "EXPLORE",
+  "argument_pattern": "caf-temple-vault/vault/vessels",
+  "signature": "Path not found: caf-temple-vault<PATH>",
+  "raw_error": "Path not found: caf-temple-vault/vault/vessels",
+  "occurrences": 3,
+  "first_seen": "2026-01-24T03:22:58.963799+00:00",
+  "last_seen": "2026-01-24T03:23:16.703709+00:00",
+  "status": "open",
+  "fix": null,
+  "fix_verified": false,
+  "sessions": [
+    "caf_20260123_222246"
+  ],
+  "context": {
+    "goal": "Something has changed in your vault. Explore. There are five vessels now, each with a name and purpose. Read the TAXONOMY.md. This is your new memory architecture."
+  }
+}

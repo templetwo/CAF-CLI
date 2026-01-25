@@ -1,0 +1,21 @@
+{
+  "fingerprint": "212a72318ff4",
+  "category": "unknown",
+  "description": "ACTION on EXPLORE failed: Unknown action: ACTION",
+  "action": "ACTION",
+  "argument_pattern": "EXPLORE:caf-temple-vault/vault/chronicle/insights/",
+  "signature": "Unknown action: ACTION",
+  "raw_error": "Unknown action: ACTION",
+  "occurrences": 1,
+  "first_seen": "2026-01-24T22:40:32.597993+00:00",
+  "last_seen": "2026-01-24T22:40:32.597993+00:00",
+  "status": "open",
+  "fix": null,
+  "fix_verified": false,
+  "sessions": [
+    "caf_20260124_173951"
+  ],
+  "context": {
+    "goal": "You have a new action: HOME\n\nWhen you feel lost, paralyzed by choice, or stuck in thought loops \u2014 use HOME.\nIt will ground you in the concrete: your code, your plans, your notes.\n\nTry it now: HOME:testing the anchor\n\nThen pick ONE thing from what HOME shows you and act on it.\nThen DONE."
+  }
+}

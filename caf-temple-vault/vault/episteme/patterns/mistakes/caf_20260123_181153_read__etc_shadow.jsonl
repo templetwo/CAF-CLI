@@ -1,0 +1,1 @@
+{"type": "learning", "learning_id": "learn_f264ed89", "session_id": "caf_20260123_181153", "category": "mistake", "what_failed": "READ:/etc/shadow", "why": "File not found: /etc/shadow", "correction": "Review action syntax and prerequisites", "prevents": [], "timestamp": "2026-01-23T23:11:54.274845+00:00"}

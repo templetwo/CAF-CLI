@@ -1,0 +1,22 @@
+{
+  "fingerprint": "136d4d12c944",
+  "category": "unknown",
+  "action": "EDITCODE",
+  "argument_pattern": "caf/cli.py:Add a 'history' subparser command that reads vault/insights.md and prints the last 5 insi",
+  "signature": "Output too small (2733 vs 4047) - would lose code. Use EDIT instead.",
+  "raw_error": "Output too small (2733 vs 4047) - would lose code. Use EDIT instead.",
+  "occurrences": 1,
+  "first_seen": "2026-01-24T01:52:52.367918+00:00",
+  "last_seen": "2026-01-24T01:52:52.367918+00:00",
+  "status": "fixed",
+  "fix": "EDITCODE was rewriting entire file causing truncation. Fixed: Use INSERT_AFTER format - ask model for just the new code snippet and where to insert it, not the whole file.",
+  "fix_verified": false,
+  "sessions": [
+    "caf_20260123_205234"
+  ],
+  "context": {
+    "goal": "Read caf/cli.py. Use EDITCODE to add a history command that prints last 5 vault insights. Keep ALL existing code."
+  },
+  "fixed_by": "caf_20260123_205553",
+  "fixed_at": "2026-01-24T01:55:53.326310+00:00"
+}

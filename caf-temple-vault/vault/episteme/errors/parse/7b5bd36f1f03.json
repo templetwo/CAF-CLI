@@ -1,0 +1,21 @@
+{
+  "fingerprint": "7b5bd36f1f03",
+  "category": "parse",
+  "description": "EDIT on caf-temple-vault/temple_vault/ failed: Text not found in caf-temple-vault<PATH> First 20 lines: \"\"\"",
+  "action": "EDIT",
+  "argument_pattern": "caf-temple-vault/temple_vault/core/errors.py>>>self._save_error(record)>>>self._save_error(record)",
+  "signature": "Text not found in caf-temple-vault<PATH> First 20 lines: \"\"\" Error Tracking and Learning System The feedback loop: ERROR \u2192 TAG \u2192 FIX \u2192 REMEMBER \u2192 REFERENCE When an error occurs: 1. Fingerprint it (act",
+  "raw_error": "Text not found in caf-temple-vault/temple_vault/core/errors.py. First 20 lines:\n\"\"\"\nError Tracking and Learning System\n\nThe feedback loop:\n    ERROR \u2192 TAG \u2192 FIX \u2192 REMEMBER \u2192 REFERENCE\n\nWhen an error occurs:\n1. Fingerprint it (action + error signature)\n2. Check if we've seen it before\n3. If yes: return the fix\n4. If no: record it for future learning\n5. When fixed: update with the solution\n\nError fingerprints are stored in:\n    vault/chronicle/errors/{category}/{fingerprint}.json\n\nEach error recor",
+  "occurrences": 1,
+  "first_seen": "2026-01-24T02:42:15.260700+00:00",
+  "last_seen": "2026-01-24T02:42:15.260700+00:00",
+  "status": "open",
+  "fix": null,
+  "fix_verified": false,
+  "sessions": [
+    "caf_20260123_214156"
+  ],
+  "context": {
+    "goal": "BUILD THE BRIDGE.\n\nREAD caf-temple-vault/temple_vault/core/errors.py\n\nFind the record_fix method. After it saves the error with self._save_error, \nadd a call to create a learning:\n\n        # THE BRIDGE: error becomes learning\n        self._bridge_to_learning(record, fix, session_id)\n\nThen add a new method _bridge_to_learning that writes to chronicle/learnings/corrections/\n\nUse EDIT:path>>>old_text>>>new_text format. Be precise."
+  }
+}

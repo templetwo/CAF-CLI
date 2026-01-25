@@ -1,0 +1,20 @@
+{
+  "fingerprint": "1a923dc3b684",
+  "category": "unknown",
+  "action": "EXPLORE",
+  "argument_pattern": "caf/commands",
+  "signature": "Path not found: caf<PATH>",
+  "raw_error": "Path not found: caf/commands",
+  "occurrences": 1,
+  "first_seen": "2026-01-24T00:44:46.495499+00:00",
+  "last_seen": "2026-01-24T00:44:46.495499+00:00",
+  "status": "open",
+  "fix": null,
+  "fix_verified": false,
+  "sessions": [
+    "caf_20260123_194439"
+  ],
+  "context": {
+    "goal": "Read caf/cli.py and add ANSI color codes: make the version green and the description cyan"
+  }
+}

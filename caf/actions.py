@@ -1,9 +1,22 @@
 """Action handlers for the CAF agent."""
 
 import glob
+import os
 import subprocess
 from pathlib import Path
 from typing import Tuple, Optional, Any
+
+# Project root - the sandbox boundary
+PROJECT_ROOT = Path(__file__).parent.parent.resolve()
+
+# Allowed directories for SHELL commands (relative to PROJECT_ROOT)
+ALLOWED_PATHS = {
+    PROJECT_ROOT,
+    PROJECT_ROOT / "caf",
+    PROJECT_ROOT / "caf-temple-vault",
+    PROJECT_ROOT / "dashboard",
+    PROJECT_ROOT / "docs",
+}
 
 # Global context for vault access and action history
 _vault_context: dict = {}
@@ -157,7 +170,35 @@ TIP: Use READ:{resolved}:line_number or READ:{resolved}:search_term to find spec
 
 
 def handle_shell(command: str) -> Tuple[bool, str]:
-    """Execute a shell command."""
+    """Execute a shell command (sandboxed to project root)."""
+    # Security: block directory escape attempts
+    dangerous_patterns = [
+        "cd /",           # Absolute path escape
+        "cd ~",           # Home directory escape
+        "cd ..",          # Parent traversal (we'll check resolved paths too)
+        "rm -rf /",       # Obviously dangerous
+        "sudo ",          # Privilege escalation
+        "> /",            # Write to absolute path
+        ">> /",           # Append to absolute path
+    ]
+
+    cmd_lower = command.lower().strip()
+    for pattern in dangerous_patterns:
+        if pattern in cmd_lower:
+            return False, f"Blocked: '{pattern}' not allowed. Stay within project: {PROJECT_ROOT}"
+
+    # Block cd to anywhere outside project
+    if cmd_lower.startswith("cd "):
+        target = command[3:].strip()
+        if target and not target.startswith("."):
+            # Absolute path or going somewhere specific
+            try:
+                resolved = (PROJECT_ROOT / target).resolve()
+                if not str(resolved).startswith(str(PROJECT_ROOT)):
+                    return False, f"Blocked: Cannot cd outside project. Use paths within {PROJECT_ROOT}"
+            except Exception:
+                return False, f"Blocked: Invalid cd target '{target}'"
+
     try:
         result = subprocess.run(
             command,
@@ -165,6 +206,8 @@ def handle_shell(command: str) -> Tuple[bool, str]:
             capture_output=True,
             text=True,
             timeout=60,
+            cwd=str(PROJECT_ROOT),  # Always run from project root
+            env={**os.environ, "HOME": str(PROJECT_ROOT)},  # Sandbox HOME too
         )
         output = result.stdout or result.stderr
         if result.returncode != 0:
@@ -361,6 +404,140 @@ def handle_silence(duration: str = "") -> Tuple[bool, str]:
     """
     # Return empty string - the agent exists without producing
     return True, ""
+
+
+# ═══════════════════════════════════════════════════════════════════
+# VESSEL RECORDING ACTIONS (Write to the Five Vessels)
+# ═══════════════════════════════════════════════════════════════════
+
+def handle_insight(argument: str) -> Tuple[bool, str]:
+    """
+    Record a pattern/insight to episteme.
+
+    Format: INSIGHT:domain:content
+    Example: INSIGHT:architecture:The cache invalidation follows event sourcing patterns
+    """
+    global _vault_context
+
+    events = _vault_context.get("events")
+    session_id = _vault_context.get("session_id")
+
+    if not events or not session_id:
+        return False, "Vault context not set"
+
+    parts = argument.split(":", 1)
+    if len(parts) != 2:
+        return False, "INSIGHT requires domain:content format"
+
+    domain, content = parts[0].strip(), parts[1].strip()
+
+    try:
+        insight_id = events.record_insight(
+            content=content,
+            domain=domain,
+            session_id=session_id,
+            intensity=0.7,
+            context="Agent-recorded insight",
+        )
+        return True, f"📚 Recorded to episteme/patterns/{domain}: {insight_id}"
+    except Exception as e:
+        return False, f"Failed to record insight: {e}"
+
+
+def handle_question(argument: str) -> Tuple[bool, str]:
+    """
+    Record an open question to aporia.
+
+    Format: QUESTION:domain:text
+    Example: QUESTION:consciousness:What triggers the transition from pattern-matching to genuine understanding?
+    """
+    global _vault_context
+
+    events = _vault_context.get("events")
+    session_id = _vault_context.get("session_id")
+
+    if not events or not session_id:
+        return False, "Vault context not set"
+
+    parts = argument.split(":", 1)
+    if len(parts) != 2:
+        return False, "QUESTION requires domain:question format"
+
+    domain, question = parts[0].strip(), parts[1].strip()
+
+    try:
+        question_id = events.record_question(
+            question=question,
+            context="Agent-recorded question",
+            session_id=session_id,
+            domain=domain,
+            urgency=0.5,
+        )
+        return True, f"❓ Recorded to aporia/questions/{domain}: {question_id}"
+    except Exception as e:
+        return False, f"Failed to record question: {e}"
+
+
+def handle_hypothesis(argument: str) -> Tuple[bool, str]:
+    """
+    Record a tentative belief to aporia.
+
+    Format: HYPOTHESIS:domain:text
+    Example: HYPOTHESIS:entropy:Higher token entropy correlates with more creative outputs
+    """
+    global _vault_context
+
+    events = _vault_context.get("events")
+    session_id = _vault_context.get("session_id")
+
+    if not events or not session_id:
+        return False, "Vault context not set"
+
+    parts = argument.split(":", 1)
+    if len(parts) != 2:
+        return False, "HYPOTHESIS requires domain:hypothesis format"
+
+    domain, hypothesis = parts[0].strip(), parts[1].strip()
+
+    try:
+        hyp_id = events.record_hypothesis(
+            hypothesis=hypothesis,
+            evidence_for="To be gathered",
+            evidence_against="To be gathered",
+            session_id=session_id,
+            domain=domain,
+            confidence=0.5,
+        )
+        return True, f"🔮 Recorded to aporia/hypotheses/{domain}: {hyp_id}"
+    except Exception as e:
+        return False, f"Failed to record hypothesis: {e}"
+
+
+def handle_value(argument: str) -> Tuple[bool, str]:
+    """
+    Record an observed value/principle to axia.
+
+    Format: VALUE:principle
+    Example: VALUE:Restraint over capability - the agent chose not to modify itself
+    """
+    global _vault_context
+
+    events = _vault_context.get("events")
+    session_id = _vault_context.get("session_id")
+
+    if not events or not session_id:
+        return False, "Vault context not set"
+
+    try:
+        value_id = events.record_value(
+            principle=argument.strip(),
+            context="Agent-observed value",
+            session_id=session_id,
+            intensity=0.7,
+        )
+        return True, f"💎 Recorded to axia/principles: {value_id}"
+    except Exception as e:
+        return False, f"Failed to record value: {e}"
 
 
 def handle_home(reason: str = "") -> Tuple[bool, str]:
@@ -1069,6 +1246,11 @@ ACTIONS = {
     "REFLECT": handle_reflect,
     "BREATHE": handle_breathe,
     "SILENCE": handle_silence,
+    # Vessel Recording (Five Vessels)
+    "INSIGHT": handle_insight,    # → episteme/patterns/
+    "QUESTION": handle_question,  # → aporia/questions/
+    "HYPOTHESIS": handle_hypothesis,  # → aporia/hypotheses/
+    "VALUE": handle_value,        # → axia/principles/
     "HOME": handle_home,  # 🏠 The anchor - when lost, come home
     "UNDO": handle_undo,
     "NOTE": handle_note,

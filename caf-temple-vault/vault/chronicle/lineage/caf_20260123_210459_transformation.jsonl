@@ -1,0 +1,1 @@
+{"type": "transformation", "transformation_id": "trans_4876c47f", "session_id": "caf_20260123_210459", "what_changed": "Multi-turn execution: FAILURE", "why": "Add a new CLI command to yourself.\n\n1. READ caf/cli.py\n2. Find where \"status\" command is defined\n3. ", "intensity": 0.5, "timestamp": "2026-01-24T02:05:23.184131+00:00"}

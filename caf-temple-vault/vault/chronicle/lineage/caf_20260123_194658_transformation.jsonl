@@ -1,0 +1,1 @@
+{"type": "transformation", "transformation_id": "trans_80e0dde0", "session_id": "caf_20260123_194658", "what_changed": "Multi-turn execution: SUCCESS", "why": "Use EDIT on caf/cli.py to change 3.0.0 to 4.0.0", "intensity": 0.5, "timestamp": "2026-01-24T00:47:04.088321+00:00"}

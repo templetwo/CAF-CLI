@@ -1,0 +1,1 @@
+{"type": "learning", "learning_id": "learn_3efb792f", "session_id": "caf_20260123_182016", "category": "mistake", "what_failed": "READ:requirements.txt", "why": "File not found: requirements.txt", "correction": "Review action syntax and prerequisites", "prevents": [], "timestamp": "2026-01-23T23:20:21.427177+00:00"}

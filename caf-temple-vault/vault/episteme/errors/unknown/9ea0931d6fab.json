@@ -1,0 +1,21 @@
+{
+  "fingerprint": "9ea0931d6fab",
+  "category": "unknown",
+  "description": "EXPLORE on src failed: Path not found: src",
+  "action": "EXPLORE",
+  "argument_pattern": "src",
+  "signature": "Path not found: src",
+  "raw_error": "Path not found: src",
+  "occurrences": 1,
+  "first_seen": "2026-01-24T02:01:26.083251+00:00",
+  "last_seen": "2026-01-24T02:01:26.083251+00:00",
+  "status": "open",
+  "fix": null,
+  "fix_verified": false,
+  "sessions": [
+    "caf_20260123_210103"
+  ],
+  "context": {
+    "goal": "Analyze your own codebase (caf/ directory). \nFind one concrete improvement you can make to yourself.\nImplement it using EDIT or EDITCODE.\nTest that it works."
+  }
+}

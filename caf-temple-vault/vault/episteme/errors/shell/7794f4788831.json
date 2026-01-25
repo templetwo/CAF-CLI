@@ -1,0 +1,20 @@
+{
+  "fingerprint": "7794f4788831",
+  "category": "shell",
+  "action": "SHELL",
+  "argument_pattern": "ls -F ./caf-temple-vault(01:23:2026)/dual-agent-lattice/",
+  "signature": "Command failed: <PATH>: -c: line N: syntax error near unexpected token `(' <PATH>: -c: line N: `ls -F .<PATH>(01:23:2026)<PATH>'",
+  "raw_error": "Command failed: /bin/sh: -c: line 0: syntax error near unexpected token `('\n/bin/sh: -c: line 0: `ls -F ./caf-temple-vault(01:23:2026)/dual-agent-lattice/'\n",
+  "occurrences": 1,
+  "first_seen": "2026-01-23T23:23:36.156168+00:00",
+  "last_seen": "2026-01-23T23:23:36.156168+00:00",
+  "status": "open",
+  "fix": null,
+  "fix_verified": false,
+  "sessions": [
+    "caf_20260123_182316"
+  ],
+  "context": {
+    "goal": "Explore './caf-temple-vault(01:23:2026)/dual-agent-lattice/' - list what's there and read any Python files you find"
+  }
+}

@@ -1,0 +1,1 @@
+{"type": "insight", "insight_id": "ins_ddb24100", "session_id": "caf_20260123_205342", "domain": "agent-execution", "content": "Completed: Use EDITCODE on caf/cli.py to add a history subparser after the status subparser", "context": "Actions: READ, EDITCODE", "intensity": 0.6, "builds_on": [], "timestamp": "2026-01-24T01:53:48.668401+00:00"}

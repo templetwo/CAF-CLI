@@ -1,0 +1,1 @@
+{"type": "insight", "insight_id": "ins_b1d41ad7", "session_id": "caf_20260123_215703", "domain": "agent-execution", "content": "Completed: You know your map now. Use it. Your cli.py shows version 4.0.0 in the --version ", "context": "Actions: READ, EDIT", "intensity": 0.6, "builds_on": [], "timestamp": "2026-01-24T02:57:09.235890+00:00"}

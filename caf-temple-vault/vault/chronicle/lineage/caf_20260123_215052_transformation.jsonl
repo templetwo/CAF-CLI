@@ -1,0 +1,1 @@
+{"type": "transformation", "transformation_id": "trans_ad0112cb", "session_id": "caf_20260123_215052", "what_changed": "Multi-turn execution: FAILURE", "why": "You have 20+ unfixed errors in vault/chronicle/errors/. Read a few of them. Look for patterns. What ", "intensity": 0.5, "timestamp": "2026-01-24T02:51:23.937841+00:00"}

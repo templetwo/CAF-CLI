@@ -1,0 +1,1 @@
+{"type": "transformation", "transformation_id": "trans_047e1f74", "session_id": "caf_20260123_215703", "what_changed": "Multi-turn execution: SUCCESS", "why": "You know your map now. Use it. Your cli.py shows version 4.0.0 in the --version output, but __init__", "intensity": 0.5, "timestamp": "2026-01-24T02:57:09.237276+00:00"}

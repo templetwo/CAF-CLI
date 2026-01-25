@@ -1,0 +1,20 @@
+{
+  "fingerprint": "62bf05c67921",
+  "category": "file",
+  "action": "READ",
+  "argument_pattern": "$0",
+  "signature": "File not found: $0",
+  "raw_error": "File not found: $0",
+  "occurrences": 1,
+  "first_seen": "2026-01-23T23:40:45.153404+00:00",
+  "last_seen": "2026-01-23T23:40:45.153404+00:00",
+  "status": "open",
+  "fix": null,
+  "fix_verified": false,
+  "sessions": [
+    "caf_20260123_184034"
+  ],
+  "context": {
+    "goal": "Step 1: EXPLORE caf-temple-vault/experiments. Step 2: FIND *.py there. Step 3: READ $0. Step 4: REFLECT on it. Step 5: NOTE what you learned."
+  }
+}

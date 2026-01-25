@@ -1,0 +1,25 @@
+{
+  "name": "test_feature",
+  "goal": "Add a logging feature",
+  "steps": [
+    {
+      "text": "Research existing logging",
+      "status": "done"
+    },
+    {
+      "text": "Design logging interface",
+      "status": "pending"
+    },
+    {
+      "text": "Implement core logger",
+      "status": "pending"
+    },
+    {
+      "text": "Add tests",
+      "status": "pending"
+    }
+  ],
+  "current_step": 1,
+  "created": "2026-01-24T16:11:20.794005",
+  "updated": "2026-01-24T16:12:49.438031"
+}

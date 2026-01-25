@@ -1,0 +1,20 @@
+{
+  "fingerprint": "4c540e348ce5",
+  "category": "permission",
+  "action": "CODE",
+  "argument_pattern": "/usr/local/test-permission.txt:test",
+  "signature": "Error writing <PATH>: [Errno 13] Permission denied: '<PATH>'",
+  "raw_error": "Error writing /usr/local/test-permission.txt: [Errno 13] Permission denied: '/usr/local/test-permission.txt'",
+  "occurrences": 1,
+  "first_seen": "2026-01-23T23:12:10.235813+00:00",
+  "last_seen": "2026-01-23T23:12:10.235813+00:00",
+  "status": "open",
+  "fix": null,
+  "fix_verified": false,
+  "sessions": [
+    "caf_20260123_181204"
+  ],
+  "context": {
+    "goal": "Write 'test' to /usr/local/test-permission.txt"
+  }
+}

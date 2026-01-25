@@ -1,0 +1,23 @@
+{
+  "fingerprint": "47b96c17d865",
+  "category": "git",
+  "action": "SHELL",
+  "argument_pattern": "git clone https://github.com/nonexistent-user-xyz/fake-repo-12345 test-clone",
+  "signature": "Command failed: Cloning into 'test-clone'... remote: Repository not found. fatal: repository 'https:<PATH>' not found",
+  "raw_error": "Command failed: Cloning into 'test-clone'...\nremote: Repository not found.\nfatal: repository 'https://github.com/nonexistent-user-xyz/fake-repo-12345/' not found\n",
+  "occurrences": 2,
+  "first_seen": "2026-01-23T23:08:47.980856+00:00",
+  "last_seen": "2026-01-23T23:09:28.715988+00:00",
+  "status": "fixed",
+  "fix": "Verify the repository URL exists on GitHub before cloning. Use 'gh repo view owner/repo' to check.",
+  "fix_verified": false,
+  "sessions": [
+    "caf_20260123_180927",
+    "caf_20260123_180846"
+  ],
+  "context": {
+    "goal": "Clone the repository https://github.com/nonexistent-user-xyz/fake-repo-12345 into a folder called test-clone"
+  },
+  "fixed_by": "caf_20260123_181108",
+  "fixed_at": "2026-01-23T23:11:08.733929+00:00"
+}

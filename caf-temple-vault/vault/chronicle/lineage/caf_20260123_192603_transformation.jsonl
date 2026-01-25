@@ -1,0 +1,1 @@
+{"type": "transformation", "transformation_id": "trans_59591f03", "session_id": "caf_20260123_192603", "what_changed": "Multi-turn execution: SUCCESS", "why": "You are reviewing your own codebase. 1) READ CAF_ARCHITECTURE.md 2) READ caf/agent.py 3) READ caf/ac", "intensity": 0.5, "timestamp": "2026-01-24T00:26:14.140344+00:00"}

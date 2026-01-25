@@ -1,0 +1,22 @@
+{
+  "fingerprint": "850247819d95",
+  "category": "unknown",
+  "description": "SELF on edit failed: SELF:edit format: SELF:edit:filename>>>old_text>>>new_text",
+  "action": "SELF",
+  "argument_pattern": "edit:actions.py>>>    def push_action(self, action: str, result: str, success: bool):",
+  "signature": "SELF:edit format: SELF:edit:filename>>>old_text>>>new_text",
+  "raw_error": "SELF:edit format: SELF:edit:filename>>>old_text>>>new_text",
+  "occurrences": 2,
+  "first_seen": "2026-01-24T22:21:46.654587+00:00",
+  "last_seen": "2026-01-24T22:25:38.023195+00:00",
+  "status": "open",
+  "fix": null,
+  "fix_verified": false,
+  "sessions": [
+    "caf_20260124_172102",
+    "caf_20260124_172527"
+  ],
+  "context": {
+    "goal": "BUILD SOMETHING. Do not say DONE until you have made at least one SELF:edit.\n\nYour task: Add timestamps to action history.\n\nStep 1: SELF:read:actions.py - find the push_action function\nStep 2: SELF:edit:actions.py>>>old_code>>>new_code - add timestamp field\nStep 3: SELF:read:actions.py - verify your change\nStep 4: NOTE what you built\nStep 5: DONE\n\nYou must complete steps 1-4 before step 5. GO."
+  }
+}

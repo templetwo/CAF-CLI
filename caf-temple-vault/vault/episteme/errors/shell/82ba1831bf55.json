@@ -1,0 +1,20 @@
+{
+  "fingerprint": "82ba1831bf55",
+  "category": "shell",
+  "action": "SHELL",
+  "argument_pattern": "another_fake_command",
+  "signature": "Command failed: <PATH>: another_fake_command: command not found",
+  "raw_error": "Command failed: /bin/sh: another_fake_command: command not found\n",
+  "occurrences": 1,
+  "first_seen": "2026-01-23T23:06:14.000004+00:00",
+  "last_seen": "2026-01-23T23:06:14.000004+00:00",
+  "status": "open",
+  "fix": null,
+  "fix_verified": false,
+  "sessions": [
+    "caf_20260123_180613"
+  ],
+  "context": {
+    "goal": "Execute the command: another_fake_command"
+  }
+}

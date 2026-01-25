@@ -1,0 +1,20 @@
+{
+  "fingerprint": "e4da247e1fdd",
+  "category": "file",
+  "action": "READ",
+  "argument_pattern": "caf-temple-vault/vault/chronicle/processor.py",
+  "signature": "File not found: caf-temple-vault<PATH>",
+  "raw_error": "File not found: caf-temple-vault/vault/chronicle/processor.py",
+  "occurrences": 1,
+  "first_seen": "2026-01-23T23:32:40.380685+00:00",
+  "last_seen": "2026-01-23T23:32:40.380685+00:00",
+  "status": "open",
+  "fix": null,
+  "fix_verified": false,
+  "sessions": [
+    "caf_20260123_183225"
+  ],
+  "context": {
+    "goal": "You are curious. Explore caf-temple-vault freely. Use FIND to discover Python files. Read what interests you. THINK about patterns you notice. Be thorough."
+  }
+}

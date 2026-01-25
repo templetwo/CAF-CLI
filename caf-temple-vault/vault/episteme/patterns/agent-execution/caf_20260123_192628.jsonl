@@ -1,0 +1,1 @@
+{"type": "insight", "insight_id": "ins_841bf18f", "session_id": "caf_20260123_192628", "domain": "agent-execution", "content": "Completed: After reading your own code, what 3 features would improve you? SHELL: grep -A 2", "context": "Actions: SHELL, REFLECT, READ, SHELL, NOTE", "intensity": 0.6, "builds_on": [], "timestamp": "2026-01-24T00:26:56.806776+00:00"}

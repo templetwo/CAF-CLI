@@ -1,0 +1,22 @@
+{
+  "fingerprint": "f47a27963263",
+  "category": "shell",
+  "action": "SHELL",
+  "argument_pattern": "ls -d ./caf-temple-vault(01:23:2026)/vault/chronicle/insights/*/",
+  "signature": "Command failed: <PATH>: -c: line N: syntax error near unexpected token `(' <PATH>: -c: line N: `ls -d .<PATH>(01:23:2026)<PATH>*/'",
+  "raw_error": "Command failed: /bin/sh: -c: line 0: syntax error near unexpected token `('\n/bin/sh: -c: line 0: `ls -d ./caf-temple-vault(01:23:2026)/vault/chronicle/insights/*/'\n",
+  "occurrences": 1,
+  "first_seen": "2026-01-23T23:22:15.195344+00:00",
+  "last_seen": "2026-01-23T23:22:15.195344+00:00",
+  "status": "fixed",
+  "fix": "Paths with special characters (parentheses, colons) must be quoted. Use single quotes around the entire path.",
+  "fix_verified": false,
+  "sessions": [
+    "caf_20260123_182205"
+  ],
+  "context": {
+    "goal": "Explore './caf-temple-vault(01:23:2026)/vault/chronicle/insights/' - list directories, pick one domain that looks interesting, and read what's inside"
+  },
+  "fixed_by": "caf_20260123_182223",
+  "fixed_at": "2026-01-23T23:22:23.976081+00:00"
+}

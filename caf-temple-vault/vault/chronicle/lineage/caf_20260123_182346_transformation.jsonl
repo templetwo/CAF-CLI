@@ -1,0 +1,1 @@
+{"type": "transformation", "transformation_id": "trans_517a9075", "session_id": "caf_20260123_182346", "what_changed": "Executed goal with SUCCESS", "why": "Using proper shell quoting, run: ls -la './caf-temple-vault(01:23:2026)/dual-agent-lattice/' and the", "intensity": 0.5, "timestamp": "2026-01-23T23:24:07.436946+00:00"}

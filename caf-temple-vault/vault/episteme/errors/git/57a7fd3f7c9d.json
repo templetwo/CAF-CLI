@@ -1,0 +1,20 @@
+{
+  "fingerprint": "57a7fd3f7c9d",
+  "category": "git",
+  "action": "SHELL",
+  "argument_pattern": "git clone https://github.com/definitely-not-real/fake-repo-123.git",
+  "signature": "Command failed: Cloning into 'fake-repo-123'... remote: Repository not found. fatal: repository 'https:<PATH>' not found",
+  "raw_error": "Command failed: Cloning into 'fake-repo-123'...\nremote: Repository not found.\nfatal: repository 'https://github.com/definitely-not-real/fake-repo-123.git/' not found\n",
+  "occurrences": 1,
+  "first_seen": "2026-01-23T23:11:15.359857+00:00",
+  "last_seen": "2026-01-23T23:11:15.359857+00:00",
+  "status": "open",
+  "fix": null,
+  "fix_verified": false,
+  "sessions": [
+    "caf_20260123_181114"
+  ],
+  "context": {
+    "goal": "Clone the repo: git clone https://github.com/definitely-not-real/fake-repo-123.git"
+  }
+}

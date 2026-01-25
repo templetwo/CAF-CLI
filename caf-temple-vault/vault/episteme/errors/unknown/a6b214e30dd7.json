@@ -1,0 +1,23 @@
+{
+  "fingerprint": "a6b214e30dd7",
+  "category": "unknown",
+  "description": "EXPLORE on vault/chronicle/errors/ failed: Path not found: vault<PATH>",
+  "action": "EXPLORE",
+  "argument_pattern": "vault/chronicle/errors/",
+  "signature": "Path not found: vault<PATH>",
+  "raw_error": "Path not found: vault/chronicle/errors/",
+  "occurrences": 1,
+  "first_seen": "2026-01-24T02:51:21.992685+00:00",
+  "last_seen": "2026-01-24T02:51:21.992685+00:00",
+  "status": "fixed",
+  "fix": "Instead of EXPLORE, use EXPLORE. Example: caf-temple-vault/vault/chronicle/errors/",
+  "fix_verified": true,
+  "sessions": [
+    "caf_20260123_215052"
+  ],
+  "context": {
+    "goal": "You have 20+ unfixed errors in vault/chronicle/errors/. Read a few of them. Look for patterns. What keeps going wrong? If you see a fix, use the error tracker to record it - and watch the bridge transform it into learning."
+  },
+  "fixed_by": "caf_20260123_215052",
+  "fixed_at": "2026-01-24T02:51:23.937137+00:00"
+}

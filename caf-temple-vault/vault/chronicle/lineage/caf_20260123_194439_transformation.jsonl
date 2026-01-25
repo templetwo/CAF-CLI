@@ -1,0 +1,1 @@
+{"type": "transformation", "transformation_id": "trans_06a868a2", "session_id": "caf_20260123_194439", "what_changed": "Multi-turn execution: FAILURE", "why": "Read caf/cli.py and add ANSI color codes: make the version green and the description cyan", "intensity": 0.5, "timestamp": "2026-01-24T00:44:59.683694+00:00"}

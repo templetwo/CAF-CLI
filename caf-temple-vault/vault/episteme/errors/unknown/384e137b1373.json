@@ -1,0 +1,22 @@
+{
+  "fingerprint": "384e137b1373",
+  "category": "unknown",
+  "description": "EDIT on caf/agent.py failed: EDIT requires filepath>>>old_text>>>new_text format",
+  "action": "EDIT",
+  "argument_pattern": "caf/agent.py>>>import json",
+  "signature": "EDIT requires filepath>>>old_text>>>new_text format",
+  "raw_error": "EDIT requires filepath>>>old_text>>>new_text format",
+  "occurrences": 3,
+  "first_seen": "2026-01-24T02:02:14.405905+00:00",
+  "last_seen": "2026-01-24T02:03:10.556505+00:00",
+  "status": "open",
+  "fix": null,
+  "fix_verified": false,
+  "sessions": [
+    "caf_20260123_210209",
+    "caf_20260123_210300"
+  ],
+  "context": {
+    "goal": "SELF-IMPROVEMENT MISSION:\n\nREAD caf/agent.py and add timing metrics.\n\nSpecifically:\n- Add \"import time\" at the top\n- In the run() method, add timing: start = time.time()\n- At the end print: \"Execution time: {time.time() - start:.2f}s\"\n\nUse EDIT with format: EDIT:path>>>old_text>>>new_text\nMake these changes, then DONE."
+  }
+}

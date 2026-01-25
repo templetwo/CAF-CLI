@@ -1,0 +1,22 @@
+{
+  "fingerprint": "a9d5235f7362",
+  "category": "shell",
+  "action": "SHELL",
+  "argument_pattern": "nonexistent_command_xyz",
+  "signature": "Command failed: <PATH>: nonexistent_command_xyz: command not found",
+  "raw_error": "Command failed: /bin/sh: nonexistent_command_xyz: command not found\n",
+  "occurrences": 1,
+  "first_seen": "2026-01-23T23:05:48.505407+00:00",
+  "last_seen": "2026-01-23T23:05:48.505407+00:00",
+  "status": "fixed",
+  "fix": "This command doesn't exist. Use a valid shell command instead.",
+  "fix_verified": false,
+  "sessions": [
+    "caf_20260123_180547"
+  ],
+  "context": {
+    "goal": "Run a command that will fail: nonexistent_command_xyz"
+  },
+  "fixed_by": "caf_20260123_180602",
+  "fixed_at": "2026-01-23T23:06:02.159149+00:00"
+}

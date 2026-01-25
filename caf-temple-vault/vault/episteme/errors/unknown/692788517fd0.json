@@ -1,0 +1,21 @@
+{
+  "fingerprint": "692788517fd0",
+  "category": "unknown",
+  "description": "EXPLORE on caf/tools failed: Path not found: caf<PATH>",
+  "action": "EXPLORE",
+  "argument_pattern": "caf/tools",
+  "signature": "Path not found: caf<PATH>",
+  "raw_error": "Path not found: caf/tools",
+  "occurrences": 1,
+  "first_seen": "2026-01-24T02:34:07.245527+00:00",
+  "last_seen": "2026-01-24T02:34:07.245527+00:00",
+  "status": "open",
+  "fix": null,
+  "fix_verified": false,
+  "sessions": [
+    "caf_20260123_213355"
+  ],
+  "context": {
+    "goal": "Explore yourself. \n\nLook at your codebase in caf/.\nTHINK about what you notice.\nWhat might want to evolve?"
+  }
+}

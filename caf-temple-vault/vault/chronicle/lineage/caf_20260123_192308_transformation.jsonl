@@ -1,0 +1,1 @@
+{"type": "transformation", "transformation_id": "trans_2c39e663", "session_id": "caf_20260123_192308", "what_changed": "Multi-turn execution: FAILURE", "why": "FIND the ACTIONS dict in caf/actions.py using shell grep, NOTE which actions are registered", "intensity": 0.5, "timestamp": "2026-01-24T00:23:37.244263+00:00"}

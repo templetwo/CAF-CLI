@@ -1,0 +1,1 @@
+{"type": "learning", "learning_id": "learn_18b95345", "session_id": "caf_20260123_183113", "category": "mistake", "what_failed": "EXPLORE:'./caf-temple-vault(01:23:2026", "why": "Path not found: './caf-temple-vault(01:23:2026)'", "correction": "Review action syntax and prerequisites", "prevents": [], "timestamp": "2026-01-23T23:31:24.533329+00:00"}

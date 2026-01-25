@@ -1,0 +1,23 @@
+{
+  "fingerprint": "087c57b3ec5d",
+  "category": "file",
+  "description": "READ on caf-temple-vault/vault/chronic failed: Error reading caf-temple-vault<PATH>: [Errno 21] Is a direct",
+  "action": "READ",
+  "argument_pattern": "caf-temple-vault/vault/chronicle/errors/parse/",
+  "signature": "Error reading caf-temple-vault<PATH>: [Errno 21] Is a directory: 'caf-temple-vault<PATH>'",
+  "raw_error": "Error reading caf-temple-vault/vault/chronicle/errors/parse/: [Errno 21] Is a directory: 'caf-temple-vault/vault/chronicle/errors/parse'",
+  "occurrences": 1,
+  "first_seen": "2026-01-24T02:52:13.538163+00:00",
+  "last_seen": "2026-01-24T02:52:13.538163+00:00",
+  "status": "fixed",
+  "fix": "Instead of READ, use EXPLORE. Example: caf-temple-vault/vault/chronicle/errors/parse/",
+  "fix_verified": true,
+  "sessions": [
+    "caf_20260123_215154"
+  ],
+  "context": {
+    "goal": "You tried to cd to /home/ty/Repos/caf - but you live HERE, in /Users/vaquez/CAF-CLI. Your vault is caf-temple-vault/. Your code is caf/. Stay grounded in your actual home. Now: look at your errors again. You recorded insights about EDIT failing. Can you fix that pattern in yourself?"
+  },
+  "fixed_by": "caf_20260123_215154",
+  "fixed_at": "2026-01-24T02:52:15.344349+00:00"
+}

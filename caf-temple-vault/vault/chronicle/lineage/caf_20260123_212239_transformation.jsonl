@@ -1,0 +1,1 @@
+{"type": "transformation", "transformation_id": "trans_1a2b619d", "session_id": "caf_20260123_212239", "what_changed": "Multi-turn execution: FAILURE", "why": "EDITCODE:caf/cli.py:Add a ping subparser after status and a handler that prints pong", "intensity": 0.5, "timestamp": "2026-01-24T02:22:46.698257+00:00"}

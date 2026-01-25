@@ -1,0 +1,21 @@
+{
+  "fingerprint": "a729a3539548",
+  "category": "unknown",
+  "description": "SELF on read failed: File not found: memory.py:1-50. Use SELF:list to see availab",
+  "action": "SELF",
+  "argument_pattern": "read:memory.py:1-50",
+  "signature": "File not found: memory.py:1-50. Use SELF:list to see available files.",
+  "raw_error": "File not found: memory.py:1-50. Use SELF:list to see available files.",
+  "occurrences": 1,
+  "first_seen": "2026-01-24T21:38:31.272241+00:00",
+  "last_seen": "2026-01-24T21:38:31.272241+00:00",
+  "status": "open",
+  "fix": null,
+  "fix_verified": false,
+  "sessions": [
+    "caf_20260124_163746"
+  ],
+  "context": {
+    "goal": "You can now modify yourself. You noted these improvements:\n\n1. _cache reference before definition (code smell)\n2. Action history needs timestamps\n3. Want rollback mechanism for self-modifications\n\nPick ONE improvement and implement it using SELF:edit.\n\nBe surgical - make a small, safe change. Test your change by using SELF:read to verify it looks correct.\n\nThen DONE."
+  }
+}

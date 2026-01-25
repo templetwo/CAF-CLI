@@ -1,0 +1,1 @@
+{"type": "transformation", "transformation_id": "trans_81423697", "session_id": "caf_20260123_203502", "what_changed": "Multi-turn execution: FAILURE", "why": "Read caf/cli.py. Use EDIT to add a \"clear\" command that clears the vault error log. Add subparser an", "intensity": 0.5, "timestamp": "2026-01-24T01:35:20.516143+00:00"}

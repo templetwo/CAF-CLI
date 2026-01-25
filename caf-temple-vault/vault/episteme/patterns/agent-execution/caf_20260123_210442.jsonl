@@ -1,0 +1,1 @@
+{"type": "insight", "insight_id": "ins_e3b33862", "session_id": "caf_20260123_210442", "domain": "agent-execution", "content": "Completed: Improve yourself: bump your version to 2.3.0.\n\nREAD caf/__init__.py, then use ED", "context": "Actions: READ, EDIT", "intensity": 0.6, "builds_on": [], "timestamp": "2026-01-24T02:04:46.779527+00:00"}

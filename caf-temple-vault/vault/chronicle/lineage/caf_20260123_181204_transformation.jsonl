@@ -1,0 +1,1 @@
+{"type": "transformation", "transformation_id": "trans_7acd9977", "session_id": "caf_20260123_181204", "what_changed": "Executed goal with FAILURE", "why": "Write 'test' to /usr/local/test-permission.txt", "intensity": 0.5, "timestamp": "2026-01-23T23:12:10.237515+00:00"}

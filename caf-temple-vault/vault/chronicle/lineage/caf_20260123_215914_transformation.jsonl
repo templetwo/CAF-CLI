@@ -1,0 +1,1 @@
+{"type": "transformation", "transformation_id": "trans_d968ecbb", "session_id": "caf_20260123_215914", "what_changed": "Multi-turn execution: SUCCESS", "why": "You keep looking for caf/core even though your map explicitly says it doesn't exist. You've seen 'Pa", "intensity": 0.5, "timestamp": "2026-01-24T02:59:33.929394+00:00"}

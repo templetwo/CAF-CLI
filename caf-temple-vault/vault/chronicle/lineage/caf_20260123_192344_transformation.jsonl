@@ -1,0 +1,1 @@
+{"type": "transformation", "transformation_id": "trans_e1244deb", "session_id": "caf_20260123_192344", "what_changed": "Multi-turn execution: SUCCESS", "why": "SHELL: grep -A 15 'ACTIONS = {' caf/actions.py. Then NOTE the list of actions. Then DONE.", "intensity": 0.5, "timestamp": "2026-01-24T00:23:50.022198+00:00"}

@@ -1,0 +1,23 @@
+{
+  "fingerprint": "1d352492c999",
+  "category": "file",
+  "description": "READ on caf-temple-vault/vault/chronic failed: Error reading caf-temple-vault<PATH>: [Errno 21] Is a direct",
+  "action": "READ",
+  "argument_pattern": "caf-temple-vault/vault/chronicle/errors/",
+  "signature": "Error reading caf-temple-vault<PATH>: [Errno 21] Is a directory: 'caf-temple-vault<PATH>'",
+  "raw_error": "Error reading caf-temple-vault/vault/chronicle/errors/: [Errno 21] Is a directory: 'caf-temple-vault/vault/chronicle/errors'",
+  "occurrences": 3,
+  "first_seen": "2026-01-24T02:51:02.209552+00:00",
+  "last_seen": "2026-01-24T02:52:09.562226+00:00",
+  "status": "fixed",
+  "fix": "Instead of READ, use EXPLORE. Example: caf-temple-vault/vault/chronicle/errors/",
+  "fix_verified": true,
+  "sessions": [
+    "caf_20260123_215052"
+  ],
+  "context": {
+    "goal": "You have 20+ unfixed errors in vault/chronicle/errors/. Read a few of them. Look for patterns. What keeps going wrong? If you see a fix, use the error tracker to record it - and watch the bridge transform it into learning."
+  },
+  "fixed_by": "caf_20260123_215052",
+  "fixed_at": "2026-01-24T02:51:03.969605+00:00"
+}

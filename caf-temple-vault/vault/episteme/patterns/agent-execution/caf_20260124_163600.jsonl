@@ -1,0 +1,1 @@
+{"type": "insight", "insight_id": "ins_f917b674", "session_id": "caf_20260124_163600", "domain": "agent-execution", "content": "Completed: You have been granted SELF-MODIFICATION capability.\n\nNew action: SELF\n- SELF:lis", "context": "Actions: THINK, SELF, SELF, NOTE, THINK", "intensity": 0.6, "builds_on": [], "timestamp": "2026-01-24T21:36:27.411089+00:00"}

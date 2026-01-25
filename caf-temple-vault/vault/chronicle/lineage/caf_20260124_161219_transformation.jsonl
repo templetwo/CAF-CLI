@@ -1,0 +1,1 @@
+{"type": "transformation", "transformation_id": "trans_4b7e5d18", "session_id": "caf_20260124_161219", "what_changed": "Multi-turn execution: SUCCESS", "why": "You must perform THREE actions:\n1. RESUME:test_feature\n2. STEP:done  \n3. STEP:status\n\nDo all three b", "intensity": 0.5, "timestamp": "2026-01-24T21:12:30.327205+00:00"}

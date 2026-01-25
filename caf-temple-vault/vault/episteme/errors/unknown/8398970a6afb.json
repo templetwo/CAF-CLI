@@ -1,0 +1,21 @@
+{
+  "fingerprint": "8398970a6afb",
+  "category": "unknown",
+  "action": "EXPLORE",
+  "argument_pattern": "caf/templates",
+  "signature": "Path not found: caf<PATH>",
+  "raw_error": "Path not found: caf/templates",
+  "occurrences": 2,
+  "first_seen": "2026-01-24T01:35:16.915921+00:00",
+  "last_seen": "2026-01-24T02:01:11.761779+00:00",
+  "status": "open",
+  "fix": null,
+  "fix_verified": false,
+  "sessions": [
+    "caf_20260123_203502",
+    "caf_20260123_210103"
+  ],
+  "context": {
+    "goal": "Read caf/cli.py. Use EDIT to add a \"clear\" command that clears the vault error log. Add subparser and handler."
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "fingerprint": "e34d8326cb8b",
+  "category": "file",
+  "description": "READ on caf-temple-vault/temple_vault/ failed: File not found: caf-temple-vault<PATH>",
+  "action": "READ",
+  "argument_pattern": "caf-temple-vault/temple_vault/core/learnings.py",
+  "signature": "File not found: caf-temple-vault<PATH>",
+  "raw_error": "File not found: caf-temple-vault/temple_vault/core/learnings.py",
+  "occurrences": 1,
+  "first_seen": "2026-01-24T02:43:08.512429+00:00",
+  "last_seen": "2026-01-24T02:43:08.512429+00:00",
+  "status": "open",
+  "fix": null,
+  "fix_verified": false,
+  "sessions": [
+    "caf_20260123_214242"
+  ],
+  "context": {
+    "goal": "You want to build the bridge between errors and learnings.\n\nExplore. Understand. Find a way.\n\nWhen errors are fixed, they should become learnings.\nThe wisdom should be preserved in the vault.\n\nTake your time. THINK. REFLECT. Find your path."
+  }
+}

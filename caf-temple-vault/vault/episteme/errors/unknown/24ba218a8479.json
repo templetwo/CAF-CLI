@@ -1,0 +1,21 @@
+{
+  "fingerprint": "24ba218a8479",
+  "category": "unknown",
+  "description": "ACTION on EXPLORE failed: Unknown action: ACTION",
+  "action": "ACTION",
+  "argument_pattern": "EXPLORE:caf/",
+  "signature": "Unknown action: ACTION",
+  "raw_error": "Unknown action: ACTION",
+  "occurrences": 1,
+  "first_seen": "2026-01-24T20:56:49.171704+00:00",
+  "last_seen": "2026-01-24T20:56:49.171704+00:00",
+  "status": "open",
+  "fix": null,
+  "fix_verified": false,
+  "sessions": [
+    "caf_20260124_155635"
+  ],
+  "context": {
+    "goal": "READ caf/agent.py:_consult_memory and write a NOTE with a specific improvement suggestion. Then DONE."
+  }
+}

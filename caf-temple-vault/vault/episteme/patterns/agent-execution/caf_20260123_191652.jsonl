@@ -1,0 +1,1 @@
+{"type": "insight", "insight_id": "ins_7abb4ee7", "session_id": "caf_20260123_191652", "domain": "agent-execution", "content": "Completed: Find Python files in caf-temple-vault/temple_vault/core, read one, explain what ", "context": "Actions: EXPLORE, READ, NOTE", "intensity": 0.6, "builds_on": [], "timestamp": "2026-01-24T00:17:00.006691+00:00"}

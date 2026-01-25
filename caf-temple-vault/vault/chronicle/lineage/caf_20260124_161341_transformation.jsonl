@@ -1,0 +1,1 @@
+{"type": "transformation", "transformation_id": "trans_937a59bd", "session_id": "caf_20260124_161341", "what_changed": "Multi-turn execution: SUCCESS", "why": "You requested persistent planning. Your architect implemented it:\n\nPLAN:name|goal|step1|step2|... \u2014 ", "intensity": 0.5, "timestamp": "2026-01-24T21:13:52.692512+00:00"}

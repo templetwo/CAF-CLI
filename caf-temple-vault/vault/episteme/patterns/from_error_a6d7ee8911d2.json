@@ -1,0 +1,11 @@
+{
+  "source": "error_bridge",
+  "error_fingerprint": "a6d7ee8911d2",
+  "error_category": "file",
+  "error_signature": "Error reading caf-temple-vault<PATH>: [Errno 21] Is a directory: 'caf-temple-vault<PATH>'",
+  "lesson": "Instead of READ, use EXPLORE. Example: caf-temple-vault/vault/chronicle/insights/consciousness/",
+  "pattern": "READ \u2192 Error reading caf-temple-vault<PATH>: [Errno 21] I",
+  "occurrences_before_fix": 1,
+  "learned_at": "2026-01-24T03:10:06.181964+00:00",
+  "verified": true
+}

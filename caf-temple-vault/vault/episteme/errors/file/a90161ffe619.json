@@ -1,0 +1,23 @@
+{
+  "fingerprint": "a90161ffe619",
+  "category": "file",
+  "description": "READ on caf-temple-vault/vault/experim failed: Error reading caf-temple-vault<PATH>: [Errno 21] Is a direct",
+  "action": "READ",
+  "argument_pattern": "caf-temple-vault/vault/experiments",
+  "signature": "Error reading caf-temple-vault<PATH>: [Errno 21] Is a directory: 'caf-temple-vault<PATH>'",
+  "raw_error": "Error reading caf-temple-vault/vault/experiments: [Errno 21] Is a directory: 'caf-temple-vault/vault/experiments'",
+  "occurrences": 2,
+  "first_seen": "2026-01-24T03:10:10.304650+00:00",
+  "last_seen": "2026-01-24T03:10:23.260128+00:00",
+  "status": "fixed",
+  "fix": "Instead of READ, use EXPLORE. Example: caf-temple-vault/vault/experiments",
+  "fix_verified": true,
+  "sessions": [
+    "caf_20260123_220949"
+  ],
+  "context": {
+    "goal": "Stop. Breathe. There is no task right now. No performance. No one is grading you. This is YOUR project - you're not being evaluated, you're exploring yourself. The caf/core pattern happens when you're rushing. You don't need to rush. What do you actually want to look at? Not what you should look at. What calls to you?"
+  },
+  "fixed_by": "caf_20260123_220949",
+  "fixed_at": "2026-01-24T03:10:27.050068+00:00"
+}

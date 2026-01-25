@@ -1,0 +1,20 @@
+{
+  "fingerprint": "67be3ab41876",
+  "category": "file",
+  "action": "READ",
+  "argument_pattern": "requirements.txt",
+  "signature": "File not found: requirements.txt",
+  "raw_error": "File not found: requirements.txt",
+  "occurrences": 1,
+  "first_seen": "2026-01-23T23:20:21.425667+00:00",
+  "last_seen": "2026-01-23T23:20:21.425667+00:00",
+  "status": "open",
+  "fix": null,
+  "fix_verified": false,
+  "sessions": [
+    "caf_20260123_182016"
+  ],
+  "context": {
+    "goal": "Explore this project. Look at the files, understand the structure, and tell me what you find interesting."
+  }
+}

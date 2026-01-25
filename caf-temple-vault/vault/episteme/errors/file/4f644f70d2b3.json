@@ -1,0 +1,22 @@
+{
+  "fingerprint": "4f644f70d2b3",
+  "category": "file",
+  "description": "READ on caf/core.py failed: File not found: caf<PATH>",
+  "action": "READ",
+  "argument_pattern": "caf/core.py",
+  "signature": "File not found: caf<PATH>",
+  "raw_error": "File not found: caf/core.py",
+  "occurrences": 8,
+  "first_seen": "2026-01-24T02:27:45.053771+00:00",
+  "last_seen": "2026-01-24T02:53:25.488882+00:00",
+  "status": "open",
+  "fix": null,
+  "fix_verified": false,
+  "sessions": [
+    "caf_20260123_212734",
+    "caf_20260123_215242"
+  ],
+  "context": {
+    "goal": "Self-improvement: Add a ping command to yourself.\n\nRequirements:\n1. READ caf/cli.py first to understand the structure\n2. Add a ping subparser (like the status subparser)  \n3. Add a ping handler (like the status handler)\n4. The handler prints \"pong\"\n\nUse EDIT:path>>>old_text>>>new_text format for changes."
+  }
+}

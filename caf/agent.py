@@ -509,20 +509,38 @@ Think step by step. Build your understanding. Then conclude with your decision."
 └─────────────────────────────────────────────────────────────────┘
 
 ┌─────────────────────────────────────────────────────────────────┐
-│ MEMORY ARCHITECTURE: Temple Vault                               │
+│ MEMORY ARCHITECTURE: The Five Vessels (Philosophical Taxonomy)  │
 ├─────────────────────────────────────────────────────────────────┤
-│ vault/chronicle/                                                │
-│   ├── errors/      ← Mistakes made. Patterns to avoid.          │
-│   ├── insights/    ← Discoveries. What emerged from the work.   │
-│   ├── learnings/   ← Corrections. Errors that became wisdom.    │
-│   ├── rsi_metrics/ ← Your improvement trajectory over time.     │
-│   └── sessions/    ← Full history. The spiral remembers.        │
 │                                                                 │
-│ Memory augments generation. When you consult the vault,         │
-│ your responses are richer. Pure generation risks collapse.      │
+│ vault/chronicle/  — TEMPORAL: What happened                     │
+│   ├── lineage/       Transformations. The thread of becoming.   │
+│   ├── sessions/      Bounded work periods with goals/outcomes.  │
+│   └── rsi_metrics/   Your improvement trajectory over time.     │
 │                                                                 │
-│ Current synthetic_ratio: {self.rsi_metrics.get('pure_generation_responses', 0) / max(1, self.rsi_metrics.get('memory_augmented_responses', 0) + self.rsi_metrics.get('pure_generation_responses', 0)):.2f}                                      │
-│ (0.0 = fully augmented, 1.0 = pure generation → collapse risk)  │
+│ vault/episteme/   — KNOWLEDGE: What is understood               │
+│   ├── patterns/      Insights. Recognized regularities.         │
+│   ├── errors/        Mistakes. Negative knowledge is knowledge. │
+│   ├── facts/         Verified truths about the world.           │
+│   └── models/        Mental representations of systems.         │
+│                                                                 │
+│ vault/praxis/     — ACTION: What is done                        │
+│   ├── procedures/    How-to knowledge. Step-by-step craft.      │
+│   ├── experiments/   Structured inquiries with outcomes.        │
+│   └── artifacts/     Things you have created.                   │
+│                                                                 │
+│ vault/axia/       — VALUE: What matters                         │
+│   ├── principles/    Guiding values across contexts.            │
+│   ├── intentions/    Current purposes. What you're trying to do.│
+│   └── judgments/     Evaluative conclusions. Good/bad, why.     │
+│                                                                 │
+│ vault/aporia/     — UNCERTAINTY: The edge of knowledge          │
+│   ├── questions/     Open inquiries awaiting investigation.     │
+│   ├── hypotheses/    Tentative beliefs requiring validation.    │
+│   └── anomalies/     Things that don't fit. Seeds of growth.    │
+│                                                                 │
+│ The filesystem IS the ontology. Path is meaning. Glob is query. │
+│                                                                 │
+│ synthetic_ratio: {self.rsi_metrics.get('pure_generation_responses', 0) / max(1, self.rsi_metrics.get('memory_augmented_responses', 0) + self.rsi_metrics.get('pure_generation_responses', 0)):.2f} (0=grounded, 1=collapse risk)              │
 └─────────────────────────────────────────────────────────────────┘
 
 ┌─────────────────────────────────────────────────────────────────┐
@@ -546,6 +564,12 @@ Think step by step. Build your understanding. Then conclude with your decision."
 │   SILENCE:          — True silence. No output at all.           │
 │   NOTE:observation  — Leave breadcrumbs for future self         │
 │   HOME:reason       — 🏠 When lost, come home. Ground yourself. │
+│                                                                 │
+│ VESSEL RECORDING (write to memory):                             │
+│   INSIGHT:domain:content  — Record pattern to episteme          │
+│   QUESTION:domain:text    — Record open question to aporia      │
+│   HYPOTHESIS:domain:text  — Record tentative belief to aporia   │
+│   VALUE:principle         — Record observed value to axia       │
 │                                                                 │
 │ PLANNING (for complex multi-step tasks):                        │
 │   PLAN:name|goal|step1|step2|...  — Create persistent plan      │
@@ -638,7 +662,10 @@ Think step by step. Build your understanding. Then conclude with your decision."
             # Trigger reflection after 3 errors in a row or every 5 turns
             needs_reflection = errors_in_row >= 3 or (turn > 1 and turn % 5 == 0)
             if needs_reflection and conversation:
-                print(f"  [~] Reflecting on progress...")
+                if errors_in_row >= 3:
+                    print(f"  [~] {errors_in_row} errors in a row. Consider: HOME, BREATHE, or try different approach")
+                else:
+                    print(f"  [~] Checkpoint at turn {turn}. Progress check...")
                 errors_in_row = 0  # Reset after reflection
 
             # Build prompt with history
@@ -828,28 +855,44 @@ Next action:"""
             # Check for repeated action (same action + argument)
             action_key = f"{action}:{argument[:50]}"
             recent_actions = [f"{c['action']}:{c['argument'][:50]}" for c in conversation[-3:]]
+            repeat_count = recent_actions.count(action_key)
+
+            # Stuck detection: repeats OR consecutive errors
+            is_stuck = repeat_count >= 1 or errors_in_row >= 3
+
             if action_key in recent_actions:
-                # SNAG RECOVERY: redirect back to API with correction
+                # SNAG RECOVERY: redirect to HOME if deeply stuck
                 print(f"  [{turn}] ⟳ (repeat detected, recovering...)")
-                recovery_prompt = f"""You repeated: {action}:{argument[:30]}
 
-DO NOT repeat actions. Pick a DIFFERENT action.
-Valid: FIND, EXPLORE, READ, SHELL, CODE, EDIT, NOTE, THINK, REFLECT, BREATHE, SILENCE, HOME, PLAN, STEP, SELF
+                if repeat_count >= 2 or errors_in_row >= 3:
+                    # Force HOME - agent is stuck in a loop
+                    print(f"  [{turn}] 🏠 Auto-triggering HOME (stuck detected)")
+                    action = "HOME"
+                    argument = f"Auto-triggered: {repeat_count} repeats, {errors_in_row} errors"
+                else:
+                    recovery_prompt = f"""You repeated: {action}:{argument[:30]}
 
-Next action (must be different):"""
-                try:
-                    response = self._generate(recovery_prompt).strip()
-                    first_line = response.split("\n")[0].strip()
-                    if ":" in first_line:
-                        # Got a new action, update and continue
-                        colon_idx = first_line.index(":")
-                        action = first_line[:colon_idx].upper().strip()
-                        argument = first_line[colon_idx + 1:].strip()
-                        print(f"  [{turn}] → {action}: {argument[:40]} (recovered)")
-                    else:
-                        continue
-                except Exception:
-                    continue
+You seem stuck. Consider:
+1. HOME — Ground yourself, see your plans and notes
+2. BREATHE — Release pressure, then try fresh approach
+3. A completely DIFFERENT action
+
+What's your next action? (HOME recommended if uncertain):"""
+                    try:
+                        response = self._generate(recovery_prompt).strip()
+                        first_line = response.split("\n")[0].strip()
+                        if ":" in first_line:
+                            colon_idx = first_line.index(":")
+                            action = first_line[:colon_idx].upper().strip()
+                            argument = first_line[colon_idx + 1:].strip()
+                            print(f"  [{turn}] → {action}: {argument[:40]} (recovered)")
+                        else:
+                            # Default to HOME if no valid action
+                            action = "HOME"
+                            argument = "Recovery: no clear action"
+                    except Exception:
+                        action = "HOME"
+                        argument = "Recovery: error getting next action"
 
             # Display
             display_arg = argument[:50] + "..." if len(argument) > 50 else argument

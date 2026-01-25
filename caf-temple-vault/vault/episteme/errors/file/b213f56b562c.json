@@ -1,0 +1,20 @@
+{
+  "fingerprint": "b213f56b562c",
+  "category": "file",
+  "action": "READ",
+  "argument_pattern": "./caf-temple-vault(01:23:2026)/PRINCIPLES.md",
+  "signature": "File not found: .<PATH>(01:23:2026)<PATH>",
+  "raw_error": "File not found: ./caf-temple-vault(01:23:2026)/PRINCIPLES.md",
+  "occurrences": 1,
+  "first_seen": "2026-01-23T23:21:57.590559+00:00",
+  "last_seen": "2026-01-23T23:21:57.590559+00:00",
+  "status": "open",
+  "fix": null,
+  "fix_verified": false,
+  "sessions": [
+    "caf_20260123_182148"
+  ],
+  "context": {
+    "goal": "Continue exploring './caf-temple-vault(01:23:2026)/'. Read any files that look philosophical or interesting. Check the vault/chronicle folder."
+  }
+}

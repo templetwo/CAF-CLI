@@ -1,0 +1,20 @@
+{
+  "fingerprint": "fc0fdbe1e11a",
+  "category": "unknown",
+  "action": "YOU CAN CHOOSE ONE OF THE AVAILABLE ACTIONS, OR SPECIFY A DIFFERENT COMMAND",
+  "argument_pattern": "",
+  "signature": "Unknown action: YOU CAN CHOOSE ONE OF THE AVAILABLE ACTIONS, OR SPECIFY A DIFFERENT COMMAND",
+  "raw_error": "Unknown action: YOU CAN CHOOSE ONE OF THE AVAILABLE ACTIONS, OR SPECIFY A DIFFERENT COMMAND",
+  "occurrences": 1,
+  "first_seen": "2026-01-23T23:49:31.405184+00:00",
+  "last_seen": "2026-01-23T23:49:31.405184+00:00",
+  "status": "open",
+  "fix": null,
+  "fix_verified": false,
+  "sessions": [
+    "caf_20260123_184905"
+  ],
+  "context": {
+    "goal": "Find Python files in caf-temple-vault/temple_vault/core, read one, tell me what it does"
+  }
+}

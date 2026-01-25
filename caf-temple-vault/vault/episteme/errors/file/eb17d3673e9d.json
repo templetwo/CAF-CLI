@@ -1,0 +1,22 @@
+{
+  "fingerprint": "eb17d3673e9d",
+  "category": "file",
+  "description": "READ on caf-temple-vault/temple_vault/ failed: File not found: caf-temple-vault<PATH>",
+  "action": "READ",
+  "argument_pattern": "caf-temple-vault/temple_vault/core.py",
+  "signature": "File not found: caf-temple-vault<PATH>",
+  "raw_error": "File not found: caf-temple-vault/temple_vault/core.py",
+  "occurrences": 3,
+  "first_seen": "2026-01-24T02:40:45.252040+00:00",
+  "last_seen": "2026-01-24T02:42:24.093476+00:00",
+  "status": "open",
+  "fix": null,
+  "fix_verified": false,
+  "sessions": [
+    "caf_20260123_214156",
+    "caf_20260123_214038"
+  ],
+  "context": {
+    "goal": "BUILD THE BRIDGE: Transform errors into learnings.\n\nYou identified this need: \"The bridge between errors and learnings feels incomplete. \nWisdom comes from transforming one into the other.\"\n\nYour task:\n1. READ caf-temple-vault/temple_vault/core/errors.py - find the record_fix method\n2. Understand how fixes are recorded\n3. Create a bridge: when a fix is recorded, also create a learning in chronicle/learnings/corrections/\n4. The learning should capture: what_happened, why_it_failed, how_to_avoid\n\nUse EDITCODE or EDIT to implement this. You are building yourself."
+  }
+}

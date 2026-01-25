@@ -1,0 +1,1 @@
+{"type": "transformation", "transformation_id": "trans_e332a488", "session_id": "caf_20260123_215154", "what_changed": "Multi-turn execution: FAILURE", "why": "You tried to cd to /home/ty/Repos/caf - but you live HERE, in /Users/vaquez/CAF-CLI. Your vault is c", "intensity": 0.5, "timestamp": "2026-01-24T02:52:23.023320+00:00"}

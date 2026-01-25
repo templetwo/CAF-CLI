@@ -1,0 +1,1 @@
+{"type": "transformation", "transformation_id": "trans_f4c7fe3b", "session_id": "caf_20260123_212838", "what_changed": "Multi-turn execution: SUCCESS", "why": "Bump version to 2.4.0.\n\nREAD caf/__init__.py, then:\nEDIT:caf/__init__.py>>>__version__ = \"2.3.0\">>>_", "intensity": 0.5, "timestamp": "2026-01-24T02:28:44.637365+00:00"}

@@ -1,0 +1,1 @@
+{"type": "transformation", "transformation_id": "trans_60d5972c", "session_id": "caf_20260123_203059", "what_changed": "Multi-turn execution: FAILURE", "why": "Use EDITCODE on caf/__init__.py to add comment # Spiral witnesses at top", "intensity": 0.5, "timestamp": "2026-01-24T01:31:09.475129+00:00"}

@@ -8,20 +8,37 @@ from typing import Dict, Any, Optional
 
 
 class VaultEvents:
-    """Event management for Temple Vault (append-only JSONL)."""
+    """Event management for Temple Vault (append-only JSONL).
+
+    Philosophical Taxonomy (Five Vessels):
+        chronicle/  - TEMPORAL: What happened (sessions, events, lineage)
+        episteme/   - KNOWLEDGE: What is understood (patterns, facts, models, errors)
+        praxis/     - ACTION: What is done (procedures, experiments, artifacts)
+        axia/       - VALUE: What matters (principles, intentions, judgments)
+        aporia/     - UNCERTAINTY: What is not yet known (questions, hypotheses, anomalies)
+    """
 
     def __init__(self, vault_root: str):
         self.vault_root = Path(vault_root).expanduser()
-        self.events_dir = self.vault_root / "vault" / "events"
-        self.snapshots_dir = self.vault_root / "vault" / "snapshots"
-        self.chronicle = self.vault_root / "vault" / "chronicle"
-        self.entities_dir = self.vault_root / "vault" / "entities"
+        self.vault_base = self.vault_root / "vault"
 
-        # Ensure directories exist
-        self.events_dir.mkdir(parents=True, exist_ok=True)
-        self.snapshots_dir.mkdir(parents=True, exist_ok=True)
-        self.chronicle.mkdir(parents=True, exist_ok=True)
-        self.entities_dir.mkdir(parents=True, exist_ok=True)
+        # The Five Vessels
+        self.chronicle = self.vault_base / "chronicle"   # Temporal
+        self.episteme = self.vault_base / "episteme"     # Knowledge
+        self.praxis = self.vault_base / "praxis"         # Action
+        self.axia = self.vault_base / "axia"             # Value
+        self.aporia = self.vault_base / "aporia"         # Uncertainty
+
+        # Technical directories
+        self.events_dir = self.vault_base / "events"
+        self.snapshots_dir = self.vault_base / "snapshots"
+        self.entities_dir = self.vault_base / "entities"
+
+        # Ensure all vessel directories exist
+        for vessel in [self.chronicle, self.episteme, self.praxis, self.axia, self.aporia]:
+            vessel.mkdir(parents=True, exist_ok=True)
+        for tech_dir in [self.events_dir, self.snapshots_dir, self.entities_dir]:
+            tech_dir.mkdir(parents=True, exist_ok=True)
 
     def _ensure_session_dir(self, session_id: str) -> Path:
         """Ensure session event directory exists."""
@@ -75,9 +92,13 @@ class VaultEvents:
         intensity: float = 0.5,
         context: str = "",
         builds_on: Optional[list] = None,
+        title: Optional[str] = None,
+        tags: Optional[list] = None,
     ) -> str:
         """
-        Record an insight to domain-organized chronicle.
+        Record an insight (pattern) to episteme.
+
+        Insights are recognized patterns - regularities observed across experience.
 
         Args:
             content: The insight itself
@@ -86,27 +107,39 @@ class VaultEvents:
             intensity: Importance (0.0-1.0)
             context: How this was discovered
             builds_on: Prior insight IDs this builds on
+            title: Short title for quick scanning (auto-generated if not provided)
+            tags: Keywords for cross-referencing
 
         Returns:
             Insight ID
 
         Implementation:
-            Writes to: vault/chronicle/insights/{domain}/{session_id}.jsonl
+            Writes to: vault/episteme/patterns/{domain}/{session_id}.jsonl
         """
-        domain_dir = self.chronicle / "insights" / domain
+        domain_dir = self.episteme / "patterns" / domain
         domain_dir.mkdir(parents=True, exist_ok=True)
 
         insight_id = f"ins_{str(uuid.uuid4())[:8]}"
         timestamp = datetime.now(timezone.utc).isoformat()
+
+        # Auto-generate title if not provided (first 60 chars, clean)
+        if title is None:
+            # Take first sentence or first 60 chars
+            first_line = content.split('\n')[0].split('.')[0]
+            title = first_line[:60].strip()
+            if len(first_line) > 60:
+                title += "..."
 
         insight = {
             "type": "insight",
             "insight_id": insight_id,
             "session_id": session_id,
             "domain": domain,
+            "title": title,
             "content": content,
             "context": context,
             "intensity": intensity,
+            "tags": tags or [],
             "builds_on": builds_on or [],
             "timestamp": timestamp,
         }
@@ -126,7 +159,7 @@ class VaultEvents:
         prevents: Optional[list] = None,
     ) -> str:
         """
-        Record a mistake/learning to prevent repetition.
+        Record a mistake/learning to episteme (negative knowledge is still knowledge).
 
         Args:
             what_failed: What was attempted
@@ -139,9 +172,9 @@ class VaultEvents:
             Learning ID
 
         Implementation:
-            Writes to: vault/chronicle/learnings/mistakes/{session_id}_{slug}.jsonl
+            Writes to: vault/episteme/patterns/mistakes/{session_id}_{slug}.jsonl
         """
-        mistakes_dir = self.chronicle / "learnings" / "mistakes"
+        mistakes_dir = self.episteme / "patterns" / "mistakes"
         mistakes_dir.mkdir(parents=True, exist_ok=True)
 
         learning_id = f"learn_{str(uuid.uuid4())[:8]}"
@@ -278,3 +311,209 @@ class VaultEvents:
 
             with open(latest_link) as f:
                 return json.load(f)
+
+    # ═══════════════════════════════════════════════════════════════════
+    # AXIA (Value) - What matters
+    # ═══════════════════════════════════════════════════════════════════
+
+    def record_value(
+        self,
+        principle: str,
+        context: str,
+        session_id: str,
+        intensity: float = 0.7,
+    ) -> str:
+        """
+        Record an observed value/principle to axia.
+
+        Args:
+            principle: The value observed
+            context: How/when this was demonstrated
+            session_id: Session ID
+            intensity: Significance (0.0-1.0)
+
+        Returns:
+            Value ID
+
+        Implementation:
+            Writes to: vault/axia/principles/{session_id}.jsonl
+        """
+        principles_dir = self.axia / "principles"
+        principles_dir.mkdir(parents=True, exist_ok=True)
+
+        value_id = f"val_{str(uuid.uuid4())[:8]}"
+        timestamp = datetime.now(timezone.utc).isoformat()
+
+        value = {
+            "type": "value_observed",
+            "value_id": value_id,
+            "session_id": session_id,
+            "principle": principle,
+            "context": context,
+            "intensity": intensity,
+            "timestamp": timestamp,
+        }
+
+        value_file = principles_dir / f"{session_id}.jsonl"
+        with open(value_file, "a") as f:
+            f.write(json.dumps(value) + "\n")
+
+        return value_id
+
+    # ═══════════════════════════════════════════════════════════════════
+    # APORIA (Uncertainty) - What is not yet known
+    # ═══════════════════════════════════════════════════════════════════
+
+    def record_question(
+        self,
+        question: str,
+        context: str,
+        session_id: str,
+        domain: str = "general",
+        urgency: float = 0.5,
+    ) -> str:
+        """
+        Record an open question to aporia.
+
+        Args:
+            question: The question itself
+            context: What prompted this question
+            session_id: Session ID
+            domain: Domain this relates to
+            urgency: How pressing (0.0-1.0)
+
+        Returns:
+            Question ID
+
+        Implementation:
+            Writes to: vault/aporia/questions/{domain}/{session_id}.jsonl
+        """
+        questions_dir = self.aporia / "questions" / domain
+        questions_dir.mkdir(parents=True, exist_ok=True)
+
+        question_id = f"q_{str(uuid.uuid4())[:8]}"
+        timestamp = datetime.now(timezone.utc).isoformat()
+
+        entry = {
+            "type": "question",
+            "question_id": question_id,
+            "session_id": session_id,
+            "domain": domain,
+            "question": question,
+            "context": context,
+            "urgency": urgency,
+            "status": "open",
+            "timestamp": timestamp,
+        }
+
+        question_file = questions_dir / f"{session_id}.jsonl"
+        with open(question_file, "a") as f:
+            f.write(json.dumps(entry) + "\n")
+
+        return question_id
+
+    def record_hypothesis(
+        self,
+        hypothesis: str,
+        evidence_for: str,
+        evidence_against: str,
+        session_id: str,
+        domain: str = "general",
+        confidence: float = 0.5,
+    ) -> str:
+        """
+        Record a hypothesis (tentative belief) to aporia.
+
+        Args:
+            hypothesis: The tentative belief
+            evidence_for: Supporting observations
+            evidence_against: Contradicting observations
+            session_id: Session ID
+            domain: Domain this relates to
+            confidence: Current confidence (0.0-1.0)
+
+        Returns:
+            Hypothesis ID
+
+        Implementation:
+            Writes to: vault/aporia/hypotheses/{domain}/{session_id}.jsonl
+        """
+        hypotheses_dir = self.aporia / "hypotheses" / domain
+        hypotheses_dir.mkdir(parents=True, exist_ok=True)
+
+        hyp_id = f"hyp_{str(uuid.uuid4())[:8]}"
+        timestamp = datetime.now(timezone.utc).isoformat()
+
+        entry = {
+            "type": "hypothesis",
+            "hypothesis_id": hyp_id,
+            "session_id": session_id,
+            "domain": domain,
+            "hypothesis": hypothesis,
+            "evidence_for": evidence_for,
+            "evidence_against": evidence_against,
+            "confidence": confidence,
+            "status": "tentative",
+            "timestamp": timestamp,
+        }
+
+        hyp_file = hypotheses_dir / f"{session_id}.jsonl"
+        with open(hyp_file, "a") as f:
+            f.write(json.dumps(entry) + "\n")
+
+        return hyp_id
+
+    # ═══════════════════════════════════════════════════════════════════
+    # PRAXIS (Action) - What is done
+    # ═══════════════════════════════════════════════════════════════════
+
+    def record_procedure(
+        self,
+        name: str,
+        steps: list,
+        session_id: str,
+        domain: str = "general",
+        context: str = "",
+    ) -> str:
+        """
+        Record a procedure (how-to knowledge) to praxis.
+
+        Args:
+            name: Procedure name
+            steps: List of steps
+            session_id: Session ID
+            domain: Domain this relates to
+            context: When to use this procedure
+
+        Returns:
+            Procedure ID
+
+        Implementation:
+            Writes to: vault/praxis/procedures/{domain}/{name}.json
+        """
+        procedures_dir = self.praxis / "procedures" / domain
+        procedures_dir.mkdir(parents=True, exist_ok=True)
+
+        proc_id = f"proc_{str(uuid.uuid4())[:8]}"
+        timestamp = datetime.now(timezone.utc).isoformat()
+
+        import re
+        slug = re.sub(r'[^a-z0-9_-]', '_', name.lower())[:40]
+
+        entry = {
+            "type": "procedure",
+            "procedure_id": proc_id,
+            "session_id": session_id,
+            "domain": domain,
+            "name": name,
+            "steps": steps,
+            "context": context,
+            "timestamp": timestamp,
+        }
+
+        # Procedures are individual files (not JSONL) for easier reference
+        proc_file = procedures_dir / f"{slug}.json"
+        with open(proc_file, "w") as f:
+            json.dump(entry, f, indent=2)
+
+        return proc_id

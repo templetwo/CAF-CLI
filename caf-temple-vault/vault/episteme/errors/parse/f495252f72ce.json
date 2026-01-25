@@ -1,0 +1,21 @@
+{
+  "fingerprint": "f495252f72ce",
+  "category": "parse",
+  "description": "EDIT on caf/agent.py failed: Ambiguous: 'import json...' appears 3 times. Be more specifi",
+  "action": "EDIT",
+  "argument_pattern": "caf/agent.py>>>import json>>>import json",
+  "signature": "Ambiguous: 'import json...' appears 3 times. Be more specific.",
+  "raw_error": "Ambiguous: 'import json...' appears 3 times. Be more specific.",
+  "occurrences": 1,
+  "first_seen": "2026-01-24T02:03:04.127062+00:00",
+  "last_seen": "2026-01-24T02:03:04.127062+00:00",
+  "status": "open",
+  "fix": null,
+  "fix_verified": false,
+  "sessions": [
+    "caf_20260123_210300"
+  ],
+  "context": {
+    "goal": "SELF-IMPROVEMENT: Add timing to yourself.\n\n1. READ caf/agent.py\n2. EDIT to add \"import time\" after \"import json\"\n3. EDIT to add timing in run() method\n4. DONE\n\nRemember EDIT format: EDIT:path>>>old_text>>>new_text"
+  }
+}

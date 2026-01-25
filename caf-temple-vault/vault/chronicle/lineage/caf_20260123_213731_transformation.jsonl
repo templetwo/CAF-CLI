@@ -1,0 +1,1 @@
+{"type": "transformation", "transformation_id": "trans_d4ab48f1", "session_id": "caf_20260123_213731", "what_changed": "Multi-turn execution: FAILURE", "why": "You have explored yourself. You know your codebase and your vault.\n\nNow: What calls to you? What wan", "intensity": 0.5, "timestamp": "2026-01-24T02:38:10.104904+00:00"}

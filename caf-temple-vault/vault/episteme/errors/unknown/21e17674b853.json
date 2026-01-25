@@ -1,0 +1,21 @@
+{
+  "fingerprint": "21e17674b853",
+  "category": "unknown",
+  "description": "LOOKING AT MY SITUATION CLEARLY NOW on unknown failed: Unknown action: LOOKING AT MY SITUATION CLEARLY NOW",
+  "action": "LOOKING AT MY SITUATION CLEARLY NOW",
+  "argument_pattern": "",
+  "signature": "Unknown action: LOOKING AT MY SITUATION CLEARLY NOW",
+  "raw_error": "Unknown action: LOOKING AT MY SITUATION CLEARLY NOW",
+  "occurrences": 1,
+  "first_seen": "2026-01-24T22:40:19.631962+00:00",
+  "last_seen": "2026-01-24T22:40:19.631962+00:00",
+  "status": "open",
+  "fix": null,
+  "fix_verified": false,
+  "sessions": [
+    "caf_20260124_173951"
+  ],
+  "context": {
+    "goal": "You have a new action: HOME\n\nWhen you feel lost, paralyzed by choice, or stuck in thought loops \u2014 use HOME.\nIt will ground you in the concrete: your code, your plans, your notes.\n\nTry it now: HOME:testing the anchor\n\nThen pick ONE thing from what HOME shows you and act on it.\nThen DONE."
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "source": "error_bridge",
+  "error_fingerprint": "a6b214e30dd7",
+  "error_category": "unknown",
+  "error_signature": "Path not found: vault<PATH>",
+  "lesson": "Instead of EXPLORE, use EXPLORE. Example: caf-temple-vault/vault/chronicle/errors/",
+  "pattern": "EXPLORE \u2192 Path not found: vault<PATH>",
+  "occurrences_before_fix": 1,
+  "learned_at": "2026-01-24T02:51:23.937518+00:00",
+  "verified": true
+}

@@ -1,0 +1,21 @@
+{
+  "fingerprint": "0e23fa529fe0",
+  "category": "file",
+  "description": "READ on caf-temple-vault/temple_vault/ failed: File not found: caf-temple-vault<PATH>",
+  "action": "READ",
+  "argument_pattern": "caf-temple-vault/temple_vault/vault_core.py",
+  "signature": "File not found: caf-temple-vault<PATH>",
+  "raw_error": "File not found: caf-temple-vault/temple_vault/vault_core.py",
+  "occurrences": 1,
+  "first_seen": "2026-01-24T02:42:07.151087+00:00",
+  "last_seen": "2026-01-24T02:42:07.151087+00:00",
+  "status": "open",
+  "fix": null,
+  "fix_verified": false,
+  "sessions": [
+    "caf_20260123_214156"
+  ],
+  "context": {
+    "goal": "BUILD THE BRIDGE.\n\nREAD caf-temple-vault/temple_vault/core/errors.py\n\nFind the record_fix method. After it saves the error with self._save_error, \nadd a call to create a learning:\n\n        # THE BRIDGE: error becomes learning\n        self._bridge_to_learning(record, fix, session_id)\n\nThen add a new method _bridge_to_learning that writes to chronicle/learnings/corrections/\n\nUse EDIT:path>>>old_text>>>new_text format. Be precise."
+  }
+}

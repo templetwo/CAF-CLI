@@ -1,0 +1,1 @@
+{"type": "insight", "insight_id": "ins_40bf4f3f", "session_id": "caf_20260124_161141", "domain": "agent-execution", "content": "Completed: Resume the plan 'test_feature' and mark the first step as done.", "context": "Actions: THINK, RESUME", "intensity": 0.6, "builds_on": [], "timestamp": "2026-01-24T21:11:52.673733+00:00"}

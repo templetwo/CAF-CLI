@@ -1,0 +1,1 @@
+{"type": "insight", "insight_id": "ins_4f98b976", "session_id": "caf_20260123_194658", "domain": "agent-execution", "content": "Completed: Use EDIT on caf/cli.py to change 3.0.0 to 4.0.0", "context": "Actions: READ, EDIT", "intensity": 0.6, "builds_on": [], "timestamp": "2026-01-24T00:47:04.087906+00:00"}

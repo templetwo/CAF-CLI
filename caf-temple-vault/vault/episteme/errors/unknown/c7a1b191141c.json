@@ -1,0 +1,20 @@
+{
+  "fingerprint": "c7a1b191141c",
+  "category": "unknown",
+  "action": "TO UNDERSTAND THE CORE PURPOSE AND STRUCTURE OF `TEMPLE_VAULT`, I'LL START BY EXAMINING THE ENTRY POINT AND THEN KEY DATA AND INTERACTION MODULES.\n\n1.  **EXAMINE `$0",
+  "argument_pattern": "caf-temple-vault/temple_vault/core/__init__.py`**: This will give an overview of what's exposed and ",
+  "signature": "Unknown action: TO UNDERSTAND THE CORE PURPOSE AND STRUCTURE OF `TEMPLE_VAULT`, I'LL START BY EXAMINING THE ENTRY POINT AND THEN KEY DATA AND INTERACTION MODULES. 1. **EXAMINE `$0",
+  "raw_error": "Unknown action: TO UNDERSTAND THE CORE PURPOSE AND STRUCTURE OF `TEMPLE_VAULT`, I'LL START BY EXAMINING THE ENTRY POINT AND THEN KEY DATA AND INTERACTION MODULES.\n\n1.  **EXAMINE `$0",
+  "occurrences": 1,
+  "first_seen": "2026-01-23T23:47:45.902279+00:00",
+  "last_seen": "2026-01-23T23:47:45.902279+00:00",
+  "status": "open",
+  "fix": null,
+  "fix_verified": false,
+  "sessions": [
+    "caf_20260123_184740"
+  ],
+  "context": {
+    "goal": "Find Python files in caf-temple-vault/temple_vault/core, read one of them, and tell me what it does"
+  }
+}

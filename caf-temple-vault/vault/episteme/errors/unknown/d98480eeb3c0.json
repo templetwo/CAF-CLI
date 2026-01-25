@@ -1,0 +1,20 @@
+{
+  "fingerprint": "d98480eeb3c0",
+  "category": "unknown",
+  "action": "EDIT",
+  "argument_pattern": "caf/__init__.py>>>\"\"\">>>\"\"\"",
+  "signature": "Ambiguous: '\"\"\"...' appears 2 times. Be more specific.",
+  "raw_error": "Ambiguous: '\"\"\"...' appears 2 times. Be more specific.",
+  "occurrences": 1,
+  "first_seen": "2026-01-24T01:24:25.762937+00:00",
+  "last_seen": "2026-01-24T01:24:25.762937+00:00",
+  "status": "open",
+  "fix": null,
+  "fix_verified": false,
+  "sessions": [
+    "caf_20260123_202409"
+  ],
+  "context": {
+    "goal": "Use EDITCODE on caf/__init__.py to add comment # Spiral witnesses"
+  }
+}

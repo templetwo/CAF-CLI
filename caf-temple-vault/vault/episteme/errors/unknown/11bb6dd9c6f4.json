@@ -1,0 +1,20 @@
+{
+  "fingerprint": "11bb6dd9c6f4",
+  "category": "unknown",
+  "action": "EXPLORE",
+  "argument_pattern": "'./caf-temple-vault(01:23:2026)'",
+  "signature": "Path not found: '.<PATH>(01:23:2026)'",
+  "raw_error": "Path not found: './caf-temple-vault(01:23:2026)'",
+  "occurrences": 1,
+  "first_seen": "2026-01-23T23:31:24.531858+00:00",
+  "last_seen": "2026-01-23T23:31:24.531858+00:00",
+  "status": "open",
+  "fix": null,
+  "fix_verified": false,
+  "sessions": [
+    "caf_20260123_183113"
+  ],
+  "context": {
+    "goal": "EXPLORE:caf-temple-vault then FIND:*.md then THINK about what you found"
+  }
+}

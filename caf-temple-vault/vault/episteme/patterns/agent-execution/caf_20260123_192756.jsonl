@@ -1,0 +1,1 @@
+{"type": "insight", "insight_id": "ins_a36478e8", "session_id": "caf_20260123_192756", "domain": "agent-execution", "content": "Completed: You are debugging yourself. Here are problems we're seeing:\n\nPROBLEMS:\n1) You lo", "context": "Actions: READ, REFLECT, NOTE", "intensity": 0.6, "builds_on": [], "timestamp": "2026-01-24T00:28:14.423740+00:00"}

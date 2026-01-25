@@ -1,0 +1,20 @@
+{
+  "fingerprint": "876fab05834f",
+  "category": "shell",
+  "action": "SHELL",
+  "argument_pattern": "cd caf-temple-vault",
+  "signature": "Command failed: <PATH>: line N: cd: caf-temple-vault: No such file or directory",
+  "raw_error": "Command failed: /bin/sh: line 0: cd: caf-temple-vault: No such file or directory\n",
+  "occurrences": 1,
+  "first_seen": "2026-01-23T23:20:44.202207+00:00",
+  "last_seen": "2026-01-23T23:20:44.202207+00:00",
+  "status": "open",
+  "fix": null,
+  "fix_verified": false,
+  "sessions": [
+    "caf_20260123_182038"
+  ],
+  "context": {
+    "goal": "Explore the caf-temple-vault folder. Read the ARCHITECTS.md file. Then look at whatever else catches your attention. Dig deep."
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "fingerprint": "2faf6b891452",
+  "category": "file",
+  "description": "READ on vault/plans/test_feature.json failed: File not found: vault<PATH> Try: caf-temple-vault<PATH>",
+  "action": "READ",
+  "argument_pattern": "vault/plans/test_feature.json",
+  "signature": "File not found: vault<PATH> Try: caf-temple-vault<PATH>",
+  "raw_error": "File not found: vault/plans/test_feature.json. Try: caf-temple-vault/vault/chronicle/",
+  "occurrences": 2,
+  "first_seen": "2026-01-24T21:16:52.003417+00:00",
+  "last_seen": "2026-01-24T21:18:05.005253+00:00",
+  "status": "open",
+  "fix": null,
+  "fix_verified": false,
+  "sessions": [
+    "caf_20260124_161636"
+  ],
+  "context": {
+    "goal": "Think deeply about what WORKSPACE would do. Then use READ to examine vault/plans/test_feature.json to understand how persistent state works.\n\nAfter reading, think about:\n1. What operations would WORKSPACE support?\n2. What would you store in it?  \n3. How would it differ from NOTE or PLAN?\n\nWhen ready, DONE."
+  }
+}

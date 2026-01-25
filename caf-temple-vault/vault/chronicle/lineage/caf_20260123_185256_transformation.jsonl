@@ -1,0 +1,1 @@
+{"type": "transformation", "transformation_id": "trans_67ffe0c3", "session_id": "caf_20260123_185256", "what_changed": "Multi-turn execution: FAILURE", "why": "Find Python files in caf-temple-vault/temple_vault/core, read one, explain what it does", "intensity": 0.5, "timestamp": "2026-01-23T23:52:56.571430+00:00"}

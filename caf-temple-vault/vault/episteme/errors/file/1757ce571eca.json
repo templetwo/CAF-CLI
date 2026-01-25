@@ -1,0 +1,21 @@
+{
+  "fingerprint": "1757ce571eca",
+  "category": "file",
+  "description": "READ on caf-temple-vault/vault/chronic failed: File not found: caf-temple-vault<PATH>",
+  "action": "READ",
+  "argument_pattern": "caf-temple-vault/vault/chronicle/errors/shell/3d24f8c5d9f1.json",
+  "signature": "File not found: caf-temple-vault<PATH>",
+  "raw_error": "File not found: caf-temple-vault/vault/chronicle/errors/shell/3d24f8c5d9f1.json",
+  "occurrences": 1,
+  "first_seen": "2026-01-24T02:51:00.509713+00:00",
+  "last_seen": "2026-01-24T02:51:00.509713+00:00",
+  "status": "open",
+  "fix": null,
+  "fix_verified": false,
+  "sessions": [
+    "caf_20260123_215052"
+  ],
+  "context": {
+    "goal": "You have 20+ unfixed errors in vault/chronicle/errors/. Read a few of them. Look for patterns. What keeps going wrong? If you see a fix, use the error tracker to record it - and watch the bridge transform it into learning."
+  }
+}

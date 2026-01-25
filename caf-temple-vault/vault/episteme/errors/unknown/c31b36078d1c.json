@@ -1,0 +1,20 @@
+{
+  "fingerprint": "c31b36078d1c",
+  "category": "unknown",
+  "action": "NEXT ACTION",
+  "argument_pattern": "I acknowledge this `__init__.py` file. Please provide the next file or instruction.",
+  "signature": "Unknown action: NEXT ACTION",
+  "raw_error": "Unknown action: NEXT ACTION",
+  "occurrences": 1,
+  "first_seen": "2026-01-23T23:51:08.875654+00:00",
+  "last_seen": "2026-01-23T23:51:08.875654+00:00",
+  "status": "open",
+  "fix": null,
+  "fix_verified": false,
+  "sessions": [
+    "caf_20260123_185101"
+  ],
+  "context": {
+    "goal": "Find Python files in caf-temple-vault/temple_vault/core, read one, explain what it does"
+  }
+}

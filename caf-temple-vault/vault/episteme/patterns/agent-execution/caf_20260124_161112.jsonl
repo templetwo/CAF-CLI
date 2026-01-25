@@ -1,0 +1,1 @@
+{"type": "insight", "insight_id": "ins_734a3379", "session_id": "caf_20260124_161112", "domain": "agent-execution", "content": "Completed: Create a plan named 'test_feature' with goal 'Add a logging feature' and steps:\n", "context": "Actions: THINK, PLAN, STEP", "intensity": 0.6, "builds_on": [], "timestamp": "2026-01-24T21:11:24.560120+00:00"}

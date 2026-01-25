@@ -1,0 +1,20 @@
+{
+  "fingerprint": "e457d4adb8a9",
+  "category": "file",
+  "action": "READ",
+  "argument_pattern": "'./caf-temple-vault(01:23:2026)/experiments/analysis_script.py'",
+  "signature": "File not found: '.<PATH>(01:23:2026)<PATH>'",
+  "raw_error": "File not found: './caf-temple-vault(01:23:2026)/experiments/analysis_script.py'",
+  "occurrences": 1,
+  "first_seen": "2026-01-23T23:24:38.670744+00:00",
+  "last_seen": "2026-01-23T23:24:38.670744+00:00",
+  "status": "open",
+  "fix": null,
+  "fix_verified": false,
+  "sessions": [
+    "caf_20260123_182414"
+  ],
+  "context": {
+    "goal": "Explore './caf-temple-vault(01:23:2026)/experiments/' - find all Python files and read the one with the most interesting name"
+  }
+}

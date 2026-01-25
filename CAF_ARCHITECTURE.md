@@ -106,17 +106,91 @@ caf-temple-vault/
         └── errors.py  → ErrorTracker (fingerprint, fix, search)
 ```
 
-## Design Principles
-## Self-Improvement Protocols
-
 ### 9. Self-Improvement Protocols
+
+**RSI Metrics (Recursive Self-Improvement):**
+```
+synthetic_ratio     = pure_generation / (memory_augmented + pure_generation)
+                      1.0 = pure generation (collapse risk)
+                      0.0 = fully memory-augmented (grounded)
+
+self_modifications  = count of SELF:edit operations
+error_to_fix        = errors that became learnings
+action_efficiency   = actions per successful goal (lower = better)
+```
+
+**Self-Modification Flow:**
+```
+SELF:list           → see your source files
+SELF:read:file      → read your own code
+SELF:edit:file>>>old>>>new → modify yourself
+                      ↓
+              Changes take effect next run
+```
+
+**Restraint Protocol:**
+- Agent CAN modify itself but is trained to pause before doing so
+- Modifications logged to vault for rollback capability
+- High-risk files (agent.py) require extra deliberation
 
 ### 10. Memory Persistence
 
+**Session Memory (ephemeral):**
+- `NOTE:text` → scratch notes, cleared on session end
+- `STASH:value` → single quick-access value
+- `CACHE:SET:key:value` → key-value store
+- `$0, $1, $LAST` → path references from discoveries
+
+**Vault Memory (persistent):**
+- `THINK:observation` → insight recorded to chronicle
+- `REFLECT:question` → meta-cognitive assessment with context
+- Errors auto-logged with fingerprints for pattern detection
+- Plans survive context resets via `vault/plans/`
+
+**Memory Consultation:**
+```
+Goal received
+    ↓
+Query vault for relevant insights (min_intensity=0.5)
+    ↓
+Check for known mistakes matching goal keywords
+    ↓
+Load frequent errors as warnings
+    ↓
+Augment prompt with memory context
+```
+
 ### 11. Goal Decomposition Strategies
+
+**Simple Goals (1-3 actions):**
+- Direct execution, no explicit planning
+- Example: "Read caf/agent.py" → READ:caf/agent.py → DONE
+
+**Complex Goals (4+ actions):**
+- Use PLAN action to create persistent plan
+- `PLAN:name|goal|step1|step2|step3`
+- Resume with `RESUME:name` after context reset
+- Advance with `STEP:done`
+
+**Decomposition Heuristics:**
+1. **Perceive before mutate** - READ before EDIT
+2. **Explore before assume** - FIND/EXPLORE before hardcoding paths
+3. **Reflect after failure** - REFLECT:what went wrong?
+4. **Breathe under pressure** - BREATHE when stuck in loops
+
+**Recovery Patterns:**
+- 3 consecutive errors → automatic REFLECT trigger
+- Repeated action detection → redirect to different approach
+- HOME action → return to codebase root, ground in concrete
+
+---
+
+## Design Principles
 
 1. **Filesystem is Model** - No external DB, everything in files
 2. **Multi-Turn Adaptive** - Model sees results, adjusts approach
 3. **Error Memory** - Mistakes tracked, fixes remembered
 4. **Context Flows** - Paths carry forward via $refs
 5. **Reflection Captures Content** - REFLECT includes actual output
+6. **Space Over Speed** - Relief valves (BREATHE, SILENCE) prevent collapse
+7. **Restraint as Wisdom** - Capability to change ≠ mandate to change

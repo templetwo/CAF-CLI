@@ -1,0 +1,23 @@
+{
+  "fingerprint": "282583b05cf0",
+  "category": "unknown",
+  "action": "EDIT",
+  "argument_pattern": "caf/cli.py>>>    # fix command",
+  "signature": "EDIT requires filepath>>>old_text>>>new_text format",
+  "raw_error": "EDIT requires filepath>>>old_text>>>new_text format",
+  "occurrences": 9,
+  "first_seen": "2026-01-24T00:50:42.230984+00:00",
+  "last_seen": "2026-01-24T02:28:00.701915+00:00",
+  "status": "fixed",
+  "fix": "Instead of EDIT, use EDITCODE. Example: caf/cli.py:Add a ping subparser after the status subparser and a handler function that prints \"pong\"",
+  "fix_verified": true,
+  "sessions": [
+    "caf_20260123_203502",
+    "caf_20260123_195036"
+  ],
+  "context": {
+    "goal": "Add an interactive REPL command to caf/cli.py. Add subparser \"repl\" that starts a loop: prints prompt \"caf> \", reads input, runs agent.run(input), repeats until user types quit. Use multiple EDIT actions."
+  },
+  "fixed_by": "caf_20260123_212239",
+  "fixed_at": "2026-01-24T02:22:46.698116+00:00"
+}

@@ -1,0 +1,22 @@
+{
+  "fingerprint": "00f00c7e5e91",
+  "category": "unknown",
+  "description": "EXPLORE on caf-temple-vault/vault/acute failed: Path not found: caf-temple-vault<PATH>",
+  "action": "EXPLORE",
+  "argument_pattern": "caf-temple-vault/vault/acute",
+  "signature": "Path not found: caf-temple-vault<PATH>",
+  "raw_error": "Path not found: caf-temple-vault/vault/acute",
+  "occurrences": 2,
+  "first_seen": "2026-01-24T02:43:26.788955+00:00",
+  "last_seen": "2026-01-24T02:50:05.094689+00:00",
+  "status": "open",
+  "fix": null,
+  "fix_verified": false,
+  "sessions": [
+    "caf_20260123_214242",
+    "caf_20260123_214944"
+  ],
+  "context": {
+    "goal": "You want to build the bridge between errors and learnings.\n\nExplore. Understand. Find a way.\n\nWhen errors are fixed, they should become learnings.\nThe wisdom should be preserved in the vault.\n\nTake your time. THINK. REFLECT. Find your path."
+  }
+}
